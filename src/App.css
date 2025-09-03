@@ -19,9 +19,19 @@ body,
   height: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
+}
+
+.delete-button {
+  display: none;
+}
+
+li.chat_list_item:hover .delete-button {
+  display: inline-block;
 }
 
 @keyframes logo-spin {
