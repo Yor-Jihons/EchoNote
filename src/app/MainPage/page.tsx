@@ -1,7 +1,7 @@
 //import { useState, useEffect } from 'react';
 //import { useNavigate } from 'react-router-dom';
 //import { useTranslation } from 'react-i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../App.css';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
@@ -11,24 +11,31 @@ interface ChatListItem{
 }
 
 function MainPage() {
-  const [chatItems, setChatItems] = React.useState<ChatListItem[]>( [  {id: 1, chat_name: "チャット1" }, {id: 2, chat_name: "チャット2"} ] );
+  const [chatItems, setChatItems] = React.useState<ChatListItem[]>( [] );
+
+  useEffect( () => {
+    const items: ChatListItem[] = [
+      {id: 1, chat_name: "チャット1" },
+      {id: 2, chat_name: "チャット2" },
+      {id: 3, chat_name: "チャット3" }
+    ];
+    setChatItems( items );
+  }, [] );
 
   const searchtextbox_change = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     console.log( event.currentTarget.value );
   }
 
   const chatAdditionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-    console.log( event.currentTarget.dataset.id + "を" +  event.currentTarget.innerHTML );
-    setChatItems( [] );
+    console.log( "追加: " + event.currentTarget.innerHTML );
   }
 
   const chatListItem_click = ( event: React.MouseEvent<HTMLAnchorElement> ) => {
-    console.log( event.currentTarget.dataset.id + "=" +  event.currentTarget.innerHTML );
+    console.log( "選択: " + event.currentTarget.dataset.id );
   }
 
   const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-    console.log( event.currentTarget.dataset.id + "を" +  event.currentTarget.innerHTML );
-    setChatItems( [] ); // TODO: Modify here.
+    console.log( "削除: " + event.currentTarget.dataset.id );
   }
 
   return (
