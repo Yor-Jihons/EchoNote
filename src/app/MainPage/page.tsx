@@ -2,12 +2,11 @@
 //import { useNavigate } from 'react-router-dom';
 //import { useTranslation } from 'react-i18next';
 import '../../App.css';
+//import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 function MainPage() {
   return (
-    <div>
-      
-    </div>
+    <p>ああ</p>
   );
 }
 
