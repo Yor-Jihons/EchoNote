@@ -1,20 +1,50 @@
 //import { useState, useEffect } from 'react';
 //import { useNavigate } from 'react-router-dom';
 //import { useTranslation } from 'react-i18next';
+import React from 'react';
 import '../../App.css';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
+interface ChatListItem{
+  id: number;
+  chat_name: string;
+}
+
 function MainPage() {
+  const [chatItems, setChatItems] = React.useState<ChatListItem[]>( [  {id: 1, chat_name: "チャット1" }, {id: 2, chat_name: "チャット2"} ] );
+
+  const searchtextbox_change = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+    console.log( event.currentTarget.value );
+  }
+
+  const chatAdditionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    console.log( event.currentTarget.dataset.id + "を" +  event.currentTarget.innerHTML );
+    setChatItems( [] );
+  }
+
+  const chatListItem_click = ( event: React.MouseEvent<HTMLAnchorElement> ) => {
+    console.log( event.currentTarget.dataset.id + "=" +  event.currentTarget.innerHTML );
+  }
+
+  const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    console.log( event.currentTarget.dataset.id + "を" +  event.currentTarget.innerHTML );
+    setChatItems( [] ); // TODO: Modify here.
+  }
+
   return (
     <div style={{ width: "100vw", height: "100vh", display: "flex" }}>
       <PanelGroup direction="horizontal">
         <Panel defaultSize={10} minSize={1}>
           <div className="panel-content">
-            <h2>左パネル</h2>
-            <p>ここにコンテンツが入ります。</p>
+            <input type="text" onChange={searchtextbox_change} placeholder='検索時はここにキーワードを入力してください。' />
+            <button onClick={chatAdditionButton_click}>チャットの追加</button>
             <ul>
-              <li>さんぷる1</li>
-              <li>さんぷる2</li>
+              {chatItems.map( (chatItem, idx) => {
+                return <li className='chat_list_item' key={idx}>
+                  <a href="#" data-id={chatItem.id} onClick={chatListItem_click}>{chatItem.chat_name}</a>
+                  <button className="delete-button" data-id={chatItem.id} onClick={chatDeleteButton_click}>削除</button>
+                </li>;
+              })}
             </ul>
           </div>
         </Panel>
