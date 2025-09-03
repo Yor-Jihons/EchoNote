@@ -35,7 +35,9 @@ function MainPage() {
   }
 
   const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-    console.log( "削除: " + event.currentTarget.dataset.id );
+    const selectedIndex = Number( event.currentTarget.dataset.id );
+    const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
+    setChatItems( tmp );
   }
 
   return (
