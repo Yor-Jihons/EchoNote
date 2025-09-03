@@ -26,8 +26,8 @@ function MainPage() {
     console.log( event.currentTarget.value );
   }
 
-  const chatAdditionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-    console.log( "追加: " + event.currentTarget.innerHTML );
+  const chatAdditionButton_click = () => {
+    console.log( "追加処理" );
   }
 
   const chatListItem_click = ( event: React.MouseEvent<HTMLAnchorElement> ) => {
