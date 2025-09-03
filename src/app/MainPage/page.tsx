@@ -5,7 +5,9 @@ import '../../App.css';
 
 function MainPage() {
   return (
-    <p></p>
+    <div>
+      
+    </div>
   );
 }
 
