@@ -18,7 +18,10 @@ body,
   padding: 20px;
   height: 100%;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
 }
 
 @keyframes logo-spin {
