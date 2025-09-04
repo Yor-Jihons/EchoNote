@@ -1,16 +1,16 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './app/MainPage/page';
-import UserListPage from './app/UserListPage/page';
-import UserDetailPage from './app/UserDetailPage/page';
 import './App.css';
+import CommonLayout from './app/layout';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/users" element={<UserListPage />} />
-        <Route path="/users/:id" element={<UserDetailPage />} />
+        <Route path="/" element={<CommonLayout />}>
+          <Route index element={<MainPage />} />
+          {/* <Route path="items/:itemId" element={<ItemDetail />} /> */}
+        </Route>
       </Routes>
     </Router>
   );

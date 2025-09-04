@@ -1,16 +1,28 @@
-import { ReactNode } from 'react';
+//import { useEffect, useState } from "react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { Outlet } from "react-router-dom";
+import LeftSide from "../components/LeftSide/LeftSide";
 
-interface Props {
-    children?: ReactNode;
-}
-
-const CommonLayout = ({ children }: Props) => {
+const CommonLayout = () => {
     return (
-        <div>
-            <h1>Sample</h1>
-            {children}
+        <div style={{ width: "100vw", height: "100vh", display: "flex" }}>
+            <PanelGroup direction="horizontal">
+                <Panel defaultSize={10} minSize={1}>
+                    <div className="panel-content">
+                        <LeftSide />
+                    </div>
+                </Panel>
+
+                <PanelResizeHandle style={{ width: "5px", background: "#ccc" }} />
+
+                <Panel defaultSize={90} minSize={1}>
+                    <div className="panel-content">
+                        <Outlet />
+                    </div>
+                </Panel>
+            </PanelGroup>
         </div>
-    );
+    )
 };
 
 export default CommonLayout;
