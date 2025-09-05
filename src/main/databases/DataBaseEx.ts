@@ -31,7 +31,7 @@ export default class DataBaseEx{
     public createTables() : BetterSqlite3.Database{
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY,
                 sender_name TEXT NOT NULL
             );
             CREATE TABLE IF NOT EXISTS messages (
