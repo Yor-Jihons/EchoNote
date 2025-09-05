@@ -88,12 +88,17 @@ app.whenReady().then(() => {
   systemLocale = app.getLocale();
   console.log(`OSの言語設定: ${systemLocale}`);
 
-  createWindow();
-
   pathManager.init( "database.sqlite", __dirname );
 
-  db.open( pathManager.dbFilePath );
-  db.createTables();
+  try{
+    db.open( pathManager.dbFilePath );
+    db.createTables();
+    createWindow();
+  }catch( err ){
+    dialog.showErrorBox( "起動エラー", err.message );
+    app.quit();
+    return;
+  }
 
   app.on('activate', () => {
     if( BrowserWindow.getAllWindows().length === 0 ){
