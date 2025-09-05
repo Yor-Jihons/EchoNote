@@ -1,6 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import CommonLayout from '../layout';
 
 // 仮のデータストア（本来はデータベースから取得します）
 const dummyUsers = [
@@ -26,15 +25,13 @@ function UserDetailPage() {
   }
 
   return (
-    <CommonLayout>
-      <div>
-        <h1>ユーザー詳細ページ</h1>
-        <p>ID: {user.id}</p>
-        <p>名前: {user.name}</p>
-        <p>メールアドレス: {user.email}</p>
-        <Link to="/users">一覧に戻る</Link>
-      </div>
-    </CommonLayout>
+    <div>
+      <h1>ユーザー詳細ページ</h1>
+      <p>ID: {user.id}</p>
+      <p>名前: {user.name}</p>
+      <p>メールアドレス: {user.email}</p>
+      <Link to="/users">一覧に戻る</Link>
+    </div>
   );
 }
 
