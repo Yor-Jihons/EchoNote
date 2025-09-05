@@ -29,12 +29,33 @@ export default class DataBaseEx{
     }
 
     public createTables() : BetterSqlite3.Database{
-        return this.#db!.exec(`
-            CREATE TABLE IF NOT EXISTS users (
+        return this.#db!.exec( `
+            CREATE TABLE IF NOT EXISTS senders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL UNIQUE
+                sender_name TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER NOT NULL,
+                sender_id INTEGER NOT NULL,
+                message_txt TEXT NOT NULL,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS summaries (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                summary_text TEXT,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS chats (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_name TEXT,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL
+            );
+            INSERT INTO senders VALUES(1, 'Me');
+            INSERT INTO senders VALUES(2, 'AI');
         `);
     }
 
