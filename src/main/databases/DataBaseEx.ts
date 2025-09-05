@@ -54,8 +54,8 @@ export default class DataBaseEx{
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL
             );
-            INSERT INTO senders VALUES(1, 'Me');
-            INSERT INTO senders VALUES(2, 'AI');
+            INSERT OR IGNORE INTO senders VALUES(1, 'Me');
+            INSERT OR IGNORE INTO senders VALUES(2, 'AI');
         `);
     }
 
