@@ -40,12 +40,12 @@ export default class DataBaseEx{
             INSERT OR IGNORE INTO summaries VALUES(3, 3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO summaries VALUES(4, 4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
         `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
@@ -55,6 +55,7 @@ export default class DataBaseEx{
             CREATE TABLE IF NOT EXISTS messages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chat_id INTEGER NOT NULL,
+                order_in_chat INTEGER NOT NULL,
                 sender_id INTEGER NOT NULL,
                 message_txt TEXT NOT NULL,
                 created_at TIMESTAMP NOT NULL,
@@ -80,15 +81,24 @@ export default class DataBaseEx{
     }
 
     public fetchChats( query: string ){
-        // TODO: chats.chat_nameの方ではなく、messages.message_txtの方で調べる
         try{
             let sql = "";
             let params: string[] = [];
             if( query === "" ){
                 sql = "SELECT id, chat_name FROM chats ORDER BY updated_at DESC";
             }else{
-                sql = "SELECT id, chat_name FROM chats WHERE chat_name LIKE ? ORDER BY updated_at DESC";
-                params = [ `%${query}%` ];
+                sql = `
+                SELECT DISTINCT id, chat_name
+                    FROM chats
+                    WHERE chat_name LIKE ?
+                UNION
+                SELECT c.id, c.chat_name
+                    FROM chats AS c
+                    JOIN messages AS m
+                    ON c.id = m.chat_id
+                    WHERE m.message_txt LIKE ?
+                `;
+                params = [ `%${query}%`, `%${query}%` ];
             }
 
             const stmt = this.#db!.prepare( sql );
