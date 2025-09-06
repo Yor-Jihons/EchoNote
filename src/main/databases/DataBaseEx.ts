@@ -87,8 +87,18 @@ export default class DataBaseEx{
             if( query === "" ){
                 sql = "SELECT id, chat_name FROM chats ORDER BY updated_at DESC";
             }else{
-                sql = "SELECT id, chat_name FROM chats WHERE chat_name LIKE ? ORDER BY updated_at DESC";
-                params = [ `%${query}%` ];
+                sql = `
+                SELECT DISTINCT id, chat_name
+                    FROM chats
+                    WHERE chat_name LIKE ?
+                UNION
+                SELECT c.id, c.chat_name
+                    FROM chats AS c
+                    JOIN messages AS m
+                    ON c.id = m.chat_id
+                    WHERE m.message_txt LIKE ?
+                `;
+                params = [ `%${query}%`, `%${query}%` ];
             }
 
             const stmt = this.#db!.prepare( sql );
