@@ -40,12 +40,12 @@ export default class DataBaseEx{
             INSERT OR IGNORE INTO summaries VALUES(3, 3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO summaries VALUES(4, 4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
         `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
@@ -55,6 +55,7 @@ export default class DataBaseEx{
             CREATE TABLE IF NOT EXISTS messages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chat_id INTEGER NOT NULL,
+                order_in_chat INTEGER NOT NULL,
                 sender_id INTEGER NOT NULL,
                 message_txt TEXT NOT NULL,
                 created_at TIMESTAMP NOT NULL,
