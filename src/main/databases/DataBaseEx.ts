@@ -35,10 +35,10 @@ export default class DataBaseEx{
             INSERT OR IGNORE INTO chats VALUES(3, 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO chats VALUES(4, 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-            INSERT OR IGNORE INTO summaries VALUES(1, 'summary 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO summaries VALUES(2, 'summary 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO summaries VALUES(3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO summaries VALUES(4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(1, 1, 'summary 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(2, 2, 'summary 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(3, 3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(4, 4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
             INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
@@ -62,6 +62,7 @@ export default class DataBaseEx{
             );
             CREATE TABLE IF NOT EXISTS summaries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER,
                 summary_text TEXT,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL
@@ -105,7 +106,7 @@ export default class DataBaseEx{
 
         const deleteChatStmt = this.#db!.prepare('DELETE FROM chats WHERE id = ?');
         const deleteMessagesStmt = this.#db!.prepare('DELETE FROM messages WHERE chat_id = ?');
-        const deleteSummaryStmt = this.#db!.prepare('DELETE FROM summaries WHERE id = (SELECT summary_id FROM chats WHERE id = ?)');
+        const deleteSummaryStmt = this.#db!.prepare('DELETE FROM summaries WHERE chat_id = ?');
         try{
             begin.run();
             deleteMessagesStmt.run(chatId);
