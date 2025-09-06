@@ -106,6 +106,10 @@ app.whenReady().then(() => {
     }
   });
 
+  ipcMain.handle('fetch-chats', (event, query) => {
+    return db.fetchChats( query );
+  });
+
   ipcMain.handle('get-users', () => {
     return db.getUsers();
   });

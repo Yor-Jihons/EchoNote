@@ -66,6 +66,26 @@ export default class DataBaseEx{
         `);
     }
 
+    public fetchChats( query: string ){
+        try{
+            let sql = "";
+            let params: string[] = [];
+            if( query === "" ){
+                sql = "SELECT id, chat_name FROM chats ORDER BY updated_at DESC";
+            }else{
+                sql = "SELECT id, chat_name FROM chats WHERE chat_name LIKE ? ORDER BY updated_at DESC";
+                params = [ `%${query}%` ];
+            }
+
+            const stmt = this.#db!.prepare( sql );
+            const result = stmt.all( ...params );
+            return result;
+        }catch( error: unknown ){
+            console.error('Failed to fetch chats:', error);
+            return [];
+        }
+    }
+
     public getUsers(){
         try{
             const stmt = this.#db!.prepare( 'SELECT name FROM users' );
