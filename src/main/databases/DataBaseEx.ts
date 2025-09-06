@@ -34,6 +34,18 @@ export default class DataBaseEx{
             INSERT OR IGNORE INTO chats VALUES(2, 'The sample chat 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO chats VALUES(3, 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO chats VALUES(4, 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+            INSERT OR IGNORE INTO summaries VALUES(1, 'summary 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(2, 'summary 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
         `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
@@ -86,14 +98,23 @@ export default class DataBaseEx{
         }
     }
 
-    public deleteChat( id: number ){
+    public deleteChat( chatId: number ){
+        const begin = this.#db!.prepare('BEGIN');
+        const commit = this.#db!.prepare('COMMIT');
+        const rollback = this.#db!.prepare('ROLLBACK');
+
+        const deleteChatStmt = this.#db!.prepare('DELETE FROM chats WHERE id = ?');
+        const deleteMessagesStmt = this.#db!.prepare('DELETE FROM messages WHERE chat_id = ?');
+        const deleteSummaryStmt = this.#db!.prepare('DELETE FROM summaries WHERE id = (SELECT summary_id FROM chats WHERE id = ?)');
         try{
-            const stmt = this.#db!.prepare( "DELETE FROM chats WHERE id = ?" );
-            const result = stmt.run( id );
-            return result;
+            begin.run();
+            deleteMessagesStmt.run(chatId);
+            deleteSummaryStmt.run(chatId);
+            deleteChatStmt.run(chatId);
+            commit.run();
         }catch( error: unknown ){
-            console.error('Failed to fetch chats:', error);
-            return false;
+            rollback.run();
+            throw error;
         }
     }
 
