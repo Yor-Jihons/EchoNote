@@ -80,6 +80,7 @@ export default class DataBaseEx{
     }
 
     public fetchChats( query: string ){
+        // TODO: chats.chat_nameの方ではなく、messages.message_txtの方で調べる
         try{
             let sql = "";
             let params: string[] = [];
