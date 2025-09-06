@@ -29,6 +29,12 @@ export default class DataBaseEx{
     }
 
     public createTables() : BetterSqlite3.Database{
+        const dummyDataInsertion = `
+            INSERT OR IGNORE INTO chats VALUES(1, 'The sample chat 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(2, 'The sample chat 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(3, 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(4, 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
                 id INTEGER PRIMARY KEY,
@@ -56,6 +62,7 @@ export default class DataBaseEx{
             );
             INSERT OR IGNORE INTO senders VALUES(1, 'Me');
             INSERT OR IGNORE INTO senders VALUES(2, 'AI');
+            ${dummyDataInsertion}
         `);
     }
 
