@@ -4,9 +4,8 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initI18nData: ( resources: any ) => ipcRenderer.send( 'init-i18n-data', resources ),
   getSystemLocale: () => ipcRenderer.invoke( 'get-system-locale' ),
-  node: () => process.versions.node,
-  chrome: () => process.versions.chrome,
-  electron: () => process.versions.electron,
+  fetchChats: ( query: string ) => ipcRenderer.invoke( 'fetch-chats', query ),
+  deleteChat: ( id: number ) => ipcRenderer.send( 'delete-chat', id ),
   
   // IPC通信用のAPIを追加
   getUsers: () => ipcRenderer.invoke('get-users'),

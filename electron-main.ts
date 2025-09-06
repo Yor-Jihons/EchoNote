@@ -106,6 +106,14 @@ app.whenReady().then(() => {
     }
   });
 
+  ipcMain.handle('fetch-chats', (event, query) => {
+    return db.fetchChats( query );
+  });
+
+  ipcMain.on('delete-chat', (event, id) => {
+    db.deleteChat( id );
+  });
+
   ipcMain.handle('get-users', () => {
     return db.getUsers();
   });

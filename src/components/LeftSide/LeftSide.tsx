@@ -3,19 +3,19 @@ import ChatListItem from "../../types/ChatListItem";
 
 const LeftSide = () => {
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
+    const [query, setQuery] = useState<string>( "" );
 
-    useEffect( () => {
-        const items: ChatListItem[] = [
-            { id: 1, chat_name: "チャット1" },
-            { id: 2, chat_name: "チャット2" },
-            { id: 3, chat_name: "チャット3" },
-            { id: 4, chat_name: "チャット4" }
-        ];
-        setChatItems( items );
-    }, [] );
+    useEffect(() => {
+        const fetchChats = async ( query: string ) => {
+            const items = await window.interprocessCommunication.fetchChats( query );
+            setChatItems( items );
+        };
+        fetchChats( query );
+    }, [ query ] );
 
-    const searchtextbox_change = ( event: React.ChangeEvent<HTMLInputElement> ) => {
-        console.log( event.currentTarget.value );
+    const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
+        const q: string = event.currentTarget.value;
+        setQuery( q );
     }
 
     const chatAdditionButton_click = () => {
@@ -27,14 +27,14 @@ const LeftSide = () => {
     }
 
     const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-        // TODO: データベースから取り出す方向性にする
         const selectedIndex = Number( event.currentTarget.dataset.id );
+        window.interprocessCommunication.deleteChat( selectedIndex );
         const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
         setChatItems( tmp );
     }
     return (
         <React.Fragment>
-            <input type="text" onChange={searchtextbox_change} placeholder='検索時はここにキーワードを入力してください。' />
+            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' />
             <button onClick={chatAdditionButton_click}>チャットの追加</button>
             <ul>
                 {chatItems.map( (chatItem, idx) => {

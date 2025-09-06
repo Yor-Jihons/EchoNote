@@ -7,7 +7,7 @@ const CommonLayout = () => {
     return (
         <div style={{ width: "100vw", height: "100vh", display: "flex" }}>
             <PanelGroup direction="horizontal">
-                <Panel defaultSize={10} minSize={1}>
+                <Panel defaultSize={20} minSize={1}>
                     <div className="panel-content">
                         <LeftSide />
                     </div>
@@ -15,7 +15,7 @@ const CommonLayout = () => {
 
                 <PanelResizeHandle style={{ width: "5px", background: "#ccc" }} />
 
-                <Panel defaultSize={90} minSize={1}>
+                <Panel defaultSize={80} minSize={1}>
                     <div className="panel-content">
                         <Outlet />
                     </div>

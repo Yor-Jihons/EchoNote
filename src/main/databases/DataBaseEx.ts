@@ -29,9 +29,27 @@ export default class DataBaseEx{
     }
 
     public createTables() : BetterSqlite3.Database{
+        const dummyDataInsertion = `
+            INSERT OR IGNORE INTO chats VALUES(1, 'The sample chat 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(2, 'The sample chat 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(3, 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(4, 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+            INSERT OR IGNORE INTO summaries VALUES(1, 1, 'summary 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(2, 2, 'summary 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(3, 3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries VALUES(4, 4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY,
                 sender_name TEXT NOT NULL
             );
             CREATE TABLE IF NOT EXISTS messages (
@@ -44,6 +62,7 @@ export default class DataBaseEx{
             );
             CREATE TABLE IF NOT EXISTS summaries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                chat_id INTEGER,
                 summary_text TEXT,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL
@@ -54,9 +73,51 @@ export default class DataBaseEx{
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL
             );
-            INSERT INTO senders VALUES(1, 'Me');
-            INSERT INTO senders VALUES(2, 'AI');
+            INSERT OR IGNORE INTO senders VALUES(1, 'Me');
+            INSERT OR IGNORE INTO senders VALUES(2, 'AI');
+            ${dummyDataInsertion}
         `);
+    }
+
+    public fetchChats( query: string ){
+        // TODO: chats.chat_nameの方ではなく、messages.message_txtの方で調べる
+        try{
+            let sql = "";
+            let params: string[] = [];
+            if( query === "" ){
+                sql = "SELECT id, chat_name FROM chats ORDER BY updated_at DESC";
+            }else{
+                sql = "SELECT id, chat_name FROM chats WHERE chat_name LIKE ? ORDER BY updated_at DESC";
+                params = [ `%${query}%` ];
+            }
+
+            const stmt = this.#db!.prepare( sql );
+            const result = stmt.all( ...params );
+            return result;
+        }catch( error: unknown ){
+            console.error('Failed to fetch chats:', error);
+            return [];
+        }
+    }
+
+    public deleteChat( chatId: number ){
+        const begin = this.#db!.prepare('BEGIN');
+        const commit = this.#db!.prepare('COMMIT');
+        const rollback = this.#db!.prepare('ROLLBACK');
+
+        const deleteChatStmt = this.#db!.prepare('DELETE FROM chats WHERE id = ?');
+        const deleteMessagesStmt = this.#db!.prepare('DELETE FROM messages WHERE chat_id = ?');
+        const deleteSummaryStmt = this.#db!.prepare('DELETE FROM summaries WHERE chat_id = ?');
+        try{
+            begin.run();
+            deleteMessagesStmt.run(chatId);
+            deleteSummaryStmt.run(chatId);
+            deleteChatStmt.run(chatId);
+            commit.run();
+        }catch( error: unknown ){
+            rollback.run();
+            throw error;
+        }
     }
 
     public getUsers(){
