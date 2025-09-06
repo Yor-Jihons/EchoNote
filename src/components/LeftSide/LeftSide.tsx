@@ -11,7 +11,6 @@ const LeftSide = () => {
             setChatItems( items );
         };
         fetchChats( query );
-        console.log("HIT!");
     }, [ query ] );
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
