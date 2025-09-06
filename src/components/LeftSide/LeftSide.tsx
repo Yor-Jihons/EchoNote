@@ -11,6 +11,7 @@ const LeftSide = () => {
             setChatItems( items );
         };
         fetchChats( query );
+        console.log("HIT!");
     }, [ query ] );
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
@@ -29,6 +30,7 @@ const LeftSide = () => {
     const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
         // TODO: データベースから取り出す方向性にする
         const selectedIndex = Number( event.currentTarget.dataset.id );
+        window.interprocessCommunication.deleteChat( selectedIndex );
         const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
         setChatItems( tmp );
     }

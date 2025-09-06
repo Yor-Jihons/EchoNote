@@ -86,6 +86,17 @@ export default class DataBaseEx{
         }
     }
 
+    public deleteChat( id: number ){
+        try{
+            const stmt = this.#db!.prepare( "DELETE FROM chats WHERE id = ?" );
+            const result = stmt.run( id );
+            return result;
+        }catch( error: unknown ){
+            console.error('Failed to fetch chats:', error);
+            return false;
+        }
+    }
+
     public getUsers(){
         try{
             const stmt = this.#db!.prepare( 'SELECT name FROM users' );
