@@ -30,10 +30,10 @@ export default class DataBaseEx{
 
     public createTables() : BetterSqlite3.Database{
         const dummyDataInsertion = `
-            INSERT OR IGNORE INTO chats VALUES(1, 'The sample chat 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO chats VALUES(2, 'The sample chat 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO chats VALUES(3, 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO chats VALUES(4, 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(1, '', 'The sample chat 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(2, '', 'The sample chat 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(3, '', 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats VALUES(4, '', 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
             INSERT OR IGNORE INTO summaries VALUES(1, 1, 'summary 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             INSERT OR IGNORE INTO summaries VALUES(2, 2, 'summary 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
@@ -70,6 +70,7 @@ export default class DataBaseEx{
             );
             CREATE TABLE IF NOT EXISTS chats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ai_type TEXT,
                 chat_name TEXT,
                 created_at TIMESTAMP NOT NULL,
                 updated_at TIMESTAMP NOT NULL

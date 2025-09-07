@@ -12,9 +12,9 @@ const LeftSide = () => {
         setIsDialogOpen( false );
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleDialogSubmit = async (_chatName: string, _aiType: string) => {
-        console.log("OK");
+    const handleDialogSubmit = async ( chatName: string, aiType: string ) => {
+        console.log( "chat-name = " + chatName + ", ai-type = " + aiType );
+        setIsDialogOpen( false );
     }
 
     useEffect(() => {
