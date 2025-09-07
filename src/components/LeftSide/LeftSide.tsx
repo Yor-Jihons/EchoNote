@@ -41,7 +41,6 @@ const LeftSide = () => {
     }
 
     const chatAdditionButton_click = () => {
-        console.log( "追加処理" );
         setIsDialogOpen( true );
     }
 
