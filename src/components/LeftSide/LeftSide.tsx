@@ -20,10 +20,12 @@ const LeftSide = () => {
 
     const chatAdditionButton_click = () => {
         console.log( "追加処理" );
+        // TODO: Implement here.
     }
 
     const chatListItem_click = ( event: React.MouseEvent<HTMLAnchorElement> ) => {
         console.log( "選択: " + event.currentTarget.dataset.id );
+        // TODO: Implement here.
     }
 
     const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
