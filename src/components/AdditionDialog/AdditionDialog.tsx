@@ -1,9 +1,55 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import "./additiondialog.css";
 
-const AdditionDialog = () => {
+interface Props {
+    isOpen: boolean;
+    onSubmit: ( chatName: string, aiType: string ) => void;
+    onClose: () => void;
+}
+
+
+const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
+    const dialogRef = useRef<HTMLDialogElement>( null );
+
+    const [chatName, setChatName] = React.useState( '' );
+    const [aiType, setAiType] = React.useState( '' );
+
+    useEffect( () => {
+        if( dialogRef.current ){
+            if( isOpen ){
+                dialogRef.current.showModal();
+            }else{
+                setChatName( "" );
+                dialogRef.current.close();
+            }
+        }
+    }, [ isOpen ] );
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSubmit( chatName, aiType );
+    };
+
     return (
         <React.Fragment>
-            
+            <dialog ref={dialogRef} onCancel={onClose} className="add-chat-dialog">
+                <form onSubmit={handleSubmit}>
+                    <h3 className="dialog_header">チャットの追加</h3>
+                    <p>
+                        <label htmlFor="chat_name">チャット名 (必須):</label>
+                        <input id="chat_name" type="text" value={chatName} onChange={ (e) => setChatName( e.target.value ) } required />
+                    </p>
+                    <p>
+                        <label htmlFor="ai_type">AIの種類 (任意):</label>
+                        <input id="ai_type" type="text" value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
+                    </p>
+                    <p>※ チャット名は後からでも変更できます。</p>
+                    <p>
+                        <button type="submit" className="addition_button">追加</button>
+                        <button type="button" onClick={onClose} className="cancel_button">キャンセル</button>
+                    </p>
+                </form>
+            </dialog>
         </React.Fragment>
     );
 }

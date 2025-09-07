@@ -6,6 +6,16 @@ import AdditionDialog from "../AdditionDialog/AdditionDialog";
 const LeftSide = () => {
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
     const [query, setQuery] = useState<string>( "" );
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
+
+    const handleDialogClose = () => {
+        setIsDialogOpen( false );
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleDialogSubmit = async (_chatName: string, _aiType: string) => {
+        console.log("OK");
+    }
 
     useEffect(() => {
         const fetchChats = async ( query: string ) => {
@@ -22,7 +32,7 @@ const LeftSide = () => {
 
     const chatAdditionButton_click = () => {
         console.log( "追加処理" );
-        // TODO: Implement here.
+        setIsDialogOpen( true );
     }
 
     const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
@@ -33,7 +43,8 @@ const LeftSide = () => {
     }
     return (
         <React.Fragment>
-            <AdditionDialog />
+            <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
+
             <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' />
             <button onClick={chatAdditionButton_click}>チャットの追加</button>
             <ul>
