@@ -6,19 +6,23 @@ const dummyUsers = [
   { id: 1, name: 'Alice', email: 'alice@example.com' },
   { id: 2, name: 'Bob', email: 'bob@example.com' },
   { id: 3, name: 'Charlie', email: 'charlie@example.com' },
+  { id: 4, name: 'Danny', email: 'danny@example.com' },
+  { id: 5, name: 'Eagle', email: 'eagle@example.com' },
+  { id: 6, name: 'Fabre', email: 'fabre@example.com' },
+  { id: 7, name: 'Ham', email: 'ham@example.com' },
 ];
 
 function UserDetailPage() {
   // useParamsフックを使ってURLのパラメータを取得
-  const { id } = useParams<{ id: string }>();
+  const { chatId } = useParams<{ chatId: string }>();
   const [user, setUser] = useState<{ id: number; name: string; email: string } | null>(null);
 
   useEffect(() => {
     // URLパラメータのIDからユーザーを検索
     // ここでipcRenderer.invokeを使ってデータベースからユーザー情報を取得する
-    const foundUser = dummyUsers.find((u) => u.id === Number(id));
+    const foundUser = dummyUsers.find((u) => u.id === Number(chatId));
     setUser(foundUser || null);
-  }, [id]);
+  }, [chatId]);
 
   if (!user) {
     return <div>ユーザーが見つかりません。</div>;

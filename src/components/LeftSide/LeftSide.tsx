@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
+import { Link } from "react-router-dom";
 
 const LeftSide = () => {
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
@@ -23,11 +24,6 @@ const LeftSide = () => {
         // TODO: Implement here.
     }
 
-    const chatListItem_click = ( event: React.MouseEvent<HTMLAnchorElement> ) => {
-        console.log( "選択: " + event.currentTarget.dataset.id );
-        // TODO: Implement here.
-    }
-
     const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
         const selectedIndex = Number( event.currentTarget.dataset.id );
         window.interprocessCommunication.deleteChat( selectedIndex );
@@ -41,7 +37,9 @@ const LeftSide = () => {
             <ul>
                 {chatItems.map( (chatItem, idx) => {
                     return <li className='chat_list_item' key={idx}>
-                        <a href="#" data-id={chatItem.id} onClick={chatListItem_click}>{chatItem.chat_name}</a>
+                        <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id}>
+                            {chatItem.chat_name}
+                        </Link>
                         <button className="delete-button" data-id={chatItem.id} onClick={chatDeleteButton_click}>削除</button>
                     </li>;
                 })}
