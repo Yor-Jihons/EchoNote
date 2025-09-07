@@ -110,6 +110,14 @@ app.whenReady().then(() => {
     return db.fetchChats( query );
   });
 
+  ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
+    const ret = db.addChat( chatName, aiType );
+    if( !ret.success ){
+      dialog.showErrorBox( "Error", ret.errMessage! );
+    }
+    return db.addChat( chatName, aiType );
+  });
+
   ipcMain.on('delete-chat', (event, id) => {
     db.deleteChat( id );
   });

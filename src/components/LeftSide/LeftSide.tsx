@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdditionDialog from "../AdditionDialog/AdditionDialog";
 
 const LeftSide = () => {
+    const navigate = useNavigate();
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
     const [query, setQuery] = useState<string>( "" );
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
-
-    const handleDialogClose = () => {
-        setIsDialogOpen( false );
-    };
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleDialogSubmit = async (_chatName: string, _aiType: string) => {
-        console.log("OK");
-    }
 
     useEffect(() => {
         const fetchChats = async ( query: string ) => {
@@ -25,13 +17,30 @@ const LeftSide = () => {
         fetchChats( query );
     }, [ query ] );
 
+    const handleDialogClose = () => {
+        setIsDialogOpen( false );
+    };
+
+    const handleDialogSubmit = async ( chatName: string, aiType: string ) => {
+        const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
+        if( !newItem.success ){
+            console.log( newItem.errMessage ); // TODO: Modify.
+            setIsDialogOpen( false );
+            return;
+        }
+
+        setChatItems( [ ...chatItems, newItem.value ] );
+        setIsDialogOpen( false );
+
+        navigate( "/chats/" + newItem.value.id );
+    }
+
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
         const q: string = event.currentTarget.value;
         setQuery( q );
     }
 
     const chatAdditionButton_click = () => {
-        console.log( "追加処理" );
         setIsDialogOpen( true );
     }
 

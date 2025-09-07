@@ -12,6 +12,10 @@ div.content_area{
     flex-direction: column;
 }
 
+input.textbox{
+    width: 350px;
+}
+
 div.button_area{
     display: flex;
     flex-direction: row;

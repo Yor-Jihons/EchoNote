@@ -6,7 +6,8 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   getSystemLocale: () => ipcRenderer.invoke( 'get-system-locale' ),
   fetchChats: ( query: string ) => ipcRenderer.invoke( 'fetch-chats', query ),
   deleteChat: ( id: number ) => ipcRenderer.send( 'delete-chat', id ),
-  
+  addChat: ( chatName: string, aiType: string ) => ipcRenderer.invoke( 'add-chat', { chatName, aiType } ),
+
   // IPC通信用のAPIを追加
   getUsers: () => ipcRenderer.invoke('get-users'),
   addUser: (name: string, email: string) => ipcRenderer.invoke('add-user', { name, email }),
