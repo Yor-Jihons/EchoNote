@@ -110,6 +110,11 @@ app.whenReady().then(() => {
     return db.fetchChats( query );
   });
 
+  ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
+    console.log( "Hit!" );
+    return db.addChat( chatName, aiType );
+  });
+
   ipcMain.on('delete-chat', (event, id) => {
     db.deleteChat( id );
   });

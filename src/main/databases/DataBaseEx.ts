@@ -1,4 +1,5 @@
 import BetterSqlite3 from 'better-sqlite3';
+import ChatListItem from '../../types/ChatListItem.js';
 
 export default class DataBaseEx{
     #db: BetterSqlite3.Database|undefined;
@@ -30,22 +31,22 @@ export default class DataBaseEx{
 
     public createTables() : BetterSqlite3.Database{
         const dummyDataInsertion = `
-            INSERT OR IGNORE INTO chats VALUES(1, '', 'The sample chat 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO chats VALUES(2, '', 'The sample chat 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO chats VALUES(3, '', 'The sample chat 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO chats VALUES(4, '', 'The sample chat 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(1, '', 'The sample chat 1');
+            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(2, '', 'The sample chat 2');
+            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(3, '', 'The sample chat 3');
+            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(4, '', 'The sample chat 4');
 
-            INSERT OR IGNORE INTO summaries VALUES(1, 1, 'summary 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO summaries VALUES(2, 2, 'summary 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO summaries VALUES(3, 3, 'summary 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO summaries VALUES(4, 4, 'summary 4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(1, 1, 'summary 1');
+            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(2, 2, 'summary 2');
+            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(3, 3, 'summary 3');
+            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(4, 4, 'summary 4');
 
-            INSERT OR IGNORE INTO messages VALUES(1, 1, 1, 1, 'text 1.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(2, 1, 2, 2, 'text 1.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(3, 2, 1, 1, 'text 2.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(4, 2, 2, 2, 'text 2.2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(5, 3, 1, 1, 'text 3.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            INSERT OR IGNORE INTO messages VALUES(6, 4, 1, 1, 'text 4.1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(1, 1, 1, 1, 'text 1.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(2, 1, 2, 2, 'text 1.2');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(3, 2, 1, 1, 'text 2.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(4, 2, 2, 2, 'text 2.2');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(5, 3, 1, 1, 'text 3.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(6, 4, 1, 1, 'text 4.1');
         `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
@@ -58,22 +59,22 @@ export default class DataBaseEx{
                 order_in_chat INTEGER NOT NULL,
                 sender_id INTEGER NOT NULL,
                 message_txt TEXT NOT NULL,
-                created_at TIMESTAMP NOT NULL,
-                updated_at TIMESTAMP NOT NULL
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
             CREATE TABLE IF NOT EXISTS summaries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chat_id INTEGER,
-                summary_text TEXT,
-                created_at TIMESTAMP NOT NULL,
-                updated_at TIMESTAMP NOT NULL
+                summary_txt TEXT,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
             CREATE TABLE IF NOT EXISTS chats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 ai_type TEXT,
                 chat_name TEXT,
-                created_at TIMESTAMP NOT NULL,
-                updated_at TIMESTAMP NOT NULL
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
             INSERT OR IGNORE INTO senders VALUES(1, 'Me');
             INSERT OR IGNORE INTO senders VALUES(2, 'AI');
@@ -108,6 +109,25 @@ export default class DataBaseEx{
         }catch( error: unknown ){
             console.error('Failed to fetch chats:', error);
             return [];
+        }
+    }
+
+    public addChat( chatName: string, aiType: string ){
+        const begin = this.#db!.prepare('BEGIN');
+        const commit = this.#db!.prepare('COMMIT');
+        const rollback = this.#db!.prepare('ROLLBACK');
+
+        const addChatStmt = this.#db!.prepare('INSERT INTO chats(ai_type, chat_name) VALUES(?, ?)');
+        //const deleteMessagesStmt = this.#db!.prepare('DELETE FROM messages WHERE chat_id = ?');
+        //const deleteSummaryStmt = this.#db!.prepare('DELETE FROM summaries WHERE chat_id = ?');
+        try{
+            begin.run();
+            addChatStmt.run( aiType, chatName );
+            commit.run();
+            return { success: true, value: { id: 10, chat_name: chatName, aiType: aiType } as ChatListItem };
+        }catch( error: unknown ){
+            rollback.run();
+            return { success: true, value: null, errMesage: error };
         }
     }
 
