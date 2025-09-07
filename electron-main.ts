@@ -111,7 +111,6 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
-    console.log( "Hit!" );
     return db.addChat( chatName, aiType );
   });
 
