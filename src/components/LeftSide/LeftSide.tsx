@@ -8,6 +8,14 @@ const LeftSide = () => {
     const [query, setQuery] = useState<string>( "" );
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
 
+    useEffect(() => {
+        const fetchChats = async ( query: string ) => {
+            const items = await window.interprocessCommunication.fetchChats( query );
+            setChatItems( items );
+        };
+        fetchChats( query );
+    }, [ query ] );
+
     const handleDialogClose = () => {
         setIsDialogOpen( false );
     };
@@ -26,14 +34,6 @@ const LeftSide = () => {
         setChatItems( [ ...chatItems, newItem.value ] );
         setIsDialogOpen( false );
     }
-
-    useEffect(() => {
-        const fetchChats = async ( query: string ) => {
-            const items = await window.interprocessCommunication.fetchChats( query );
-            setChatItems( items );
-        };
-        fetchChats( query );
-    }, [ query ] );
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
         const q: string = event.currentTarget.value;
