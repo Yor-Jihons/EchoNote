@@ -111,6 +111,10 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
+    const ret = db.addChat( chatName, aiType );
+    if( !ret.success ){
+      dialog.showErrorBox( "起動エラー", ret.errMessage! );
+    }
     return db.addChat( chatName, aiType );
   });
 
