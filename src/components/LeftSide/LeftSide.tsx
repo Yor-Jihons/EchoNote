@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
 import { Link } from "react-router-dom";
+import AdditionDialog from "../AdditionDialog/AdditionDialog";
 
 const LeftSide = () => {
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
@@ -32,6 +33,7 @@ const LeftSide = () => {
     }
     return (
         <React.Fragment>
+            <AdditionDialog />
             <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' />
             <button onClick={chatAdditionButton_click}>チャットの追加</button>
             <ul>
