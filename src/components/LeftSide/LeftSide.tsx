@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdditionDialog from "../AdditionDialog/AdditionDialog";
 
 const LeftSide = () => {
+    const navigate = useNavigate();
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
     const [query, setQuery] = useState<string>( "" );
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
@@ -30,6 +31,8 @@ const LeftSide = () => {
 
         setChatItems( [ ...chatItems, newItem.value ] );
         setIsDialogOpen( false );
+
+        navigate( "/chats/" + newItem.value.id );
     }
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
