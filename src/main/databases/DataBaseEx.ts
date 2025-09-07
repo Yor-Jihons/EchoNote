@@ -113,21 +113,16 @@ export default class DataBaseEx{
     }
 
     public addChat( chatName: string, aiType: string ){
-        const begin = this.#db!.prepare('BEGIN');
-        const commit = this.#db!.prepare('COMMIT');
-        const rollback = this.#db!.prepare('ROLLBACK');
-
-        const addChatStmt = this.#db!.prepare('INSERT INTO chats(ai_type, chat_name) VALUES(?, ?)');
-        //const deleteMessagesStmt = this.#db!.prepare('DELETE FROM messages WHERE chat_id = ?');
-        //const deleteSummaryStmt = this.#db!.prepare('DELETE FROM summaries WHERE chat_id = ?');
+        const sql: string = `
+            INSERT INTO chats(ai_type, chat_name) VALUES(?, ?)
+                RETURNING id, ai_type, chat_name, created_at, updated_at
+        `;
+        const stmt = this.#db!.prepare( sql );
         try{
-            begin.run();
-            addChatStmt.run( aiType, chatName );
-            commit.run();
-            return { success: true, value: { id: 10, chat_name: chatName, aiType: aiType } as ChatListItem };
+            const insertedRow = stmt.get( aiType, chatName ) as ChatListItem;
+            return { success: true, value: insertedRow };
         }catch( error: unknown ){
-            rollback.run();
-            return { success: true, value: null, errMesage: error };
+            return { success: false, value: null, errMessage: (error as Error).message };
         }
     }
 
