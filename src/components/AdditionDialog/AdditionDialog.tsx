@@ -33,21 +33,23 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
     return (
         <React.Fragment>
             <dialog ref={dialogRef} onCancel={onClose} className="add-chat-dialog">
-                <form onSubmit={handleSubmit}>
-                    <h3 className="dialog_header">チャットの追加</h3>
-                    <p>
-                        <label htmlFor="chat_name">チャット名 (必須):</label>
-                        <input id="chat_name" type="text" value={chatName} onChange={ (e) => setChatName( e.target.value ) } required />
-                    </p>
-                    <p>
-                        <label htmlFor="ai_type">AIの種類 (任意):</label>
-                        <input id="ai_type" type="text" value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
-                    </p>
-                    <p>※ チャット名は後からでも変更できます。</p>
-                    <p>
+                <form onSubmit={handleSubmit} className="additiondialog_form">
+                    <div className="content_area">
+                        <h3 className="dialog_header">チャットの追加</h3>
+                        <p>
+                            <label htmlFor="chat_name">チャット名 (必須):</label>
+                            <input id="chat_name" type="text" value={chatName} onChange={ (e) => setChatName( e.target.value ) } required />
+                        </p>
+                        <p>
+                            <label htmlFor="ai_type">AIの種類 (任意):</label>
+                            <input id="ai_type" type="text" value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
+                        </p>
+                        <p>※ チャット名は後からでも変更できます。</p>
+                    </div>
+                    <div className="button_area">
                         <button type="submit" className="addition_button">追加</button>
                         <button type="button" onClick={onClose} className="cancel_button">キャンセル</button>
-                    </p>
+                    </div>
                 </form>
             </dialog>
         </React.Fragment>
