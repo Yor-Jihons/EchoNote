@@ -12,7 +12,7 @@ const dummyUsers = [
   { id: 7, name: 'Ham', email: 'ham@example.com' },
 ];
 
-function UserDetailPage() {
+function ChatDetailPage() {
   // useParamsフックを使ってURLのパラメータを取得
   const { chatId } = useParams<{ chatId: string }>();
   const [user, setUser] = useState<{ id: number; name: string; email: string } | null>(null);
@@ -39,4 +39,4 @@ function UserDetailPage() {
   );
 }
 
-export default UserDetailPage;
+export default ChatDetailPage;

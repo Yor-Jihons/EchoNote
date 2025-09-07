@@ -1,0 +1,28 @@
+h3.dialog_header{
+    text-align: center;
+}
+
+form.additiondialog_form{
+    display: flex;
+    flex-direction: column;
+}
+
+div.content_area{
+    display: flex;
+    flex-direction: column;
+}
+
+div.button_area{
+    display: flex;
+    flex-direction: row;
+}
+
+button.submit_button{
+    margin: 10px;
+    flex-grow: 1;
+}
+
+button.cancel_button{
+    margin: 10px;
+    flex-grow: 1;
+}
