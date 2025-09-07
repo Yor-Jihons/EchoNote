@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "./additiondialog.css";
+import styles from "./additiondialog.module.css";
 
 interface Props {
     isOpen: boolean;
@@ -32,10 +32,10 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
 
     return (
         <React.Fragment>
-            <dialog ref={dialogRef} onCancel={onClose} className="add-chat-dialog">
-                <form onSubmit={handleSubmit} className="additiondialog_form">
-                    <div className="content_area">
-                        <h3 className="dialog_header">チャットの追加</h3>
+            <dialog ref={dialogRef} onCancel={onClose} id="add-chat-dialog" className={styles.dialog}>
+                <form onSubmit={handleSubmit} className={styles.additiondialog_form}>
+                    <div className={styles.content_area}>
+                        <h3 className={styles.dialog_header}>チャットの追加</h3>
                         <p>
                             <label htmlFor="chat_name">チャット名 (必須):</label>
                             <input id="chat_name" type="text" value={chatName} onChange={ (e) => setChatName( e.target.value ) } required />
@@ -46,9 +46,9 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                         </p>
                         <p>※ チャット名は後からでも変更できます。</p>
                     </div>
-                    <div className="button_area">
-                        <button type="submit" className="addition_button">追加</button>
-                        <button type="button" onClick={onClose} className="cancel_button">キャンセル</button>
+                    <div className={styles.button_area}>
+                        <button type="submit" className={styles.submit_button}>追加</button>
+                        <button type="button" onClick={onClose} className={styles.cancel_button}>キャンセル</button>
                     </div>
                 </form>
             </dialog>

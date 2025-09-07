@@ -17,7 +17,7 @@ div.button_area{
     flex-direction: row;
 }
 
-button.addition_button{
+button.submit_button{
     margin: 10px;
     flex-grow: 1;
 }
