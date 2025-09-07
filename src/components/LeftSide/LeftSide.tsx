@@ -21,15 +21,12 @@ const LeftSide = () => {
     };
 
     const handleDialogSubmit = async ( chatName: string, aiType: string ) => {
-        console.log( "chat-name = " + chatName + ", ai-type = " + aiType );
         const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
         if( !newItem.success ){
             console.log( newItem.errMessage ); // TODO: Modify.
             setIsDialogOpen( false );
             return;
         }
-
-        console.log( "chat-name = " + newItem.value.chat_name + ", ai-type = " + newItem.value.aiType );
 
         setChatItems( [ ...chatItems, newItem.value ] );
         setIsDialogOpen( false );
