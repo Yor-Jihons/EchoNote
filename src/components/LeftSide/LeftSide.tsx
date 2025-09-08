@@ -57,9 +57,9 @@ const LeftSide = () => {
         window.interprocessCommunication.showMessageBox( "削除しました。" );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const chatRenameButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
         // TODO: Implement here.
+        console.log( event.currentTarget.value );
     }
 
     return (
