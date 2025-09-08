@@ -30,7 +30,7 @@ function ChatDetailPage() {
 
   return (
     <div>
-      <h1>ユーザー詳細ページ</h1>
+      <h2>チャット詳細ページ</h2>
       <p>ID: {user.id}</p>
       <p>名前: {user.name}</p>
       <p>メールアドレス: {user.email}</p>
