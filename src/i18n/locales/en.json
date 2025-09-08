@@ -3,7 +3,6 @@
         "view": "View",
         "reload": "Reload",
         "force_reload": "Force Reload",
-        "toggle_devtools": "Toggle DevTools",
         "reset_zoom": "Actual Size",
         "zoom_in": "Zoom In",
         "zoom_out": "Zoom Out",

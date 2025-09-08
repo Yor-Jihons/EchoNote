@@ -7,7 +7,6 @@ export default function createMenuTemplate( resource: any, isPortableMode: boole
         submenu: [
             { role: 'reload', label: resource.translation.menu.reload },
             { role: 'forceReload', label: resource.translation.menu.force_reload },
-            { role: 'toggleDevTools', label: resource.translation.menu.toggle_devtools },
             { type: 'separator' },
             { role: 'resetZoom', label: resource.translation.menu.reset_zoom },
             { role: 'zoomIn', label: resource.translation.menu.zoom_in },
