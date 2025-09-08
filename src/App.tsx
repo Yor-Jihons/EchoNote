@@ -2,7 +2,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './app/MainPage/page';
 import './App.css';
 import CommonLayout from './app/layout';
-import UserDetailPage from './app/UserDetailPage/page';
+import ChatDetailPage from './app/ChatDetailPage/ChatDetailPage';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<CommonLayout />}>
           <Route index element={<MainPage />} />
-          <Route path="/chats/:chatId" element={<UserDetailPage />} />
+          <Route path="/chats/:chatId" element={<ChatDetailPage />} />
         </Route>
       </Routes>
     </Router>
