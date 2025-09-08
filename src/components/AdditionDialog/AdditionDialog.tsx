@@ -33,7 +33,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
     return (
         <React.Fragment>
             <dialog ref={dialogRef} onCancel={onClose} id="add-chat-dialog" className={styles.dialog}>
-                <form onSubmit={handleSubmit} className={styles.additiondialog_form}>
+                <form onSubmit={handleSubmit} className={styles.additiondialog_form} action="" method="post">
                     <div className={styles.content_area}>
                         <h3 className={styles.dialog_header}>チャットの追加</h3>
                         <p>

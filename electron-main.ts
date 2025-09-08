@@ -115,7 +115,7 @@ app.whenReady().then(() => {
     if( !ret.success ){
       dialog.showErrorBox( "Error", ret.errMessage! );
     }
-    return db.addChat( chatName, aiType );
+    return ret;
   });
 
   ipcMain.on('delete-chat', (event, id) => {
