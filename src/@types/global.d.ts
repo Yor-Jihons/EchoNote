@@ -7,6 +7,7 @@ export interface IInterprocessCommunication {
   fetchChats: ( query: string ) => Promise<ChatListItem[]>;
   deleteChat: (id: number) => void;
   addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>;
+  showMessageBox: ( message: string ) => void;
 
   getUsers: () => Promise<any[]>;
   addUser: (name: string, email: string) => Promise<{ success: boolean, changes?: number, error?: string }>;

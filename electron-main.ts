@@ -134,6 +134,10 @@ app.whenReady().then(() => {
     return db.addUsersWithTransaction( users );
   });
 
+  ipcMain.on('show-messagebox', (event, message) => {
+    dialog.showMessageBox( mainWindow, { message: message } );
+  });
+
   ipcMain.on('init-i18n-data', (event, data) => {
     i18nData = data;
 

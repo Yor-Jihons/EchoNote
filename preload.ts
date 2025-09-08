@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   fetchChats: ( query: string ) => ipcRenderer.invoke( 'fetch-chats', query ),
   deleteChat: ( id: number ) => ipcRenderer.send( 'delete-chat', id ),
   addChat: ( chatName: string, aiType: string ) => ipcRenderer.invoke( 'add-chat', { chatName, aiType } ),
+  showMessageBox: ( message: string ) => ipcRenderer.send( 'show-messagebox', message ),
 
   // IPC通信用のAPIを追加
   getUsers: () => ipcRenderer.invoke('get-users'),
