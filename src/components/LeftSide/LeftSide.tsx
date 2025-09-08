@@ -56,6 +56,12 @@ const LeftSide = () => {
 
         window.interprocessCommunication.showMessageBox( "削除しました。" );
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const chatRenameButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+        // TODO: Implement here.
+    }
+
     return (
         <React.Fragment>
             <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
@@ -68,7 +74,8 @@ const LeftSide = () => {
                         <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id}>
                             {chatItem.chat_name}
                         </Link>
-                        <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click}>削除</button>
+                        <button className={styles.rename_button} data-id={chatItem.id} onClick={chatRenameButton_click} title="チャット名の編集">編集</button>
+                        <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
                     </li>;
                 })}
             </ul>
