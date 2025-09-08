@@ -50,6 +50,7 @@ const LeftSide = () => {
         window.interprocessCommunication.deleteChat( selectedIndex );
         const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
         setChatItems( tmp );
+        navigate( "/" );
     }
     return (
         <React.Fragment>
