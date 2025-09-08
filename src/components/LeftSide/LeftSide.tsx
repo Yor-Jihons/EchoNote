@@ -35,6 +35,8 @@ const LeftSide = () => {
 
         navigate( "/chats/" + newItem.value.id );
 
+        // TODO: Implenent here.
+
         window.interprocessCommunication.showMessageBox( "登録完了しました。" );
     }
 
