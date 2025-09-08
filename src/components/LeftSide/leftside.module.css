@@ -1,0 +1,15 @@
+button.chat_addition_button{
+    margin: 10px;
+}
+
+input.search_textbox{
+    margin: 10px;
+}
+
+.delete_button {
+    display: none;
+}
+
+li.chat_list_item:hover .delete_button {
+    display: inline-block;
+}
