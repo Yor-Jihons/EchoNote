@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
 import { Link, useNavigate } from "react-router-dom";
+import styles from "./leftside.module.css";
 import AdditionDialog from "../AdditionDialog/AdditionDialog";
 
 const LeftSide = () => {
@@ -24,8 +25,8 @@ const LeftSide = () => {
     const handleDialogSubmit = async ( chatName: string, aiType: string ) => {
         const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
         if( !newItem.success ){
-            console.log( newItem.errMessage ); // TODO: Modify.
             setIsDialogOpen( false );
+            window.interprocessCommunication.showMessageBox( newItem.errMessage! );
             return;
         }
 
@@ -33,6 +34,8 @@ const LeftSide = () => {
         setIsDialogOpen( false );
 
         navigate( "/chats/" + newItem.value.id );
+
+        window.interprocessCommunication.showMessageBox( "登録完了しました。" );
     }
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
@@ -49,20 +52,30 @@ const LeftSide = () => {
         window.interprocessCommunication.deleteChat( selectedIndex );
         const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
         setChatItems( tmp );
+        navigate( "/" );
+
+        window.interprocessCommunication.showMessageBox( "削除しました。" );
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const chatRenameButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+        // TODO: Implement here.
+    }
+
     return (
         <React.Fragment>
             <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
 
-            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' />
-            <button onClick={chatAdditionButton_click}>チャットの追加</button>
+            <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
+            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' className={styles.search_textbox} />
             <ul>
                 {chatItems.map( (chatItem, idx) => {
-                    return <li className='chat_list_item' key={idx}>
+                    return <li className={styles.chat_list_item} key={idx}>
                         <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id}>
                             {chatItem.chat_name}
                         </Link>
-                        <button className="delete-button" data-id={chatItem.id} onClick={chatDeleteButton_click}>削除</button>
+                        <button className={styles.rename_button} data-id={chatItem.id} onClick={chatRenameButton_click} title="チャット名の編集">編集</button>
+                        <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
                     </li>;
                 })}
             </ul>

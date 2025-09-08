@@ -26,14 +26,6 @@ body,
   text-align: left;
 }
 
-.delete-button {
-  display: none;
-}
-
-li.chat_list_item:hover .delete-button {
-  display: inline-block;
-}
-
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
