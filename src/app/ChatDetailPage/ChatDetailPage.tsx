@@ -44,6 +44,7 @@ function ChatDetailPage() {
         * summary_txt
         * created_at
         * updated_at
+      => { chat, messages, summary }
   */
 
 /*
