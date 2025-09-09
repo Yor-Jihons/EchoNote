@@ -170,11 +170,11 @@ export default class DataBaseEx{
         }
     }
 
-    public updateMessage( messageId: number, newText: string ){
+    public updateMessage( id: number, newText: string ){
         const sql: string = "UPDATE messages SET message_txt = ? WHERE id = ? RETURNING id, chat_id, order_in_chat, sender_id, message_txt, created_at, updated_at";
         const stmt = this.#db!.prepare( sql );
         try{
-            const renewedRow = stmt.get( newText, messageId ) as MessageListItem;
+            const renewedRow = stmt.get( newText, id ) as MessageListItem;
             return { success: true, value: renewedRow };
         }catch( error: unknown ){
             return { success: false, value: null, errMessage: (error as Error).message };
