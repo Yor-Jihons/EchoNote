@@ -216,7 +216,7 @@ export default class DataBaseEx{
             const ret4Chats = selectChatsStmt.get( chatId ) as ChatListItem;
 
             const sql4Messages: string = `
-                SELECT id, order_in_chat, sender_id, message_txt, created_at, updated_at
+                SELECT id, order_in_chat, chat_id, sender_id, message_txt, created_at, updated_at
                     FROM messages
                     WHERE chat_id = ?
             `;
@@ -224,7 +224,7 @@ export default class DataBaseEx{
             const ret4Messages = selectMessagesStmt.all( chatId ) as MessageListItem[];
 
             const sql4Summaries: string = `
-                SELECT id, summary_txt, created_at, updated_at
+                SELECT id, summary_txt, chat_id, created_at, updated_at
                     FROM summaries
                     WHERE chat_id = ?
             `;
