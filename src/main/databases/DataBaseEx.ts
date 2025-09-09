@@ -145,4 +145,10 @@ export default class DataBaseEx{
             throw error;
         }
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public updateMessage( messageId: number, newText: string ){
+        // TODO: Implement here.
+        return { success: true, value: null };
+    }
 }

@@ -126,9 +126,8 @@ app.whenReady().then(() => {
     dialog.showMessageBox( mainWindow, { message: message } );
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ipcMain.handle( 'update-message', (event, users) => {
-    return { value: "OK" };
+  ipcMain.handle( 'update-message', (event, { messageId, newText }) => {
+    return db.updateMessage( messageId, newText );
   });
 
   ipcMain.on( 'message-updated', (event, chatId) => {

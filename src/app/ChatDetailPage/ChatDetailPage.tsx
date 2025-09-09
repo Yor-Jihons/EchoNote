@@ -31,7 +31,7 @@ function ChatDetailPage() {
     window.interprocessCommunication.sendMessageUpdated( messageId );
   }
 
-  runSample( 30, "Hello?" );
+  runSample( 30, "Hello?" ); // TODO: Modify here.
 
   if (!user) {
     return <div>ユーザーが見つかりません。</div>;
