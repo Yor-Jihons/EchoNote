@@ -1,4 +1,5 @@
 import ChatListItem from "../types/ChatListItem";
+import MessageListItem from "../types/MessageListItem";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IInterprocessCommunication {
@@ -8,7 +9,7 @@ export interface IInterprocessCommunication {
   deleteChat: (id: number) => void;
   addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>;
   showMessageBox: ( message: string ) => void;
-  updateMessage: ( messageId: number, newText: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>; // TODO: valueを書き換える
+  updateMessage: ( messageId: number, newText: string ) => Promise<{success: boolean, value: MessageListItem, errMessage?: string}>;
   sendMessageUpdated: () => void;
   onUpdateChatList: ( callback: () => void ) => void;
   removeUpdateChatListListener: ( callback: () => void ) => void;

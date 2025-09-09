@@ -1,5 +1,6 @@
 import BetterSqlite3 from 'better-sqlite3';
 import ChatListItem from '../../types/ChatListItem.js';
+import MessageListItem from '../../types/MessageListItem.js';
 
 export default class DataBaseEx{
     #db: BetterSqlite3.Database|undefined;
@@ -148,6 +149,10 @@ export default class DataBaseEx{
 
     public updateMessage( messageId: number, newText: string ){
         // TODO: Implement here.
-        return { success: true, value: { messageId: messageId, text: newText } };
+        const dummyData: MessageListItem = {
+            id: messageId, message_txt: newText, created_at: "",
+            chat_id: 0, order_in_chat: 0, sender_id: 0, updated_at: ""
+        }
+        return { success: true, value: dummyData };
     }
 }
