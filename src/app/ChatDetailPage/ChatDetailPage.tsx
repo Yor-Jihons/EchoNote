@@ -24,6 +24,28 @@ function ChatDetailPage() {
     setUser(foundUser || null);
   }, [chatId]);
 
+  /*
+    The data which I need:
+      * chat
+        * id
+        * chat_name
+        * ai_type
+        * created_at
+        * upadated_at
+      * messages
+        * id
+        * order_in_chat
+        * sender_id
+        * message_txt
+        * created_at
+        * upadated_at
+      * summary
+        * id
+        * summary_txt
+        * created_at
+        * updated_at
+  */
+
 /*
   const runSample = async ( messageId: number, newText: string ) => {
     // Update the message on the data-base.
