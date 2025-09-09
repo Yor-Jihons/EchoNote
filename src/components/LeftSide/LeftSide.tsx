@@ -13,6 +13,7 @@ const LeftSide = () => {
     useEffect(() => {
         const fetchChats = async ( query: string ) => {
             const items = await window.interprocessCommunication.fetchChats( query );
+            // TODO: ここでソート
             setChatItems( items );
         };
         fetchChats( query );
