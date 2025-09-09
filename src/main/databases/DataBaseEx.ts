@@ -217,9 +217,8 @@ export default class DataBaseEx{
                     ON c.id = m.chat_id
                     WHERE m.message_txt LIKE ?
             `;
-            const params4Chats = [ chatId ];
             const selectChatsStmt = this.#db!.prepare( sql4Chats );
-            const ret4Chats = selectChatsStmt.get( params4Chats ) as ChatListItem;
+            const ret4Chats = selectChatsStmt.get( chatId ) as ChatListItem;
 
             const sql4Messages: string = `
                 SELECT DISTINCT id, chat_name
@@ -232,11 +231,24 @@ export default class DataBaseEx{
                     ON c.id = m.chat_id
                     WHERE m.message_txt LIKE ?
             `;
-            const params4Messages = [ chatId ];
             const selectMessagesStmt = this.#db!.prepare( sql4Messages );
-            const ret4Messages = selectMessagesStmt.get( params4Messages ) as MessageListItem[];
+            const ret4Messages = selectMessagesStmt.get( chatId ) as MessageListItem[];
 
-            return { success: true, value: { id: chatId, chat: ret4Chats, messages: ret4Messages } as ChatInfo };
+            const sql4Summaries: string = `
+                SELECT DISTINCT id, chat_name
+                    FROM chats
+                    WHERE chat_name LIKE ?
+                UNION
+                SELECT c.id, c.chat_name
+                    FROM chats AS c
+                    JOIN messages AS m
+                    ON c.id = m.chat_id
+                    WHERE m.message_txt LIKE ?
+            `;
+            const selectSummariesStmt = this.#db!.prepare( sql4Summaries );
+            const ret4Summaries = selectSummariesStmt.get( chatId ) as ChatListItem;
+
+            return { success: true, value: { id: chatId, chat: ret4Chats, messages: ret4Messages, summary: ret4Summaries } as ChatInfo };
         }catch( error: unknown ){
             console.error('Failed to fetch chats:', error);
             return [];
