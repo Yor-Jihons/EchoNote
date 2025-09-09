@@ -24,14 +24,15 @@ function ChatDetailPage() {
     setUser(foundUser || null);
   }, [chatId]);
 
+/*
   const runSample = async ( messageId: number, newText: string ) => {
     // Update the message on the data-base.
     await window.interprocessCommunication.updateMessage( messageId, newText );
     // Send the IPC-message to the main-process. 
     window.interprocessCommunication.sendMessageUpdated();
   }
-
-  runSample( 30, "Hello?" ); // TODO: Modify here.
+*/
+  //runSample( 30, "Hello?" ); // TODO: Modify here.
 
   if (!user) {
     return <div>ユーザーが見つかりません。</div>;
