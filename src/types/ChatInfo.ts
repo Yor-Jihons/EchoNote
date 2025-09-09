@@ -1,6 +1,6 @@
-import ChatListItem from "./ChatListItem";
-import MessageListItem from "./MessageListItem";
-import SummaryListItem from "./SummaryListItem";
+import ChatListItem from "./ChatListItem.js";
+import MessageListItem from "./MessageListItem.js";
+import SummaryListItem from "./SummaryListItem.js";
 
 export default interface ChatInfo{
     id: number;

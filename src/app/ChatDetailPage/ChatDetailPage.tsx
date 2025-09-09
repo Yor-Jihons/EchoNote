@@ -9,8 +9,8 @@ function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
   const [chatInfo, setChatInfo] = useState<ChatInfo>();
 
-  const fetchChatInfo = async () => {
-    const data = await window.interprocessCommunication.fetchChatInfo( Number( chatId ) );
+  const fetchChatInfo = async ( id: number ) => {
+    const data = await window.interprocessCommunication.fetchChatInfo( id );
 
     const ret = data.value as ChatInfo;
 
@@ -21,9 +21,11 @@ function ChatDetailPage() {
   };
 
   useEffect(() => {
-    fetchChatInfo();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [] );
+    const numericChatId = Number(chatId);
+    if( !isNaN( numericChatId ) ){
+      fetchChatInfo( numericChatId );
+    }
+  }, [ chatId ] );
 
   /*
     The data which I need:
@@ -64,13 +66,9 @@ function ChatDetailPage() {
 
   return (
     <div>
-      {/*
-      <h2>チャット詳細ページ</h2>
-      <p>ID: {user.id}</p>
-      <p>名前: {user.name}</p>
-      <p>メールアドレス: {user.email}</p>
-      <Link to="/users">一覧に戻る</Link>
-      */}
+      <h2>{chatInfo.id}:{chatInfo.chat.chat_name}</h2>
+      <p>AI: {chatInfo.chat.ai_type}</p>
+      <p>作成日時: {chatInfo.chat.created_at}</p>
     </div>
   );
 }
