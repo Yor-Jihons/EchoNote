@@ -1,6 +1,7 @@
 import BetterSqlite3 from 'better-sqlite3';
 import ChatListItem from '../../types/ChatListItem.js';
 import MessageListItem from '../../types/MessageListItem.js';
+import ChatInfo from '../../types/ChatInfo.js';
 
 export default class DataBaseEx{
     #db: BetterSqlite3.Database|undefined;
@@ -219,7 +220,23 @@ export default class DataBaseEx{
             const params4Chats = [ chatId ];
             const selectChatsStmt = this.#db!.prepare( sql4Chats );
             const ret4Chats = selectChatsStmt.get( params4Chats ) as ChatListItem;
-            return { success: true, value: ret4Chats };
+
+            const sql4Messages: string = `
+                SELECT DISTINCT id, chat_name
+                    FROM chats
+                    WHERE chat_name LIKE ?
+                UNION
+                SELECT c.id, c.chat_name
+                    FROM chats AS c
+                    JOIN messages AS m
+                    ON c.id = m.chat_id
+                    WHERE m.message_txt LIKE ?
+            `;
+            const params4Messages = [ chatId ];
+            const selectMessagesStmt = this.#db!.prepare( sql4Messages );
+            const ret4Messages = selectMessagesStmt.get( params4Messages ) as MessageListItem[];
+
+            return { success: true, value: { id: chatId, chat: ret4Chats, messages: ret4Messages } as ChatInfo };
         }catch( error: unknown ){
             console.error('Failed to fetch chats:', error);
             return [];
