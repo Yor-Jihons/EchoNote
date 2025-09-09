@@ -13,7 +13,10 @@ const LeftSide = () => {
     useEffect(() => {
         const fetchChats = async ( query: string ) => {
             const items = await window.interprocessCommunication.fetchChats( query );
-            setChatItems( items );
+            const ret = [ ...items ].sort( (a, b) => {
+                return a.updated_at > b.updated_at ? 1 : -1;
+            });
+            setChatItems( ret );
         };
         fetchChats( query );
     }, [ query ] );
@@ -30,7 +33,9 @@ const LeftSide = () => {
             return;
         }
 
-        setChatItems( [ ...chatItems, newItem.value ] );
+        const v: ChatListItem = newItem.value;
+        if( v.chat_name.indexOf( query ) !== -1 ) setChatItems( [ v, ...chatItems ] );
+
         setIsDialogOpen( false );
 
         navigate( "/chats/" + newItem.value.id );
@@ -73,7 +78,7 @@ const LeftSide = () => {
             <ul>
                 {chatItems.map( (chatItem, idx) => {
                     return <li className={styles.chat_list_item} key={idx}>
-                        <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id}>
+                        <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
                             {chatItem.chat_name}
                         </Link>
                         <button className={styles.rename_button} data-id={chatItem.id} onClick={chatRenameButton_click} title="チャット名の編集">編集</button>
