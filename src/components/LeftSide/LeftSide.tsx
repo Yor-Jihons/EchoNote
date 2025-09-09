@@ -10,14 +10,30 @@ const LeftSide = () => {
     const [query, setQuery] = useState<string>( "" );
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
 
+    const fetchChats = async ( query: string ) => {
+        const items = await window.interprocessCommunication.fetchChats( query );
+        const ret = [ ...items ].sort( (a, b) => {
+            return a.updated_at > b.updated_at ? 1 : -1;
+        });
+        setChatItems( ret );
+    };
+
     useEffect(() => {
-        const fetchChats = async ( query: string ) => {
-            const items = await window.interprocessCommunication.fetchChats( query );
-            const ret = [ ...items ].sort( (a, b) => {
-                return a.updated_at > b.updated_at ? 1 : -1;
-            });
-            setChatItems( ret );
+        const handleUpdate = () => {
+            console.log('左パネル: 更新命令を受け取りました！');
+            fetchChats(query); // 最新のデータを再取得してステートを更新
         };
+
+        // Adds the event listener.
+        window.interprocessCommunication.onUpdateChatList( handleUpdate );
+
+        // Clean-up function.
+        return () => {
+            window.interprocessCommunication.removeUpdateChatListListener( handleUpdate );
+        };
+    }, [ query ] );
+
+    useEffect(() => {
         fetchChats( query );
     }, [ query ] );
 

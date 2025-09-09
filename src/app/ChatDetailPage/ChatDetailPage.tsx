@@ -24,6 +24,15 @@ function ChatDetailPage() {
     setUser(foundUser || null);
   }, [chatId]);
 
+  const runSample = async ( messageId: number, newText: string ) => {
+    // データベースにメッセージを登録
+    await window.interprocessCommunication.updateMessage( messageId, newText );
+    // データベース更新完了後、メインプロセスに通知を送る
+    window.interprocessCommunication.sendMessageUpdated( messageId );
+  }
+
+  runSample( 30, "Hello?" );
+
   if (!user) {
     return <div>ユーザーが見つかりません。</div>;
   }

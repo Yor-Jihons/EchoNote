@@ -106,11 +106,11 @@ app.whenReady().then(() => {
     }
   });
 
-  ipcMain.handle('fetch-chats', (event, query) => {
+  ipcMain.handle( 'fetch-chats', (event, query) => {
     return db.fetchChats( query );
   });
 
-  ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
+  ipcMain.handle( 'add-chat', (event, { chatName, aiType } ) => {
     const ret = db.addChat( chatName, aiType );
     if( !ret.success ){
       dialog.showErrorBox( "Error", ret.errMessage! );
@@ -118,27 +118,28 @@ app.whenReady().then(() => {
     return ret;
   });
 
-  ipcMain.on('delete-chat', (event, id) => {
+  ipcMain.on( 'delete-chat', (event, id) => {
     db.deleteChat( id );
   });
 
-  ipcMain.handle('get-users', () => {
-    return db.getUsers();
-  });
-
-  ipcMain.handle('add-user', (event, { name, email }) => {
-    return db.addUser( name, email );
-  });
-
-  ipcMain.handle('add-users-in-transaction', (event, users) => {
-    return db.addUsersWithTransaction( users );
-  });
-
-  ipcMain.on('show-messagebox', (event, message) => {
+  ipcMain.on( 'show-messagebox', (event, message) => {
     dialog.showMessageBox( mainWindow, { message: message } );
   });
 
-  ipcMain.on('init-i18n-data', (event, data) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ipcMain.handle( 'update-message', (event, users) => {
+    return { value: "OK" };
+  });
+
+  ipcMain.on( 'message-updated', (event, chatId) => {
+    console.log(`メインプロセス: チャットID ${chatId} のメッセージ更新通知を受け取りました。`);
+
+    if( mainWindow ){
+      mainWindow.webContents.send( 'update-chat-list' );
+    }
+  });
+
+  ipcMain.on( 'init-i18n-data', (event, data) => {
     i18nData = data;
 
     const isPortableMode = pathManager.isPortableMode;
