@@ -17,7 +17,7 @@ function ChatDetailPage() {
     const retChat: ChatListItem = ret.chat;
     const retMessages: MessageListItem[] = ret.messages;
     const retSummary: SummaryListItem = ret.summary;
-    setChatInfo( { chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
+    setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
   };
 
   useEffect(() => {
