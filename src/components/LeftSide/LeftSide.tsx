@@ -30,7 +30,9 @@ const LeftSide = () => {
             return;
         }
 
-        setChatItems( [ ...chatItems, newItem.value ] );
+        const v: ChatListItem = newItem.value;
+        if( v.chat_name.indexOf( query ) !== -1 ) setChatItems( [ ...chatItems, v ] );
+
         setIsDialogOpen( false );
 
         navigate( "/chats/" + newItem.value.id );
