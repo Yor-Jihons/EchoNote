@@ -13,8 +13,10 @@ const LeftSide = () => {
     useEffect(() => {
         const fetchChats = async ( query: string ) => {
             const items = await window.interprocessCommunication.fetchChats( query );
-            // TODO: ここでソート
-            setChatItems( items );
+            const ret = [ ...items ].sort( (a, b) => {
+                return a.updated_at > b.updated_at ? 1 : -1;
+            });
+            setChatItems( ret );
         };
         fetchChats( query );
     }, [ query ] );
