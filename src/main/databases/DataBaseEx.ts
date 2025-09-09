@@ -2,6 +2,7 @@ import BetterSqlite3 from 'better-sqlite3';
 import ChatListItem from '../../types/ChatListItem.js';
 import MessageListItem from '../../types/MessageListItem.js';
 import ChatInfo from '../../types/ChatInfo.js';
+import SummaryListItem from '../../types/SummaryListItem.js';
 
 export default class DataBaseEx{
     #db: BetterSqlite3.Database|undefined;
@@ -207,51 +208,32 @@ export default class DataBaseEx{
     public fetchChatInfo( chatId: number ){
         try{
             const sql4Chats: string = `
-                SELECT DISTINCT id, chat_name
+                SELECT id, chat_name, ai_type, created_at, updated_at
                     FROM chats
-                    WHERE chat_name LIKE ?
-                UNION
-                SELECT c.id, c.chat_name
-                    FROM chats AS c
-                    JOIN messages AS m
-                    ON c.id = m.chat_id
-                    WHERE m.message_txt LIKE ?
+                    WHERE id = ?
             `;
             const selectChatsStmt = this.#db!.prepare( sql4Chats );
             const ret4Chats = selectChatsStmt.get( chatId ) as ChatListItem;
 
             const sql4Messages: string = `
-                SELECT DISTINCT id, chat_name
-                    FROM chats
-                    WHERE chat_name LIKE ?
-                UNION
-                SELECT c.id, c.chat_name
-                    FROM chats AS c
-                    JOIN messages AS m
-                    ON c.id = m.chat_id
-                    WHERE m.message_txt LIKE ?
+                SELECT id, order_in_chat, sender_id, message_txt, created_at, updated_at
+                    FROM messages
+                    WHERE chat_id = ?
             `;
             const selectMessagesStmt = this.#db!.prepare( sql4Messages );
-            const ret4Messages = selectMessagesStmt.get( chatId ) as MessageListItem[];
+            const ret4Messages = selectMessagesStmt.all( chatId ) as MessageListItem[];
 
             const sql4Summaries: string = `
-                SELECT DISTINCT id, chat_name
-                    FROM chats
-                    WHERE chat_name LIKE ?
-                UNION
-                SELECT c.id, c.chat_name
-                    FROM chats AS c
-                    JOIN messages AS m
-                    ON c.id = m.chat_id
-                    WHERE m.message_txt LIKE ?
+                SELECT id, summary_txt, created_at, updated_at
+                    FROM summaries
+                    WHERE chat_id = ?
             `;
             const selectSummariesStmt = this.#db!.prepare( sql4Summaries );
-            const ret4Summaries = selectSummariesStmt.get( chatId ) as ChatListItem;
+            const ret4Summaries = selectSummariesStmt.get( chatId ) as SummaryListItem;
 
             return { success: true, value: { id: chatId, chat: ret4Chats, messages: ret4Messages, summary: ret4Summaries } as ChatInfo };
         }catch( error: unknown ){
-            console.error('Failed to fetch chats:', error);
-            return [];
+            return { success: false, value: null, errMessage: (error as Error).message };
         }
     }
 }
