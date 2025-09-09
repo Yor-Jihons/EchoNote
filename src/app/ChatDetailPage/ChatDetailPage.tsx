@@ -25,9 +25,9 @@ function ChatDetailPage() {
   }, [chatId]);
 
   const runSample = async ( messageId: number, newText: string ) => {
-    // データベースにメッセージを登録
+    // Update the message on the data-base.
     await window.interprocessCommunication.updateMessage( messageId, newText );
-    // データベース更新完了後、メインプロセスに通知を送る
+    // Send the IPC-message to the main-process. 
     window.interprocessCommunication.sendMessageUpdated();
   }
 

@@ -1,5 +1,6 @@
 import BetterSqlite3 from 'better-sqlite3';
 import ChatListItem from '../../types/ChatListItem.js';
+import MessageListItem from '../../types/MessageListItem.js';
 
 export default class DataBaseEx{
     #db: BetterSqlite3.Database|undefined;
@@ -76,6 +77,29 @@ export default class DataBaseEx{
                 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
+
+            CREATE TRIGGER IF NOT EXISTS update_messages_updated_at
+                AFTER UPDATE ON messages
+                FOR EACH ROW
+                WHEN OLD.message_txt IS NOT NEW.message_txt
+                BEGIN
+                    UPDATE messages SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+                END;
+            CREATE TRIGGER IF NOT EXISTS update_summaries_updated_at
+                AFTER UPDATE ON summaries
+                FOR EACH ROW
+                WHEN OLD.summary_txt IS NOT NEW.summary_txt
+                BEGIN
+                    UPDATE summaries SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+                END;
+            CREATE TRIGGER IF NOT EXISTS update_chats_updated_at
+                AFTER UPDATE ON chats
+                FOR EACH ROW
+                WHEN OLD.ai_type IS NOT NEW.ai_type OR OLD.chat_name IS NOT NEW.chat_name
+                BEGIN
+                    UPDATE chats SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+                END;
+
             INSERT OR IGNORE INTO senders VALUES(1, 'Me');
             INSERT OR IGNORE INTO senders VALUES(2, 'AI');
             ${dummyDataInsertion}
@@ -146,8 +170,36 @@ export default class DataBaseEx{
         }
     }
 
-    public updateMessage( messageId: number, newText: string ){
-        // TODO: Implement here.
-        return { success: true, value: { messageId: messageId, text: newText } };
+    public updateMessage( id: number, newText: string ){
+        const sql: string = "UPDATE messages SET message_txt = ? WHERE id = ? RETURNING id, chat_id, order_in_chat, sender_id, message_txt, created_at, updated_at";
+        const stmt = this.#db!.prepare( sql );
+        try{
+            const renewedRow = stmt.get( newText, id ) as MessageListItem;
+            return { success: true, value: renewedRow };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
+    }
+
+    public updateChatName( id: number, chatName: string ){
+        const sql: string = "UPDATE chats SET chat_name = ? WHERE id = ? RETURNING id, ai_type, chat_name, created_at, updated_at";
+        const stmt = this.#db!.prepare( sql );
+        try{
+            const renewedRow = stmt.get( chatName, id ) as ChatListItem;
+            return { success: true, value: renewedRow };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
+    }
+
+    public updateAIName( id: number, aiType: string ){
+        const sql: string = "UPDATE chats SET ai_type = ? WHERE id = ? RETURNING id, ai_type, chat_name, created_at, updated_at";
+        const stmt = this.#db!.prepare( sql );
+        try{
+            const renewedRow = stmt.get( aiType, id ) as ChatListItem;
+            return { success: true, value: renewedRow };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
     }
 }
