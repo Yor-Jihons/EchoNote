@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   sendMessageUpdated: () => ipcRenderer.send( 'message-updated' ),
   onUpdateChatList: ( callback: () => void ) => { ipcRenderer.on( 'update-chat-list', callback ); },
   removeUpdateChatListListener: ( callback: () => void ) => { ipcRenderer.removeListener('update-chat-list', callback); },
+  fetchChatInfo: ( chatId: number ) => ipcRenderer.invoke( 'fetch-chatinfo', chatId ),
 
   // IPC通信用のAPIを追加
   getUsers: () => ipcRenderer.invoke('get-users'),
