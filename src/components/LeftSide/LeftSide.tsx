@@ -75,7 +75,7 @@ const LeftSide = () => {
             <ul>
                 {chatItems.map( (chatItem, idx) => {
                     return <li className={styles.chat_list_item} key={idx}>
-                        <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id}>
+                        <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
                             {chatItem.chat_name}
                         </Link>
                         <button className={styles.rename_button} data-id={chatItem.id} onClick={chatRenameButton_click} title="チャット名の編集">編集</button>
