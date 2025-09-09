@@ -171,28 +171,13 @@ export default class DataBaseEx{
     }
 
     public updateMessage( messageId: number, newText: string ){
-        // TODO: Implement here.
-        const dummyData: MessageListItem = {
-            id: messageId, message_txt: newText, created_at: "",
-            chat_id: 0, order_in_chat: 0, sender_id: 0, updated_at: ""
-        }
-        return { success: true, value: dummyData };
-        /*
-        const dummyData: MessageListItem = {
-            id: messageId, message_txt: newText, created_at: "",
-            chat_id: 0, order_in_chat: 0, sender_id: 0, updated_at: ""
-        }
-        const sql: string = `
-            INSERT INTO chats(ai_type, chat_name) VALUES(?, ?)
-                RETURNING id, ai_type, chat_name, created_at, updated_at
-        `;
+        const sql: string = "UPDATE messages SET message_txt = ? WHERE id = ? RETURNING id, ai_type, chat_name, created_at, updated_at";
         const stmt = this.#db!.prepare( sql );
         try{
-            const insertedRow = stmt.get( aiType, chatName ) as ChatListItem;
-            return { success: true, value: insertedRow };
+            const renewedRow = stmt.get( messageId, newText ) as MessageListItem;
+            return { success: true, value: renewedRow };
         }catch( error: unknown ){
             return { success: false, value: null, errMessage: (error as Error).message };
         }
-        */
     }
 }
