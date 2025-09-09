@@ -122,20 +122,18 @@ app.whenReady().then(() => {
     db.deleteChat( id );
   });
 
-  ipcMain.handle('get-users', () => {
-    return db.getUsers();
-  });
-
-  ipcMain.handle('add-user', (event, { name, email }) => {
-    return db.addUser( name, email );
-  });
-
-  ipcMain.handle('add-users-in-transaction', (event, users) => {
-    return db.addUsersWithTransaction( users );
-  });
-
   ipcMain.on('show-messagebox', (event, message) => {
     dialog.showMessageBox( mainWindow, { message: message } );
+  });
+
+  ipcMain.handle('update-message', (event, { messageId, newText }) => {
+    return db.updateMessage( messageId, newText );
+  });
+
+  ipcMain.on('message-updated', () => {
+    if( mainWindow ){
+      mainWindow.webContents.send( 'update-chat-list' );
+    }
   });
 
   ipcMain.on('init-i18n-data', (event, data) => {
