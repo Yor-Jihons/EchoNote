@@ -32,7 +32,7 @@ const LeftSide = () => {
         }
 
         const v: ChatListItem = newItem.value;
-        if( v.chat_name.indexOf( query ) !== -1 ) setChatItems( [ ...chatItems, v ] );
+        if( v.chat_name.indexOf( query ) !== -1 ) setChatItems( [ v, ...chatItems ] );
 
         setIsDialogOpen( false );
 
