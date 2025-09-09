@@ -130,6 +130,10 @@ app.whenReady().then(() => {
     return db.updateMessage( messageId, newText );
   });
 
+  ipcMain.handle( 'fetch-chatinfo', (event, chatId) => {
+    return db.fetchChatInfo( chatId );
+  });
+
   ipcMain.on('message-updated', () => {
     if( mainWindow ){
       mainWindow.webContents.send( 'update-chat-list' );

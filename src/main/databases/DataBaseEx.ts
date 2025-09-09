@@ -202,4 +202,27 @@ export default class DataBaseEx{
             return { success: false, value: null, errMessage: (error as Error).message };
         }
     }
+
+    public fetchChatInfo( chatId: number ){
+        try{
+            const sql4Chats: string = `
+                SELECT DISTINCT id, chat_name
+                    FROM chats
+                    WHERE chat_name LIKE ?
+                UNION
+                SELECT c.id, c.chat_name
+                    FROM chats AS c
+                    JOIN messages AS m
+                    ON c.id = m.chat_id
+                    WHERE m.message_txt LIKE ?
+            `;
+            const params4Chats = [ chatId ];
+            const selectChatsStmt = this.#db!.prepare( sql4Chats );
+            const ret4Chats = selectChatsStmt.get( params4Chats ) as ChatListItem;
+            return { success: true, value: ret4Chats };
+        }catch( error: unknown ){
+            console.error('Failed to fetch chats:', error);
+            return [];
+        }
+    }
 }
