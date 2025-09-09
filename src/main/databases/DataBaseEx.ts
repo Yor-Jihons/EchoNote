@@ -146,9 +146,8 @@ export default class DataBaseEx{
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public updateMessage( messageId: number, newText: string ){
         // TODO: Implement here.
-        return { success: true, value: null };
+        return { success: true, value: { messageId: messageId, text: newText } };
     }
 }

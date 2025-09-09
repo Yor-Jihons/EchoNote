@@ -9,7 +9,7 @@ export interface IInterprocessCommunication {
   addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>;
   showMessageBox: ( message: string ) => void;
   updateMessage: ( messageId: number, newText: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>; // TODO: valueを書き換える
-  sendMessageUpdated: ( chatId: number ) => void;
+  sendMessageUpdated: () => void;
   onUpdateChatList: ( callback: () => void ) => void;
   removeUpdateChatListListener: ( callback: () => void ) => void;
 

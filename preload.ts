@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   addChat: ( chatName: string, aiType: string ) => ipcRenderer.invoke( 'add-chat', { chatName, aiType } ),
   showMessageBox: ( message: string ) => ipcRenderer.send( 'show-messagebox', message ),
   updateMessage: ( messageId: number, newText: string ) => ipcRenderer.invoke( 'update-message', { messageId, newText } ),
-  sendMessageUpdated: ( chatId: number ) => ipcRenderer.send( 'message-updated', chatId ),
+  sendMessageUpdated: () => ipcRenderer.send( 'message-updated' ),
   onUpdateChatList: ( callback: () => void ) => { ipcRenderer.on( 'update-chat-list', callback ); },
   removeUpdateChatListListener: ( callback: () => void ) => { ipcRenderer.removeListener('update-chat-list', callback); },
 
