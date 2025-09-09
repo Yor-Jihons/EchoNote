@@ -191,4 +191,15 @@ export default class DataBaseEx{
             return { success: false, value: null, errMessage: (error as Error).message };
         }
     }
+
+    public updateAIName( id: number, aiType: string ){
+        const sql: string = "UPDATE chats SET ai_type = ? WHERE id = ? RETURNING id, ai_type, chat_name, created_at, updated_at";
+        const stmt = this.#db!.prepare( sql );
+        try{
+            const renewedRow = stmt.get( aiType, id ) as ChatListItem;
+            return { success: true, value: renewedRow };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
+    }
 }
