@@ -55,6 +55,10 @@ function ChatDetailPage() {
 */
   //runSample( 30, "Hello?" ); // TODO: Modify here.
 
+  const editButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) =>{
+    console.log( event.currentTarget.dataset.id );
+  }
+
   if ( !chatInfo ) {
     return <div>チャットが見つかりません。</div>;
   }
@@ -81,7 +85,7 @@ function ChatDetailPage() {
             ABCDEFG
           </div>
           <div className={styles.message_button_area}>
-            <button>編集</button>
+            <button data-id={0} onClick={editButton_click}>編集</button>
           </div>
         </div>
 
