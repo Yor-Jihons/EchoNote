@@ -69,12 +69,14 @@ function ChatDetailPage() {
       </header>
 
       <div className={styles.message_area}>
+
         <div className={styles.me_message}>
           <h3 className={styles.message_header}>Me</h3>
           <div className={styles.message_body}>
             ABCDEFG
           </div>
         </div>
+
       </div>
 
     </div>
