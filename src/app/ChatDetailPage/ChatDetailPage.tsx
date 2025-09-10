@@ -5,6 +5,7 @@ import styles from "./chatdetailpage.module.css";
 import ChatListItem from '../../types/ChatListItem';
 import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
+import MessageFlexBoxItem from '../../components/MessageFlexItem/MessageFlexBoxItem';
 
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
@@ -73,22 +74,8 @@ function ChatDetailPage() {
       </header>
 
       <div className={styles.message_area}>
-
-        <div className={styles.me_message}>
-          <div className={styles.message_header_area}>
-            <h3 className={styles.message_header}>Me</h3>
-          </div>
-          <div className={styles.message_date_area}>
-            <p>最終更新日時: 2025-09-10 00:00:00</p>
-          </div>
-          <div className={styles.message_body}>
-            ABCDEFG
-          </div>
-          <div className={styles.message_button_area}>
-            <button data-id={0} onClick={editButton_click}>編集</button>
-          </div>
-        </div>
-
+        <MessageFlexBoxItem index={0} editButton_click={editButton_click}
+          message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 0, message_txt: "さんぷる", created_at: "", updated_at: "2025-09-10 17:35" }} />
       </div>
 
     </div>
