@@ -6,6 +6,7 @@ import ChatListItem from '../../types/ChatListItem';
 import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
 import MeMessageFlexBoxItem from '../../components/MeMessageFlexBoxItem/MeMessageFlexBoxItem';
+import AIMessageFlexBoxItem from '../../components/AIMessageFlexBoxItem/AIMessageFlexBoxItem';
 
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
@@ -75,6 +76,8 @@ function ChatDetailPage() {
 
       <div className={styles.message_area}>
         <MeMessageFlexBoxItem index={0} editButton_click={editButton_click}
+          message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 0, message_txt: "さんぷる", created_at: "", updated_at: "2025-09-10 17:35" }} />
+        <AIMessageFlexBoxItem  index={1} editButton_click={editButton_click}
           message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 0, message_txt: "さんぷる", created_at: "", updated_at: "2025-09-10 17:35" }} />
       </div>
 
