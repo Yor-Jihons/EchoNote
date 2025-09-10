@@ -92,7 +92,7 @@ const LeftSide = () => {
             <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
 
             <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
-            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' className={styles.search_textbox} />
+            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。'  minLength={2} maxLength={200} className={styles.search_textbox} />
             <ul>
                 {chatItems.map( (chatItem, idx) => {
                     return <li className={styles.chat_list_item} key={idx}>
