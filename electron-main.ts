@@ -123,7 +123,8 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('show-messagebox', (event, { message, buttons }) => {
-    return dialog.showMessageBox( mainWindow, { message: message, buttons: buttons } );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (dialog.showMessageBox( mainWindow, { message: message, buttons: buttons } ) as any).response;
   });
 
   ipcMain.handle('update-message', (event, { messageId, newText }) => {
