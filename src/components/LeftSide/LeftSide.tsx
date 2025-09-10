@@ -68,8 +68,10 @@ const LeftSide = () => {
         setIsDialogOpen( true );
     }
 
-    const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    const chatDeleteButton_click = async ( event: React.MouseEvent<HTMLButtonElement> ) => {
         // TODO: メッセージボックスを表示する
+        const ret1 = await window.interprocessCommunication.showMessageBox( "削除していい?", [ "Yes", "No" ] );
+        console.log( ret1 );
         const selectedIndex = Number( event.currentTarget.dataset.id );
         window.interprocessCommunication.deleteChat( selectedIndex );
         const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
