@@ -1,9 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ChatInfo from '../../types/ChatInfo';
+import styles from "./chatdetailpage.module.css";
 import ChatListItem from '../../types/ChatListItem';
 import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
+import MeMessageFlexBoxItem from '../../components/MeMessageFlexBoxItem/MeMessageFlexBoxItem';
+import AIMessageFlexBoxItem from '../../components/AIMessageFlexBoxItem/AIMessageFlexBoxItem';
 
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
@@ -29,12 +32,6 @@ function ChatDetailPage() {
 
   /*
     The data which I need:
-      * chat
-        * id
-        * chat_name
-        * ai_type
-        * created_at
-        * upadated_at
       * messages
         * id
         * order_in_chat
@@ -60,15 +57,30 @@ function ChatDetailPage() {
 */
   //runSample( 30, "Hello?" ); // TODO: Modify here.
 
+  const editButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) =>{
+    console.log( event.currentTarget.dataset.id );
+  }
+
   if ( !chatInfo ) {
     return <div>チャットが見つかりません。</div>;
   }
 
   return (
-    <div>
-      <h2>{chatInfo.id}:{chatInfo.chat.chat_name}</h2>
-      <p>AI: {chatInfo.chat.ai_type}</p>
-      <p>作成日時: {chatInfo.chat.created_at}</p>
+    <div className={styles.chat_detail_page_flexbox}>
+      <header className={styles.chat_detail_page_flexbox_flexbox}>
+        <h2>{chatInfo.chat.chat_name}</h2>
+        <p>ID: {chatInfo.id}</p>
+        <p>AI: {chatInfo.chat.ai_type || "---"}</p>
+        <p>作成日時: {chatInfo.chat.created_at}</p>
+      </header>
+
+      <div className={styles.message_area}>
+        <MeMessageFlexBoxItem index={0} editButton_click={editButton_click}
+          message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 0, message_txt: "さんぷる", created_at: "", updated_at: "2025-09-10 17:35" }} />
+        <AIMessageFlexBoxItem  index={1} editButton_click={editButton_click}
+          message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 0, message_txt: "さんぷる", created_at: "", updated_at: "2025-09-10 17:35" }} />
+      </div>
+
     </div>
   );
 }
