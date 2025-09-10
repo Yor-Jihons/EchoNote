@@ -8,12 +8,11 @@ interface Props {
     editButton_click: ( event: React.MouseEvent<HTMLButtonElement> ) => void;
 }
 
-
 const MeMessageFlexBoxItem = ( { index, message, editButton_click }: Props ) => {
     return (
         <React.Fragment>
             <MessageFlexBoxItem index={index} editButton_click={editButton_click}
-                message={message}
+                message={message} messageBodyStyle={{ background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }}
                 senderId={0} editLabel={"編集"} updatedAtLabel={"最終更新日時"} />
         </React.Fragment>
     );
