@@ -17,14 +17,12 @@ const MessageFlexBoxItem = ( { index, message, editButton_click }: Props ) => {
                 <div className={styles.message_header_area}>
                     <h3 className={styles.message_header}>Me</h3>
                 </div>
-                <div className={styles.message_date_area}>
-                    <p>最終更新日時: {message.updated_at}</p>
-                </div>
                 <div className={styles.message_body}>
                     {message.message_txt}
                 </div>
                 <div className={styles.message_button_area}>
                     <button data-id={index} onClick={editButton_click}>編集</button>
+                    <p className={styles.updated_at_p}>最終更新日時: {message.updated_at}</p>
                 </div>
             </div>
         </React.Fragment>

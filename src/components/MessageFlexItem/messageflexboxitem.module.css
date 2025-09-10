@@ -55,7 +55,6 @@
     flex-direction: row-reverse;
 }
 
-.message_date_area{
-    display: flex;
-    flex-direction: row-reverse;
+.updated_at_p{
+    margin-right: 10px;
 }
