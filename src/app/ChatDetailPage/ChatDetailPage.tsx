@@ -67,10 +67,9 @@ function ChatDetailPage() {
       </header>
 
       <div className={styles.message_area}>
-        <AutoMessageFlexBoxItem index={0} editButton_click={editButton_click}
-          message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 0, message_txt: "さんぷる", created_at: "", updated_at: "2025-09-10 17:35" }} />
-        <AutoMessageFlexBoxItem  index={1} editButton_click={editButton_click}
-          message={{id: 1, chat_id: 0, order_in_chat: 0, sender_id: 1, message_txt: "サンプル", created_at: "", updated_at: "2025-09-10 17:35" }} />
+        {chatInfo.messages.map( (message, idx) => {
+          return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} message={message} key={idx} />
+        })}
       </div>
 
     </div>
