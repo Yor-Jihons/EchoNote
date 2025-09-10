@@ -122,8 +122,9 @@ app.whenReady().then(() => {
     db.deleteChat( id );
   });
 
-  ipcMain.on('show-messagebox', (event, message) => {
-    dialog.showMessageBox( mainWindow, { message: message } );
+  ipcMain.handle('show-messagebox', async (event, { message, buttons }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (await dialog.showMessageBox( mainWindow, { message: message, buttons: buttons } ) as any).response;
   });
 
   ipcMain.handle('update-message', (event, { messageId, newText }) => {

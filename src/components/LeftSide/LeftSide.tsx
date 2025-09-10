@@ -45,7 +45,7 @@ const LeftSide = () => {
         const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
         if( !newItem.success ){
             setIsDialogOpen( false );
-            window.interprocessCommunication.showMessageBox( newItem.errMessage! );
+            await window.interprocessCommunication.showMessageBox( newItem.errMessage!, [] );
             return;
         }
 
@@ -56,7 +56,7 @@ const LeftSide = () => {
 
         navigate( "/chats/" + newItem.value.id );
 
-        window.interprocessCommunication.showMessageBox( "登録完了しました。" );
+        await window.interprocessCommunication.showMessageBox( "登録完了しました。", [] );
     }
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
@@ -68,14 +68,18 @@ const LeftSide = () => {
         setIsDialogOpen( true );
     }
 
-    const chatDeleteButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-        const selectedIndex = Number( event.currentTarget.dataset.id );
-        window.interprocessCommunication.deleteChat( selectedIndex );
-        const tmp = chatItems.filter( (item) => item.id !== selectedIndex );
+    const chatDeleteButton_click = async ( event: React.MouseEvent<HTMLButtonElement> ) => {
+        const selectedChatId = Number( event.currentTarget.dataset.id );
+        const ret1 = await window.interprocessCommunication.showMessageBox( "本当に削除しますか?", [ "Yes", "No" ] );
+        if( ret1 !== 0 ){
+            return;
+        }
+        window.interprocessCommunication.deleteChat( selectedChatId );
+        const tmp = chatItems.filter( (item) => item.id !== selectedChatId );
         setChatItems( tmp );
         navigate( "/" );
 
-        window.interprocessCommunication.showMessageBox( "削除しました。" );
+        window.interprocessCommunication.showMessageBox( "削除しました。", [] );
     }
 
     const chatRenameButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
@@ -88,7 +92,7 @@ const LeftSide = () => {
             <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
 
             <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
-            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。' className={styles.search_textbox} />
+            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。'  minLength={2} maxLength={200} className={styles.search_textbox} />
             <ul>
                 {chatItems.map( (chatItem, idx) => {
                     return <li className={styles.chat_list_item} key={idx}>
