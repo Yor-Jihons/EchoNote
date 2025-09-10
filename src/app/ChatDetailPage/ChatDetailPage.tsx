@@ -67,6 +67,7 @@ function ChatDetailPage() {
         <p>AI: {chatInfo.chat.ai_type || "---"}</p>
         <p>作成日時: {chatInfo.chat.created_at}</p>
       </header>
+
       <div className={styles.message_area}>
         <div className={styles.me_message}>
           <h3 className={styles.message_header}>Me</h3>
@@ -75,6 +76,7 @@ function ChatDetailPage() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
