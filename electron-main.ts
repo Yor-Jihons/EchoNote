@@ -122,8 +122,8 @@ app.whenReady().then(() => {
     db.deleteChat( id );
   });
 
-  ipcMain.handle('show-messagebox', (event, { message }) => {
-    return dialog.showMessageBox( mainWindow, { message: message } );
+  ipcMain.handle('show-messagebox', (event, { message, buttons }) => {
+    return dialog.showMessageBox( mainWindow, { message: message, buttons: buttons } );
   });
 
   ipcMain.handle('update-message', (event, { messageId, newText }) => {
