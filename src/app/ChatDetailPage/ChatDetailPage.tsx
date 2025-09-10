@@ -61,12 +61,12 @@ function ChatDetailPage() {
 
   return (
     <div className={styles.chat_detail_page_flexbox}>
-      <div className={styles.chat_detail_page_flexbox_flexbox}>
+      <header className={styles.chat_detail_page_flexbox_flexbox}>
         <h2>{chatInfo.chat.chat_name}</h2>
         <p>ID: {chatInfo.id}</p>
         <p>AI: {chatInfo.chat.ai_type || "---"}</p>
         <p>作成日時: {chatInfo.chat.created_at}</p>
-      </div>
+      </header>
     </div>
   );
 }
