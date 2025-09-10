@@ -29,12 +29,6 @@ function ChatDetailPage() {
 
   /*
     The data which I need:
-      * chat
-        * id
-        * chat_name
-        * ai_type
-        * created_at
-        * upadated_at
       * messages
         * id
         * order_in_chat
