@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ChatInfo from '../../types/ChatInfo';
+import styles from "./chatdetailpage.module.css";
 import ChatListItem from '../../types/ChatListItem';
 import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
@@ -59,10 +60,13 @@ function ChatDetailPage() {
   }
 
   return (
-    <div>
-      <h2>{chatInfo.id}:{chatInfo.chat.chat_name}</h2>
-      <p>AI: {chatInfo.chat.ai_type}</p>
-      <p>作成日時: {chatInfo.chat.created_at}</p>
+    <div className={styles.chat_detail_page_flexbox}>
+      <div className={styles.chat_detail_page_flexbox_flexbox}>
+        <h2>{chatInfo.chat.chat_name}</h2>
+        <p>ID: {chatInfo.id}</p>
+        <p>AI: {chatInfo.chat.ai_type || "---"}</p>
+        <p>作成日時: {chatInfo.chat.created_at}</p>
+      </div>
     </div>
   );
 }

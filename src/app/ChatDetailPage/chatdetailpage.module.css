@@ -1,0 +1,19 @@
+.chat_detail_page_flexbox{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat_detail_page_flexbox_flexbox{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat_detail_page_flexbox h2{
+    text-align: center;
+}
+
+
+.chat_detail_page_flexbox p{
+    margin: 0;
+}
+
