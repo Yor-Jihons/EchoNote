@@ -71,9 +71,17 @@ function ChatDetailPage() {
       <div className={styles.message_area}>
 
         <div className={styles.me_message}>
-          <h3 className={styles.message_header}>Me</h3>
+          <div className={styles.message_header_area}>
+            <h3 className={styles.message_header}>Me</h3>
+          </div>
+          <div className={styles.message_date_area}>
+            <p>最終更新日時: 2025-09-10 00:00:00</p>
+          </div>
           <div className={styles.message_body}>
             ABCDEFG
+          </div>
+          <div className={styles.message_button_area}>
+            <button>編集</button>
           </div>
         </div>
 

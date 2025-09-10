@@ -40,7 +40,22 @@
 
 .message_body{
     padding-left: 10px;
-    background-color: burlywood;
-    border: 1px solid burlywood;
+    background-color: rgb(240, 217, 186);
+    border: 1px solid rgb(240, 217, 186);
     border-radius: 10px;
+}
+
+.message_header_area{
+    display: flex;
+    flex-direction: row;
+}
+
+.message_button_area{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.message_date_area{
+    display: flex;
+    flex-direction: row-reverse;
 }
