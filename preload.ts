@@ -7,7 +7,7 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   fetchChats: ( query: string ) => ipcRenderer.invoke( 'fetch-chats', query ),
   deleteChat: ( id: number ) => ipcRenderer.send( 'delete-chat', id ),
   addChat: ( chatName: string, aiType: string ) => ipcRenderer.invoke( 'add-chat', { chatName, aiType } ),
-  showMessageBox: ( message: string ) => ipcRenderer.send( 'show-messagebox', message ),
+  showMessageBox: ( message: string ) => ipcRenderer.invoke( 'show-messagebox', { message } ),
   updateMessage: ( messageId: number, newText: string ) => ipcRenderer.invoke( 'update-message', { messageId, newText } ),
   sendMessageUpdated: () => ipcRenderer.send( 'message-updated' ),
   onUpdateChatList: ( callback: () => void ) => { ipcRenderer.on( 'update-chat-list', callback ); },

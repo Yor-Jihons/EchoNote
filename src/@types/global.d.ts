@@ -8,7 +8,7 @@ export interface IInterprocessCommunication {
   fetchChats: ( query: string ) => Promise<ChatListItem[]>;
   deleteChat: (id: number) => void;
   addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>;
-  showMessageBox: ( message: string ) => void;
+  showMessageBox: ( message: string ) => Promise<any>; // TODO:
   updateMessage: ( messageId: number, newText: string ) => Promise<{success: boolean, value: MessageListItem, errMessage?: string}>;
   sendMessageUpdated: () => void;
   onUpdateChatList: ( callback: () => void ) => void;

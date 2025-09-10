@@ -45,7 +45,7 @@ const LeftSide = () => {
         const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
         if( !newItem.success ){
             setIsDialogOpen( false );
-            window.interprocessCommunication.showMessageBox( newItem.errMessage! );
+            await window.interprocessCommunication.showMessageBox( newItem.errMessage! );
             return;
         }
 
@@ -56,7 +56,7 @@ const LeftSide = () => {
 
         navigate( "/chats/" + newItem.value.id );
 
-        window.interprocessCommunication.showMessageBox( "登録完了しました。" );
+        await window.interprocessCommunication.showMessageBox( "登録完了しました。" );
     }
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
