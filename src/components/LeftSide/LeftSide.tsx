@@ -45,7 +45,7 @@ const LeftSide = () => {
         const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
         if( !newItem.success ){
             setIsDialogOpen( false );
-            await window.interprocessCommunication.showMessageBox( newItem.errMessage! );
+            await window.interprocessCommunication.showMessageBox( newItem.errMessage!, [] );
             return;
         }
 
@@ -56,7 +56,7 @@ const LeftSide = () => {
 
         navigate( "/chats/" + newItem.value.id );
 
-        await window.interprocessCommunication.showMessageBox( "登録完了しました。" );
+        await window.interprocessCommunication.showMessageBox( "登録完了しました。", [] );
     }
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
@@ -76,7 +76,7 @@ const LeftSide = () => {
         setChatItems( tmp );
         navigate( "/" );
 
-        window.interprocessCommunication.showMessageBox( "削除しました。" );
+        window.interprocessCommunication.showMessageBox( "削除しました。", [] );
     }
 
     const chatRenameButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
