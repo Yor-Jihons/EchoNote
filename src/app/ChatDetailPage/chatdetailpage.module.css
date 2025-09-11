@@ -1,0 +1,25 @@
+.chat_detail_page_flexbox{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat_detail_page_flexbox_flexbox{
+    flex-shrink: 0;
+}
+
+.message_area{
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.markdown_input{
+    width: 100%;
+    height: 100px;
+}
+
+.input_area{
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}

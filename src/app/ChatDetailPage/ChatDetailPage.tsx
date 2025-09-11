@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ChatInfo from '../../types/ChatInfo';
 import styles from "./chatdetailpage.module.css";
 import ChatListItem from '../../types/ChatListItem';
@@ -10,6 +10,7 @@ import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMess
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
   const [chatInfo, setChatInfo] = useState<ChatInfo>();
+  const markdownInputRef = useRef<HTMLTextAreaElement>( null );
 
   const fetchChatInfo = async ( id: number ) => {
     const data = await window.interprocessCommunication.fetchChatInfo( id );
@@ -21,6 +22,10 @@ function ChatDetailPage() {
     const retSummary: SummaryListItem = ret.summary;
     setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
   };
+
+  const additionButton_click = () => {
+    console.log( markdownInputRef.current?.value );
+  }
 
   useEffect(() => {
     const numericChatId = Number(chatId);
@@ -70,6 +75,13 @@ function ChatDetailPage() {
         {chatInfo.messages.map( (message, idx) => {
           return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} message={message} key={idx} />
         })}
+      </div>
+      <div className={styles.input_area}>
+        <textarea className={styles.markdown_input} ref={markdownInputRef}></textarea>
+        <p>
+          <button onClick={additionButton_click}>追加</button>
+          {/* <button>追加</button> */}
+        </p>
       </div>
 
     </div>
