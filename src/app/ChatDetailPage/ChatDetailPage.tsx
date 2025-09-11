@@ -32,6 +32,10 @@ function ChatDetailPage() {
     if( !isNaN( numericChatId ) ){
       fetchChatInfo( numericChatId );
     }
+
+    if( markdownInputRef.current ){
+      markdownInputRef.current.value = "";
+    }
   }, [ chatId ] );
 
   /*
