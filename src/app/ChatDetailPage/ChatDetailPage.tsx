@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ChatInfo from '../../types/ChatInfo';
 import styles from "./chatdetailpage.module.css";
 import ChatListItem from '../../types/ChatListItem';
@@ -9,7 +9,9 @@ import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMess
 
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
+  const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
   const [chatInfo, setChatInfo] = useState<ChatInfo>();
+  const markdownInputRef = useRef<HTMLTextAreaElement>( null );
 
   const fetchChatInfo = async ( id: number ) => {
     const data = await window.interprocessCommunication.fetchChatInfo( id );
@@ -17,17 +19,33 @@ function ChatDetailPage() {
     const ret = data.value as ChatInfo;
 
     const retChat: ChatListItem = ret.chat;
-    const retMessages: MessageListItem[] = ret.messages;
+    const retMessages: MessageListItem[] = ret.messages.sort( (a, b) => { return a.order_in_chat > b.order_in_chat ? 1 : -1; });
     const retSummary: SummaryListItem = ret.summary;
     setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
   };
+
+  const additionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    if( markdownInputRef.current?.value === "" ){
+      window.interprocessCommunication.showMessageBox( "メッセージを入力してください。", [] );
+      return;
+    }
+    console.log( "type = " + event.currentTarget.dataset.id );
+  }
 
   useEffect(() => {
     const numericChatId = Number(chatId);
     if( !isNaN( numericChatId ) ){
       fetchChatInfo( numericChatId );
     }
+
+    if( markdownInputRef.current ){
+      markdownInputRef.current.value = "";
+    }
   }, [ chatId ] );
+
+  useEffect(() => {
+    setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
+  }, [ chatInfo ] );
 
   /*
     The data which I need:
@@ -70,6 +88,15 @@ function ChatDetailPage() {
         {chatInfo.messages.map( (message, idx) => {
           return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} message={message} key={idx} />
         })}
+      </div>
+      <div className={styles.input_area}>
+        <textarea className={styles.markdown_input} ref={markdownInputRef}></textarea>
+        <p>
+          <button onClick={additionButton_click} data-id="AUTO">送信</button>
+          {showContinueAsMeButton && (
+            <button onClick={additionButton_click} data-id="ME">私からのメッセージを続ける</button>
+          )}
+        </p>
       </div>
 
     </div>

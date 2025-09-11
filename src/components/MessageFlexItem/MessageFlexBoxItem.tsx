@@ -12,7 +12,7 @@ interface Props {
 }
 
 const MessageFlexBoxItem = ( { index, senderId, message, editButton_click, editLabel, updatedAtLabel }: Props ) => {
-    const senderText = senderId == 0 ? "Me" : "AI";
+    const senderText = senderId == 1 ? "Me" : "AI";
     const style: React.CSSProperties = senderId == 0 ? { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }
         : { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }; // TODO: Modify.
 
