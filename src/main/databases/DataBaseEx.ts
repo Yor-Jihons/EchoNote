@@ -44,12 +44,12 @@ export default class DataBaseEx{
             INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(3, 3, 'summary 3');
             INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(4, 4, 'summary 4');
 
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(1, 1, 1, 0, 'text 1.1');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(2, 1, 2, 1, 'text 1.2');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(3, 2, 1, 0, 'text 2.1');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(4, 2, 2, 1, 'text 2.2');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(5, 3, 1, 0, 'text 3.1');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(6, 4, 1, 0, 'text 4.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(1, 1, 1, 1, 'text 1.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(2, 1, 2, 2, 'text 1.2');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(3, 2, 1, 1, 'text 2.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(4, 2, 2, 2, 'text 2.2');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(5, 3, 1, 1, 'text 3.1');
+            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(6, 4, 1, 1, 'text 4.1');
         `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
