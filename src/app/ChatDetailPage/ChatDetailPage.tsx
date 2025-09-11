@@ -17,7 +17,7 @@ function ChatDetailPage() {
     const ret = data.value as ChatInfo;
 
     const retChat: ChatListItem = ret.chat;
-    const retMessages: MessageListItem[] = ret.messages;
+    const retMessages: MessageListItem[] = ret.messages.sort( (a, b) => { return a.order_in_chat > b.order_in_chat ? 1 : -1; });
     const retSummary: SummaryListItem = ret.summary;
     setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
   };
