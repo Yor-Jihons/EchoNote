@@ -41,7 +41,6 @@ function ChatDetailPage() {
   }, [ chatId ] );
 
   useEffect(() => {
-    console.log( "HIT!" );
     setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
   }, [ chatInfo ] );
 
