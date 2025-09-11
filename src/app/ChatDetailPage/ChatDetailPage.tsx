@@ -9,6 +9,7 @@ import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMess
 
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
+  const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
   const [chatInfo, setChatInfo] = useState<ChatInfo>();
   const markdownInputRef = useRef<HTMLTextAreaElement>( null );
 
@@ -23,8 +24,9 @@ function ChatDetailPage() {
     setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
   };
 
-  const additionButton_click = () => {
-    console.log( markdownInputRef.current?.value );
+  const additionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    console.log( markdownInputRef.current?.dataset.id || "?" );
+    console.log( "type = " + event.currentTarget.dataset.id );
   }
 
   useEffect(() => {
@@ -37,6 +39,11 @@ function ChatDetailPage() {
       markdownInputRef.current.value = "";
     }
   }, [ chatId ] );
+
+  useEffect(() => {
+    console.log( "HIT!" );
+    setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
+  }, [ chatInfo ] );
 
   /*
     The data which I need:
@@ -83,8 +90,10 @@ function ChatDetailPage() {
       <div className={styles.input_area}>
         <textarea className={styles.markdown_input} ref={markdownInputRef}></textarea>
         <p>
-          <button onClick={additionButton_click}>追加</button>
-          {/* <button>追加</button> */}
+          <button onClick={additionButton_click} data-id="AUTO">送信</button>
+          {showContinueAsMeButton && (
+            <button onClick={additionButton_click} data-id="ME">私からのメッセージを続ける</button>
+          )}
         </p>
       </div>
 
