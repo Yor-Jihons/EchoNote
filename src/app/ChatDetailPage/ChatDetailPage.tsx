@@ -25,7 +25,10 @@ function ChatDetailPage() {
   };
 
   const additionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-    console.log( markdownInputRef.current?.dataset.id || "?" );
+    if( markdownInputRef.current?.value === "" ){
+      window.interprocessCommunication.showMessageBox( "メッセージを入力してください。", [] );
+      return;
+    }
     console.log( "type = " + event.currentTarget.dataset.id );
   }
 
