@@ -115,16 +115,6 @@ function ChatDetailPage() {
       => { chat, messages, summary }
   */
 
-/*
-  const runSample = async ( messageId: number, newText: string ) => {
-    // Update the message on the data-base.
-    await window.interprocessCommunication.updateMessage( messageId, newText );
-    // Send the IPC-message to the main-process. 
-    window.interprocessCommunication.sendMessageUpdated();
-  }
-*/
-  //runSample( 30, "Hello?" ); // TODO: Modify here.
-
   const editButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) =>{
     console.log( event.currentTarget.dataset.id );
   }

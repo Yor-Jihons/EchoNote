@@ -38,7 +38,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                         <h3 className={styles.dialog_header}>チャットの追加</h3>
                         <p>
                             <label htmlFor="chat_name">チャット名 (必須):</label>
-                            <input id="chat_name" type="text" className={styles.textbox}
+                            <input id="chat_name" type="text" className={styles.textbox} minLength={4}
                                 value={chatName} onChange={ (e) => setChatName( e.target.value ) } required />
                         </p>
                         <p>
@@ -46,7 +46,6 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                             <input id="ai_type" type="text" className={styles.textbox}
                                 value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
                         </p>
-                        <p>※ チャット名は後からでも変更できます。</p>
                     </div>
                     <div className={styles.button_area}>
                         <button type="submit" className={styles.submit_button}>追加</button>
