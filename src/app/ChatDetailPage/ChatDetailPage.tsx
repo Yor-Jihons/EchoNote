@@ -52,6 +52,8 @@ function ChatDetailPage() {
     const sortedMessages: MessageListItem[] = tmpMessageList.sort( (a, b) => a.order_in_chat - b.order_in_chat );
 
     setChatInfo( {id: chatInfo?.id, chat: chatInfo?.chat, messages: sortedMessages, summary: chatInfo?.summary } );
+
+    window.interprocessCommunication.sendMessageUpdated();
   }
 
   const additionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {

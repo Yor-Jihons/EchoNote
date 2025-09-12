@@ -20,7 +20,6 @@ const LeftSide = () => {
 
     useEffect(() => {
         const handleUpdate = () => {
-            console.log('左パネル: 更新命令を受け取りました！');
             fetchChats(query);
         };
 
