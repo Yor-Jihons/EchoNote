@@ -7,6 +7,9 @@ import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 
+import Drawer from 'react-modern-drawer';
+import 'react-modern-drawer/dist/index.css';
+
 const defaultMessage: MessageListItem = {
   id: 0,
   chat_id: 0,
@@ -22,6 +25,7 @@ function ChatDetailPage() {
   const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
   const [chatInfo, setChatInfo] = useState<ChatInfo | null>( null );
   const markdownInputRef = useRef<HTMLTextAreaElement>( null );
+  const [isSummaryDrawerOpen, setIsSummaryDrawerOpen] = useState<boolean>( false );
 
   const fetchChatInfo = async ( id: number ) => {
     const data = await window.interprocessCommunication.fetchChatInfo( id );
@@ -119,6 +123,10 @@ function ChatDetailPage() {
     console.log( event.currentTarget.dataset.id );
   }
 
+  const toggleDrawer = () => {
+    setIsSummaryDrawerOpen( (prevState) => !prevState );
+  }
+
   if ( !chatInfo ) {
     return <div>チャットが見つかりません。</div>;
   }
@@ -131,6 +139,11 @@ function ChatDetailPage() {
         <p>AI: {chatInfo.chat.ai_type || "---"}</p>
         <p>作成日時: {chatInfo.chat.created_at}</p>
       </header>
+
+      <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
+      <Drawer open={isSummaryDrawerOpen} onClose={toggleDrawer} direction="right">
+        <p>まとめ</p>
+      </Drawer>
 
       <div className={styles.message_area}>
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
