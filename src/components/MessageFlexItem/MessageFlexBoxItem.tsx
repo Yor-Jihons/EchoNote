@@ -17,7 +17,7 @@ const MessageFlexBoxItem = ( { index, senderId, message, editButton_click, editL
     const style: React.CSSProperties = senderId == 0 ? { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }
         : { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }; // TODO: Modify.
 
-    console.log( "" + editButton_click + ", " + editLabel );
+    console.log( "" + editButton_click + ", " + editLabel + ", " + index ); // TODO Modify this dummy process.
 
     return (
         <React.Fragment>
