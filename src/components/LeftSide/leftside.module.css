@@ -21,14 +21,6 @@ input.search_textbox{
     display: none;
 }
 
-.rename_button{
-    display: none;
-}
-
 li.chat_list_item:hover .delete_button {
-    display: inline-block;
-}
-
-li.chat_list_item:hover .rename_button {
     display: inline-block;
 }
