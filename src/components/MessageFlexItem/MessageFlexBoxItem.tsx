@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./messageflexboxitem.module.css";
 import MessageListItem from "../../types/MessageListItem";
+import DOMPurify from 'dompurify';
 
 interface Props {
     index: number;
@@ -16,17 +17,17 @@ const MessageFlexBoxItem = ( { index, senderId, message, editButton_click, editL
     const style: React.CSSProperties = senderId == 0 ? { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }
         : { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }; // TODO: Modify.
 
+    console.log( "" + editButton_click + ", " + editLabel );
+
     return (
         <React.Fragment>
             <div className={styles.auto_message}>
                 <div className={styles.message_header_area}>
                     <h3 className={styles.message_header}>{senderText}</h3>
                 </div>
-                <div className={styles.message_body} style={style}>
-                    {message.message_txt}
-                </div>
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( message.message_txt ) }} className={styles.message_body} style={style} />
                 <div className={styles.message_button_area}>
-                    <button data-id={index} onClick={editButton_click}>{editLabel}</button>
+                    {/* <button data-id={index} onClick={editButton_click}>{editLabel}</button> */}
                     <p className={styles.updated_at_p}>{updatedAtLabel}: {message.updated_at}</p>
                 </div>
             </div>
