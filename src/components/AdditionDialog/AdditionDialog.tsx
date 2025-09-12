@@ -46,7 +46,6 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                             <input id="ai_type" type="text" className={styles.textbox}
                                 value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
                         </p>
-                        <p>※ チャット名は後からでも変更できます。</p>
                     </div>
                     <div className={styles.button_area}>
                         <button type="submit" className={styles.submit_button}>追加</button>
