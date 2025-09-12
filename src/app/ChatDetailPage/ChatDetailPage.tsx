@@ -7,10 +7,20 @@ import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 
+const defaultMessage: MessageListItem = {
+  id: 0,
+  chat_id: 0,
+  order_in_chat: 0,
+  sender_id: 1,
+  message_txt: "",
+  created_at: "",
+  updated_at: ""
+};
+
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
   const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
-  const [chatInfo, setChatInfo] = useState<ChatInfo>();
+  const [chatInfo, setChatInfo] = useState<ChatInfo | null>( null );
   const markdownInputRef = useRef<HTMLTextAreaElement>( null );
 
   const fetchChatInfo = async ( id: number ) => {
@@ -19,17 +29,60 @@ function ChatDetailPage() {
     const ret = data.value as ChatInfo;
 
     const retChat: ChatListItem = ret.chat;
-    const retMessages: MessageListItem[] = ret.messages.sort( (a, b) => { return a.order_in_chat > b.order_in_chat ? 1 : -1; });
+    const retMessages: MessageListItem[] = ret.messages.sort( (a, b) => a.order_in_chat - b.order_in_chat ) || [];
     const retSummary: SummaryListItem = ret.summary;
     setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
   };
 
+  const addMessage = async ( chatId: number, orderInChat: number, senderId: number, messageText: string ) => {
+    if( !chatInfo ) return;
+
+    const ret = await window.interprocessCommunication.addMessage( chatId, orderInChat, senderId, messageText );
+    if( !ret.success ){
+      window.interprocessCommunication.showMessageBox( "登録できませんでした。", [] );
+      return;
+    }
+
+    const tmpMessageList: MessageListItem[]|undefined = chatInfo?.messages;
+
+    if( tmpMessageList === undefined ) return;
+
+    tmpMessageList.push( ret.value );
+
+    const sortedMessages: MessageListItem[] = tmpMessageList.sort( (a, b) => a.order_in_chat - b.order_in_chat );
+
+    setChatInfo( {id: chatInfo?.id, chat: chatInfo?.chat, messages: sortedMessages, summary: chatInfo?.summary } );
+  }
+
   const additionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    if( !chatInfo ) return;
+    if( !markdownInputRef.current ) return;
+
     if( markdownInputRef.current?.value === "" ){
       window.interprocessCommunication.showMessageBox( "メッセージを入力してください。", [] );
       return;
     }
-    console.log( "type = " + event.currentTarget.dataset.id );
+
+    const messageType: string = event.currentTarget.dataset.id!;
+
+    let senderId: number = 0;
+    const latestMessage = chatInfo.messages[ chatInfo.messages.length - 1 ] || defaultMessage;
+
+    const me = 1;
+    const ai = 2;
+
+    if( messageType === "ME" ){
+      senderId = me;
+    }else if( latestMessage.sender_id === me ){
+      senderId = ai;
+    }else{
+      senderId = me;
+    }
+
+    const text = markdownInputRef.current.value;
+    markdownInputRef.current.value = "";
+
+    addMessage( latestMessage.chat_id, latestMessage.order_in_chat + 1, senderId, text );
   }
 
   useEffect(() => {
@@ -44,6 +97,9 @@ function ChatDetailPage() {
   }, [ chatId ] );
 
   useEffect(() => {
+    if( chatInfo?.messages.length === 0 ){
+      return;
+    }
     setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
   }, [ chatInfo ] );
 
@@ -85,7 +141,7 @@ function ChatDetailPage() {
       </header>
 
       <div className={styles.message_area}>
-        {chatInfo.messages.map( (message, idx) => {
+        {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
           return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} message={message} key={idx} />
         })}
       </div>

@@ -21,7 +21,7 @@ const LeftSide = () => {
     useEffect(() => {
         const handleUpdate = () => {
             console.log('左パネル: 更新命令を受け取りました！');
-            fetchChats(query); // 最新のデータを再取得してステートを更新
+            fetchChats(query);
         };
 
         // Adds the event listener.
@@ -82,24 +82,18 @@ const LeftSide = () => {
         window.interprocessCommunication.showMessageBox( "削除しました。", [] );
     }
 
-    const chatRenameButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
-        // TODO: Implement here.
-        console.log( event.currentTarget.value );
-    }
-
     return (
         <React.Fragment>
             <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
 
             <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
-            <input type="text" onInput={searchtextbox_input} placeholder='検索時はここにキーワードを入力してください。'  minLength={2} maxLength={200} className={styles.search_textbox} />
+            <input type="text" onInput={searchtextbox_input} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
             <ul>
                 {chatItems.map( (chatItem, idx) => {
                     return <li className={styles.chat_list_item} key={idx}>
                         <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
                             {chatItem.chat_name}
                         </Link>
-                        <button className={styles.rename_button} data-id={chatItem.id} onClick={chatRenameButton_click} title="チャット名の編集">編集</button>
                         <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
                     </li>;
                 })}
