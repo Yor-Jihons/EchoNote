@@ -7,6 +7,16 @@ import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 
+const defaultMessage: MessageListItem = {
+  id: 0,
+  chat_id: 0,
+  order_in_chat: 0,
+  sender_id: 1,
+  message_txt: "",
+  created_at: "",
+  updated_at: ""
+};
+
 function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
   const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
@@ -56,7 +66,7 @@ function ChatDetailPage() {
     const messageType: string = event.currentTarget.dataset.id!;
 
     let senderId: number = 0;
-    const latestMessage = chatInfo.messages[ chatInfo.messages.length - 1 ];
+    const latestMessage = chatInfo.messages[ chatInfo.messages.length - 1 ] || defaultMessage;
 
     const me = 1;
     const ai = 2;
@@ -87,6 +97,9 @@ function ChatDetailPage() {
   }, [ chatId ] );
 
   useEffect(() => {
+    if( chatInfo?.messages.length === 0 ){
+      return;
+    }
     setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
   }, [ chatInfo ] );
 
