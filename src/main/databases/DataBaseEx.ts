@@ -33,24 +33,6 @@ export default class DataBaseEx{
     }
 
     public createTables() : BetterSqlite3.Database{
-        const dummyDataInsertion = `
-            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(1, '', 'The sample chat 1');
-            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(2, '', 'The sample chat 2');
-            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(3, '', 'The sample chat 3');
-            INSERT OR IGNORE INTO chats(id, ai_type, chat_name) VALUES(4, '', 'The sample chat 4');
-
-            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(1, 1, 'summary 1');
-            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(2, 2, 'summary 2');
-            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(3, 3, 'summary 3');
-            INSERT OR IGNORE INTO summaries(id, chat_id, summary_txt) VALUES(4, 4, 'summary 4');
-
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(1, 1, 1, 1, 'text 1.1');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(2, 1, 2, 2, 'text 1.2');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(3, 2, 1, 1, 'text 2.1');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(4, 2, 2, 2, 'text 2.2');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(5, 3, 1, 1, 'text 3.1');
-            INSERT OR IGNORE INTO messages(id, chat_id, order_in_chat, sender_id, message_txt) VALUES(6, 4, 1, 1, 'text 4.1');
-        `;
         return this.#db!.exec( `
             CREATE TABLE IF NOT EXISTS senders (
                 id INTEGER PRIMARY KEY,
@@ -104,7 +86,6 @@ export default class DataBaseEx{
 
             INSERT OR IGNORE INTO senders VALUES(1, 'Me');
             INSERT OR IGNORE INTO senders VALUES(2, 'AI');
-            ${dummyDataInsertion}
         `);
     }
 
