@@ -118,6 +118,14 @@ app.whenReady().then(() => {
     return ret;
   });
 
+  ipcMain.handle('add-message', (event, { chatId, orderInChat, senderId, messageText } ) => {
+    const ret = db.addMessage( chatId, orderInChat, senderId, messageText );
+    if( !ret.success ){
+      dialog.showErrorBox( "Error", ret.errMessage! );
+    }
+    return ret;
+  });
+
   ipcMain.on('delete-chat', (event, id) => {
     db.deleteChat( id );
   });

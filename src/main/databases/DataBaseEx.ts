@@ -152,6 +152,20 @@ export default class DataBaseEx{
         }
     }
 
+    public addMessage( chatId: number, orderInChat: number, senderId: number, messageText: string ){
+        const sql: string = `
+            INSERT INTO messages(chat_id, order_in_chat, sender_id, message_txt) VALUES(?, ?, ?, ?)
+                RETURNING id, chat_id, order_in_chat, sender_id, message_txt, created_at, updated_at
+        `;
+        const stmt = this.#db!.prepare( sql );
+        try{
+            const insertedRow = stmt.get( chatId, orderInChat, senderId, messageText ) as MessageListItem;
+            return { success: true, value: insertedRow };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
+    }
+
     public deleteChat( chatId: number ){
         const begin = this.#db!.prepare('BEGIN');
         const commit = this.#db!.prepare('COMMIT');
