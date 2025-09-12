@@ -21,7 +21,7 @@ const LeftSide = () => {
     useEffect(() => {
         const handleUpdate = () => {
             console.log('左パネル: 更新命令を受け取りました！');
-            fetchChats(query); // 最新のデータを再取得してステートを更新
+            fetchChats(query);
         };
 
         // Adds the event listener.
