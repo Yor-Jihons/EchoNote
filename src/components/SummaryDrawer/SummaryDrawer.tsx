@@ -9,6 +9,14 @@ interface Props {
     onClose: () => void;
 }
 
+/*
+    The data which I need:
+      * summary
+        * id
+        * summary_txt
+        * created_at
+        * updated_at
+*/
 
 const SummaryDrawer = ( { isSummaryDrawerOpen, summary, onClose }: Props ) => {
     return (

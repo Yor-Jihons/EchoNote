@@ -109,16 +109,6 @@ function ChatDetailPage() {
     setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
   }, [ chatInfo ] );
 
-  /*
-    The data which I need:
-      * summary
-        * id
-        * summary_txt
-        * created_at
-        * updated_at
-      => { chat, messages, summary }
-  */
-
   const editButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) =>{
     console.log( event.currentTarget.dataset.id );
   }
