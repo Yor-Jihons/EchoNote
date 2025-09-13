@@ -6,9 +6,7 @@ import ChatListItem from '../../types/ChatListItem';
 import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
-
-import Drawer from 'react-modern-drawer';
-import 'react-modern-drawer/dist/index.css';
+import SummaryDrawer from '../../components/SummaryDrawer/SummaryDrawer';
 
 const defaultMessage: MessageListItem = {
   id: 0,
@@ -143,9 +141,7 @@ function ChatDetailPage() {
       </header>
 
       <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
-      <Drawer open={isSummaryDrawerOpen} onClose={toggleDrawer} direction="right">
-        <p>{summary?.summary_txt}</p>
-      </Drawer>
+      <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onClose={toggleDrawer} />
 
       <div className={styles.message_area}>
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
