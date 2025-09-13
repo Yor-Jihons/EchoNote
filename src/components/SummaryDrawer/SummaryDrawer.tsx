@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
 import SummaryListItem from "../../types/SummaryListItem";
@@ -25,6 +25,16 @@ const SummaryDrawer = ( { isSummaryDrawerOpen, summary, onInput, onClose }: Prop
     const [isEditMode, setIsEditMode] = useState<boolean>( false );
     const [summaryText, setSummaryText] = useState<string>( summary.summary_txt );
 
+    useEffect( () => {
+        if( isSummaryDrawerOpen ){
+            setIsEditMode(false);
+        }
+    }, [ isSummaryDrawerOpen ] );
+
+    useEffect( () => {
+        setSummaryText( summary.summary_txt );
+    }, [ summary ] );
+
     const editButton_click = () => {
         setIsEditMode( !isEditMode );
     }
@@ -37,11 +47,11 @@ const SummaryDrawer = ( { isSummaryDrawerOpen, summary, onInput, onClose }: Prop
 
     return (
         <React.Fragment>
-            <Drawer open={isSummaryDrawerOpen} onClose={onClose} direction="bottom" className={styles.drawer}>
-                <button className={styles.edit_button} onClick={editButton_click}>編集モードへ</button>
-                {!isEditMode ? <div><textarea className={styles.text_input} defaultValue={summaryText} onInput={textarea_input}></textarea></div>
-                    : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( summaryText ) }} />}
-                <button>OK</button>
+            <Drawer open={isSummaryDrawerOpen} onClose={onClose} direction="bottom" className={styles.drawer_content_custom}>
+                {isEditMode ? <button className={styles.edit_button} onClick={editButton_click}>編集モードへ</button>
+                    : ""}
+                {isEditMode ? <div><textarea className={styles.summary_input} defaultValue={summaryText} onInput={textarea_input}></textarea></div>
+                    : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( summaryText ) }} className={styles.summary_output} />}
             </Drawer>
         </React.Fragment>
     );
