@@ -1,0 +1,14 @@
+.drawer{
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit_button{
+    margin: 10px;
+}
+
+.text_input{
+    width: 100%;
+    height: 80vh;
+}
