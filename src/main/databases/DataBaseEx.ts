@@ -120,14 +120,24 @@ export default class DataBaseEx{
     }
 
     public addChat( chatName: string, aiType: string ){
-        const sql: string = `
-            INSERT INTO chats(ai_type, chat_name) VALUES(?, ?)
-                RETURNING id, ai_type, chat_name, created_at, updated_at
-        `;
-        const stmt = this.#db!.prepare( sql );
+        const transaction = this.#db!.transaction( () => {
+            const chatsSql: string = `
+                INSERT INTO chats(ai_type, chat_name) VALUES(?, ?)
+                    RETURNING id, ai_type, chat_name, created_at, updated_at
+            `;
+            const chatsStmt = this.#db!.prepare( chatsSql );
+            const v1 = chatsStmt.get( aiType, chatName ) as ChatListItem;
+            const summarySql: string = `
+                INSERT INTO chats(chat_id, sumamry_txt) VALUES(?, ?)
+                    RETURNING id, chat_id, summary_txt, created_at, updated_at
+            `;
+            const summaryStmt = this.#db!.prepare( summarySql );
+            const v2 = summaryStmt.get( v1.id, "" ) as ChatListItem;
+            return { chat: v1, summary: v2 };
+        });
         try{
-            const insertedRow = stmt.get( aiType, chatName ) as ChatListItem;
-            return { success: true, value: insertedRow };
+            const value = transaction();
+            return { success: true, value: value };
         }catch( error: unknown ){
             return { success: false, value: null, errMessage: (error as Error).message };
         }

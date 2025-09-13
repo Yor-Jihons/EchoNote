@@ -1,5 +1,6 @@
 import ChatListItem from "../types/ChatListItem";
 import MessageListItem from "../types/MessageListItem";
+import SummaryListItem from "../types/SummaryListItem";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IInterprocessCommunication {
@@ -7,7 +8,7 @@ export interface IInterprocessCommunication {
   getSystemLocale: () => Promise<string>;
   fetchChats: ( query: string ) => Promise<ChatListItem[]>;
   deleteChat: (id: number) => void;
-  addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: ChatListItem, errMessage?: string}>;
+  addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: { chat: ChatListItem, summary: SummaryListItem }, errMessage?: string}>;
   addMessage: ( chatId: number, orderInChat: number, senderId:number, messageText: string ) => Promise<{success: boolean, value: MessageListItem, errMessage?: string}>;
   showMessageBox: ( message: string, buttons: string[] ) => Promise<number>; // Returns index of the button which the user selected.
   updateMessage: ( messageId: number, newText: string ) => Promise<{success: boolean, value: MessageListItem, errMessage?: string}>;
