@@ -24,6 +24,7 @@ function ChatDetailPage() {
   const { chatId } = useParams<{ chatId: string }>();
   const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
   const [chatInfo, setChatInfo] = useState<ChatInfo | null>( null );
+  const [summary, setSummary] = useState<SummaryListItem | null>( null );
   const markdownInputRef = useRef<HTMLTextAreaElement>( null );
   const [isSummaryDrawerOpen, setIsSummaryDrawerOpen] = useState<boolean>( false );
 
@@ -35,7 +36,8 @@ function ChatDetailPage() {
     const retChat: ChatListItem = ret.chat;
     const retMessages: MessageListItem[] = ret.messages.sort( (a, b) => a.order_in_chat - b.order_in_chat ) || [];
     const retSummary: SummaryListItem = ret.summary;
-    setChatInfo( { id: ret.id, chat: retChat, messages: retMessages, summary: retSummary } as ChatInfo );
+    setChatInfo( { id: ret.id, chat: retChat, messages: retMessages } as ChatInfo );
+    setSummary( retSummary );
   };
 
   const addMessage = async ( chatId: number, orderInChat: number, senderId: number, messageText: string ) => {
@@ -142,7 +144,7 @@ function ChatDetailPage() {
 
       <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
       <Drawer open={isSummaryDrawerOpen} onClose={toggleDrawer} direction="right">
-        <p>まとめ</p>
+        <p>{summary?.summary_txt}</p>
       </Drawer>
 
       <div className={styles.message_area}>

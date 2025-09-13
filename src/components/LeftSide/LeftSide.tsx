@@ -48,12 +48,12 @@ const LeftSide = () => {
             return;
         }
 
-        const v: ChatListItem = newItem.value;
+        const v: ChatListItem = newItem.value.chat;
         if( v.chat_name.indexOf( query ) !== -1 ) setChatItems( [ v, ...chatItems ] );
 
         setIsDialogOpen( false );
 
-        navigate( "/chats/" + newItem.value.id );
+        navigate( "/chats/" + newItem.value.chat.id );
 
         await window.interprocessCommunication.showMessageBox( "登録完了しました。", [] );
     }
