@@ -128,7 +128,7 @@ export default class DataBaseEx{
             const chatsStmt = this.#db!.prepare( chatsSql );
             const v1 = chatsStmt.get( aiType, chatName ) as ChatListItem;
             const summarySql: string = `
-                INSERT INTO chats(chat_id, sumamry_txt) VALUES(?, ?)
+                INSERT INTO summaries(chat_id, summary_txt) VALUES(?, ?)
                     RETURNING id, chat_id, summary_txt, created_at, updated_at
             `;
             const summaryStmt = this.#db!.prepare( summarySql );
