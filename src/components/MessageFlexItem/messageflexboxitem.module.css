@@ -43,6 +43,7 @@
     border-width: 1px;
     border-style: solid;
     border-radius: 10px;
+    white-space: pre-wrap;
 }
 
 .message_header_area{

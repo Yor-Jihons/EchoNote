@@ -1,0 +1,27 @@
+.drawer{
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer_content_custom {
+    height: 60vh !important;
+}
+
+.edit_button{
+    margin: 10px;
+}
+
+.summary_input{
+    width: 98%;
+    height: 45vh;
+    margin: 5px;
+}
+
+.summary_output{
+    width: 98%;
+    height: 45vh;
+    margin: 5px;
+    overflow: auto;
+    white-space: pre-wrap;
+}

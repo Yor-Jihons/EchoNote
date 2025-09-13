@@ -121,6 +121,18 @@ function ChatDetailPage() {
     return <div>チャットが見つかりません。</div>;
   }
 
+  const summaryText_input = ( newText: string ) => {
+    const createNewSummary = ( prev: SummaryListItem ) => {
+      return {
+        ...prev, summary_txt: newText
+      } as SummaryListItem;
+    }
+
+    // TODO: updateメッセージを送る
+
+    setSummary( (prevSummary) => createNewSummary( prevSummary! ) );
+  }
+
   return (
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
@@ -131,7 +143,7 @@ function ChatDetailPage() {
       </header>
 
       <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
-      <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onClose={toggleDrawer} />
+      <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onInput={summaryText_input} onClose={toggleDrawer} />
 
       <div className={styles.message_area}>
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
