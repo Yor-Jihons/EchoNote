@@ -21,7 +21,7 @@ interface Props {
 const SummaryDrawer = ( { isSummaryDrawerOpen, summary, onClose }: Props ) => {
     return (
         <React.Fragment>
-            <Drawer open={isSummaryDrawerOpen} onClose={onClose} direction="right">
+            <Drawer open={isSummaryDrawerOpen} onClose={onClose} direction="bottom">
                 <p>{summary?.summary_txt}</p>
             </Drawer>
         </React.Fragment>
