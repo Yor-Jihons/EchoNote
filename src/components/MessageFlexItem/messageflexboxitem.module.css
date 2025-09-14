@@ -46,6 +46,11 @@
     white-space: pre-wrap;
 }
 
+.message_body_input{
+    width: 99%;
+    height: 170px;
+}
+
 .message_header_area{
     display: flex;
     flex-direction: row;
