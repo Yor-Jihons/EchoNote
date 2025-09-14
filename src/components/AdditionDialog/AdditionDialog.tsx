@@ -1,23 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./additiondialog.module.css";
+import aiAssistants from "../../utils/AIAssistants";
 
 interface Props {
     isOpen: boolean;
     onSubmit: ( chatName: string, aiType: string, description: string ) => void;
     onClose: () => void;
 }
-
-const aiAssistants: string[] = [
-    "Gemini",
-    "Copilot",
-    "Claude",
-    "ChatGPT",
-    "Perplexity",
-    "Bard",
-    "Llama",
-    "GitHub Copilot",
-    "Character.AI"
-];
 
 const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
     const dialogRef = useRef<HTMLDialogElement>( null );
