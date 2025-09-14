@@ -49,9 +49,11 @@ const SummaryDrawer = ( { isSummaryDrawerOpen, summary, onInput, onClose }: Prop
         <React.Fragment>
             <Drawer open={isSummaryDrawerOpen} onClose={onClose} direction="bottom" className={styles.drawer_content_custom}>
                 {!isEditMode ? <button className={styles.edit_button} onClick={editButton_click}>編集モードへ</button>
-                    : ""}
+                    : <button className={styles.edit_button} onClick={editButton_click}>テキストモードへ</button>}
+                <p></p>
                 {isEditMode ? <div><textarea className={styles.summary_input} defaultValue={summaryText} onInput={textarea_input}></textarea></div>
                     : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( summaryText ) }} className={styles.summary_output} />}
+                <p>最終更新日時: {summary.updated_at}</p>
             </Drawer>
         </React.Fragment>
     );

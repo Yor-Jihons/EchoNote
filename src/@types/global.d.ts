@@ -8,7 +8,7 @@ export interface IInterprocessCommunication {
   getSystemLocale: () => Promise<string>;
   fetchChats: ( query: string ) => Promise<ChatListItem[]>;
   deleteChat: (id: number) => void;
-  addChat: ( chatName: string, aiType: string ) => Promise<{success: boolean, value: { chat: ChatListItem, summary: SummaryListItem }, errMessage?: string}>;
+  addChat: ( chatName: string, aiType: string, description: string ) => Promise<{success: boolean, value: { chat: ChatListItem, summary: SummaryListItem }, errMessage?: string}>;
   addMessage: ( chatId: number, orderInChat: number, senderId:number, messageText: string ) => Promise<{success: boolean, value: MessageListItem, errMessage?: string}>;
   updateSummary: ( summaryId: number, newText: string ) => Promise<{success: boolean, value: SummaryListItem, errMessage?: string}>;
   showMessageBox: ( message: string, buttons: string[] ) => Promise<number>; // Returns index of the button which the user selected.
@@ -17,6 +17,7 @@ export interface IInterprocessCommunication {
   onUpdateChatList: ( callback: () => void ) => void;
   removeUpdateChatListListener: ( callback: () => void ) => void;
   fetchChatInfo: ( chatId: number ) => Promise<{success: boolean, value: any, errMessage?: string}>;
+  writeTextOnClipboard: ( text: string ) => void;
 
   getUsers: () => Promise<any[]>;
   addUser: (name: string, email: string) => Promise<{ success: boolean, changes?: number, error?: string }>;

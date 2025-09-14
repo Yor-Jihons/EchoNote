@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog, clipboard } from 'electron';
 import DataBaseEx from "./src/main/databases/DataBaseEx.js";
 import PathManager from "./src/main/paths/PathManager.js";
 import { showOpenFileDialog2Import, showSaveFileDialog2Export } from "./src/main/dialogs/Dialogs.js";
@@ -110,8 +110,8 @@ app.whenReady().then(() => {
     return db.fetchChats( query );
   });
 
-  ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
-    const ret = db.addChat( chatName, aiType );
+  ipcMain.handle('add-chat', (event, { chatName, aiType, description } ) => {
+    const ret = db.addChat( chatName, aiType, description );
     if( !ret.success ){
       dialog.showErrorBox( "Error", ret.errMessage! );
     }
@@ -128,6 +128,10 @@ app.whenReady().then(() => {
 
   ipcMain.on('delete-chat', (event, id) => {
     db.deleteChat( id );
+  });
+
+  ipcMain.on('write-text-on-clipboard', (event, text) => {
+    clipboard.writeText( text );
   });
 
   ipcMain.handle('show-messagebox', async (event, { message, buttons }) => {

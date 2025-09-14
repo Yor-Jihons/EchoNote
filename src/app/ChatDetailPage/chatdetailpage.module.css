@@ -28,3 +28,18 @@
     flex-direction: column;
     flex-shrink: 0;
 }
+
+.label_place{
+    width: 110px;
+    text-align: right;
+    display: inline-block;
+}
+
+.fieldset1{
+    width: 90%;
+}
+
+.fieldset1 p{
+    margin: 0;
+    padding: 0;
+}

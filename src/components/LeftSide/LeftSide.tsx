@@ -40,8 +40,8 @@ const LeftSide = () => {
         setIsDialogOpen( false );
     };
 
-    const handleDialogSubmit = async ( chatName: string, aiType: string ) => {
-        const newItem = await window.interprocessCommunication.addChat( chatName, aiType );
+    const handleDialogSubmit = async ( chatName: string, aiType: string, description: string ) => {
+        const newItem = await window.interprocessCommunication.addChat( chatName, aiType, description );
         if( !newItem.success ){
             setIsDialogOpen( false );
             await window.interprocessCommunication.showMessageBox( newItem.errMessage!, [] );

@@ -8,11 +8,13 @@ interface Props {
     senderId: number;
     message: MessageListItem;
     editButton_click: ( event: React.MouseEvent<HTMLButtonElement> ) => void;
+    copyButton_click: ( text: string ) => void;
     editLabel: string;
+    copyLabel: string;
     updatedAtLabel: string;
 }
 
-const MessageFlexBoxItem = ( { index, senderId, message, editButton_click, editLabel, updatedAtLabel }: Props ) => {
+const MessageFlexBoxItem = ( { index, senderId, message, editButton_click, editLabel, copyLabel, copyButton_click, updatedAtLabel }: Props ) => {
     const senderText = senderId === 1 ? "Me" : "AI";
     const style: React.CSSProperties = senderId == 0 ? { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }
         : { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }; // TODO: Modify.
@@ -27,7 +29,7 @@ const MessageFlexBoxItem = ( { index, senderId, message, editButton_click, editL
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( message.message_txt ) }} className={styles.message_body} style={style} />
                 <div className={styles.message_button_area}>
-                    {/* <button data-id={index} onClick={editButton_click}>{editLabel}</button> */}
+                    <button data-id={index} onClick={() => copyButton_click( message.message_txt )}>{copyLabel}</button>
                     <p className={styles.updated_at_p}>{updatedAtLabel}: {message.updated_at}</p>
                 </div>
             </div>
