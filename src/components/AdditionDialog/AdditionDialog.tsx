@@ -48,7 +48,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                                 value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
                         </p>
                         <p>
-                            <label htmlFor="ai_type">説明 (任意):</label>
+                            <label htmlFor="ai_type">説明/備考 (任意):</label>
                             <input id="description" type="text" className={styles.textbox}
                                 value={description} onChange={ (e) => setDescription( e.target.value ) } />
                         </p>

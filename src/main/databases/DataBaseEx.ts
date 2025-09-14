@@ -225,7 +225,7 @@ export default class DataBaseEx{
     public fetchChatInfo( chatId: number ){
         try{
             const sql4Chats: string = `
-                SELECT id, chat_name, ai_type, created_at, updated_at
+                SELECT id, chat_name, ai_type, description, created_at, updated_at
                     FROM chats
                     WHERE id = ?
             `;

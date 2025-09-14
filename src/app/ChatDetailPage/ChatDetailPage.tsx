@@ -138,6 +138,7 @@ function ChatDetailPage() {
         <p>ID: {chatInfo.id}</p>
         <p>AI: {chatInfo.chat.ai_type || "---"}</p>
         <p>作成日時: {chatInfo.chat.created_at}</p>
+        <p>説明/備考: {chatInfo.chat.description || "---"}</p>
       </header>
 
       <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
