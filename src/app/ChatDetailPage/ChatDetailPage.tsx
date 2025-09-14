@@ -132,7 +132,6 @@ function ChatDetailPage() {
   }
 
   const messageSubmitButton_click = async ( messageId: number, newText: string ) => {
-    console.log("ID = " + messageId + ", Message = " + newText);
     await window.interprocessCommunication.updateMessage( messageId, newText );
     window.interprocessCommunication.sendMessageUpdated();
   }
