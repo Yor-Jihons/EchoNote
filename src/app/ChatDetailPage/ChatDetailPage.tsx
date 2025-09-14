@@ -137,9 +137,9 @@ function ChatDetailPage() {
         <h2>{chatInfo.chat.chat_name}</h2>
         <fieldset className={styles.fieldset1}>
           <legend>情報</legend>
-          <p><span className={styles.label_place}>タイトル:</span> {chatInfo.chat.chat_name}</p>
+          <p><span className={styles.label_place}>チャット名:</span> {chatInfo.chat.chat_name}</p>
           <p><span className={styles.label_place}>ID:</span> {chatInfo.id}</p>
-          <p><span className={styles.label_place}>AI:</span> {chatInfo.chat.ai_type || "---"}</p>
+          <p><span className={styles.label_place}>AIアシスタント名:</span> {chatInfo.chat.ai_type || "---"}</p>
           <p><span className={styles.label_place}>作成日時:</span> {chatInfo.chat.created_at}</p>
           <p><span className={styles.label_place}>説明/備考:</span> {chatInfo.chat.description || "---"}</p>
         </fieldset>
