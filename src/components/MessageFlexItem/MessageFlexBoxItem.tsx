@@ -15,7 +15,13 @@ interface Props {
 }
 
 const MessageFlexBoxItem = ( { index, senderId, message, editLabel, copyLabel, copyButton_click, updatedAtLabel, submitButton_click }: Props ) => {
-    const senderText = senderId === 1 ? "Me" : "AI";
+    const calcSenderText = ( senderId: number ) => {
+        if( senderId === 1 ) return "Me";
+    return "AI";
+    }
+
+    const senderText = calcSenderText( senderId );
+
     const style: React.CSSProperties = senderId == 1 ? { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }
         : { background: "rgb(245, 235, 118)", borderColor: "rgb(245, 235, 118)" };
 

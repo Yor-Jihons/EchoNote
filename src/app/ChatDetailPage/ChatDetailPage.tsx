@@ -12,7 +12,7 @@ const defaultMessage: MessageListItem = {
   id: 0,
   chat_id: 1,
   order_in_chat: 0,
-  sender_id: 1,
+  sender_id: 0,
   message_txt: "",
   created_at: "",
   updated_at: ""
