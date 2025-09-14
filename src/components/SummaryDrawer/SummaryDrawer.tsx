@@ -12,15 +12,6 @@ interface Props {
     onInput: ( newText: string ) => void;
 }
 
-/*
-    The data which I need:
-      * summary
-        * id
-        * summary_txt
-        * created_at
-        * updated_at
-*/
-
 const SummaryDrawer = ( { isSummaryDrawerOpen, summary, onInput, onClose }: Props ) => {
     const [isEditMode, setIsEditMode] = useState<boolean>( false );
     const [summaryText, setSummaryText] = useState<string>( summary.summary_txt );
