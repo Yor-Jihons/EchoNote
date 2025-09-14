@@ -3,7 +3,7 @@ import styles from "./additiondialog.module.css";
 
 interface Props {
     isOpen: boolean;
-    onSubmit: ( chatName: string, aiType: string ) => void;
+    onSubmit: ( chatName: string, aiType: string, description: string ) => void;
     onClose: () => void;
 }
 
@@ -13,6 +13,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
 
     const [chatName, setChatName] = React.useState( '' );
     const [aiType, setAiType] = React.useState( '' );
+    const [description, setDescription] = React.useState( '' );
 
     useEffect( () => {
         if( dialogRef.current ){
@@ -27,7 +28,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit( chatName, aiType );
+        onSubmit( chatName, aiType, description );
     };
 
     return (
@@ -45,6 +46,11 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                             <label htmlFor="ai_type">AIの種類 (任意):</label>
                             <input id="ai_type" type="text" className={styles.textbox}
                                 value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
+                        </p>
+                        <p>
+                            <label htmlFor="ai_type">説明 (任意):</label>
+                            <input id="description" type="text" className={styles.textbox}
+                                value={description} onChange={ (e) => setDescription( e.target.value ) } />
                         </p>
                     </div>
                     <div className={styles.button_area}>

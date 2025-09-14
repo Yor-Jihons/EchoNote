@@ -110,8 +110,8 @@ app.whenReady().then(() => {
     return db.fetchChats( query );
   });
 
-  ipcMain.handle('add-chat', (event, { chatName, aiType } ) => {
-    const ret = db.addChat( chatName, aiType );
+  ipcMain.handle('add-chat', (event, { chatName, aiType, description } ) => {
+    const ret = db.addChat( chatName, aiType, description );
     if( !ret.success ){
       dialog.showErrorBox( "Error", ret.errMessage! );
     }
