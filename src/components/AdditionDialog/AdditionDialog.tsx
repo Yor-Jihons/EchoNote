@@ -7,6 +7,12 @@ interface Props {
     onClose: () => void;
 }
 
+const aiAssistants: string[] = [
+    "Gemini",
+    "Microsoft Copilot",
+    "Claude",
+    "ChatGPT"
+];
 
 const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
     const dialogRef = useRef<HTMLDialogElement>( null );
@@ -44,8 +50,12 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                         </p>
                         <p>
                             <label htmlFor="ai_type" className={styles.label1}>AIアシスタント名:</label>
-                            <input id="ai_type" type="text" className={styles.textbox1} placeholder="Gemini, Microsoft Copilot, ChatGPT etc."
+                            <input id="ai_type" list="ai-assistants" type="text" className={styles.textbox1} placeholder="Gemini, Microsoft Copilot, ChatGPT etc."
                                 value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
+
+                            <datalist id="ai-assistants">
+                                {aiAssistants.map( (aiAssistant, idx) => <option value={aiAssistant} key={idx}></option>)}
+                            </datalist>
                         </p>
                         <p>
                             <label htmlFor="ai_type" className={styles.label1}>説明/備考:</label>
