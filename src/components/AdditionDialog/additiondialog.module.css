@@ -32,8 +32,7 @@ button.cancel_button{
 }
 
 .label1{
-    background-color: aqua;
     display: inline-block;
     text-align: right;
-    width: 130px;
+    width: 170px;
 }
