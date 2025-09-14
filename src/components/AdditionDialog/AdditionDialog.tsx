@@ -38,18 +38,18 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                     <div className={styles.content_area}>
                         <h3 className={styles.dialog_header}>チャットの追加</h3>
                         <p>
-                            <label htmlFor="chat_name">チャット名 (必須):</label>
-                            <input id="chat_name" type="text" className={styles.textbox} minLength={4}
+                            <label htmlFor="chat_name" className={styles.label1}>チャット名 (必須):</label>
+                            <input id="chat_name" type="text" className={styles.textbox1} minLength={4}
                                 value={chatName} onChange={ (e) => setChatName( e.target.value ) } required />
                         </p>
                         <p>
-                            <label htmlFor="ai_type">AIの種類 (任意):</label>
-                            <input id="ai_type" type="text" className={styles.textbox}
+                            <label htmlFor="ai_type" className={styles.label1}>AIの種類 (任意):</label>
+                            <input id="ai_type" type="text" className={styles.textbox1}
                                 value={aiType} onChange={ (e) => setAiType( e.target.value ) } />
                         </p>
                         <p>
-                            <label htmlFor="ai_type">説明/備考 (任意):</label>
-                            <input id="description" type="text" className={styles.textbox}
+                            <label htmlFor="ai_type" className={styles.label1}>説明/備考 (任意):</label>
+                            <input id="description" type="text" className={styles.textbox1}
                                 value={description} onChange={ (e) => setDescription( e.target.value ) } />
                         </p>
                     </div>
