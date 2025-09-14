@@ -113,6 +113,10 @@ function ChatDetailPage() {
     console.log( event.currentTarget.dataset.id );
   }
 
+  const copyButton_click = ( text: string ) =>{
+    window.interprocessCommunication.writeTextOnClipboard( text );
+  }
+
   const toggleDrawer = () => {
     setIsSummaryDrawerOpen( (prevState) => !prevState );
   }
@@ -150,7 +154,8 @@ function ChatDetailPage() {
 
       <div className={styles.message_area}>
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
-          return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} message={message} key={idx} />
+          return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} copyButton_click={copyButton_click}
+            message={message} key={idx} />
         })}
       </div>
       <div className={styles.input_area}>

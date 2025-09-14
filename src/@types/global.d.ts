@@ -17,6 +17,7 @@ export interface IInterprocessCommunication {
   onUpdateChatList: ( callback: () => void ) => void;
   removeUpdateChatListListener: ( callback: () => void ) => void;
   fetchChatInfo: ( chatId: number ) => Promise<{success: boolean, value: any, errMessage?: string}>;
+  writeTextOnClipboard: ( text: string ) => void;
 
   getUsers: () => Promise<any[]>;
   addUser: (name: string, email: string) => Promise<{ success: boolean, changes?: number, error?: string }>;

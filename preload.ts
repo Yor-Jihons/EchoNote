@@ -15,6 +15,7 @@ contextBridge.exposeInMainWorld('interprocessCommunication', {
   onUpdateChatList: ( callback: () => void ) => { ipcRenderer.on( 'update-chat-list', callback ); },
   removeUpdateChatListListener: ( callback: () => void ) => { ipcRenderer.removeListener('update-chat-list', callback); },
   fetchChatInfo: ( chatId: number ) => ipcRenderer.invoke( 'fetch-chatinfo', chatId ),
+  writeTextOnClipboard: ( text: string ) => ipcRenderer.send( 'write-text-on-clipboard', text ),
 
   // IPC通信用のAPIを追加
   getUsers: () => ipcRenderer.invoke('get-users'),
