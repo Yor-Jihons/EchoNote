@@ -128,7 +128,8 @@ function ChatDetailPage() {
       } as SummaryListItem;
     }
 
-    // TODO: updateメッセージを送る
+    const id = summary?.id;
+    window.interprocessCommunication.updateSummary( id!, newText );
 
     setSummary( (prevSummary) => createNewSummary( prevSummary! ) );
   }
