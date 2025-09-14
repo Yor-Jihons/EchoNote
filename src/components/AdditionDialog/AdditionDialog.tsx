@@ -9,9 +9,14 @@ interface Props {
 
 const aiAssistants: string[] = [
     "Gemini",
-    "Microsoft Copilot",
+    "Copilot",
     "Claude",
-    "ChatGPT"
+    "ChatGPT",
+    "Perplexity",
+    "Bard",
+    "Llama",
+    "GitHub Copilot",
+    "Character.AI"
 ];
 
 const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
