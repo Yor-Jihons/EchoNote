@@ -109,10 +109,6 @@ function ChatDetailPage() {
     setShowContinueAsMeButton( chatInfo?.messages[ chatInfo.messages.length - 1 ].sender_id === 1 ? true : false );
   }, [ chatInfo ] );
 
-  const editButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) =>{
-    console.log( event.currentTarget.dataset.id );
-  }
-
   const copyButton_click = ( text: string ) =>{
     window.interprocessCommunication.writeTextOnClipboard( text );
   }
@@ -135,6 +131,12 @@ function ChatDetailPage() {
     updateSummary( id!, newText );
   }
 
+  const messageSubmitButton_click = async ( messageId: number, newText: string ) => {
+    console.log("ID = " + messageId + ", Message = " + newText);
+    await window.interprocessCommunication.updateMessage( messageId, newText );
+    window.interprocessCommunication.sendMessageUpdated();
+  }
+
   return (
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
@@ -154,7 +156,8 @@ function ChatDetailPage() {
 
       <div className={styles.message_area}>
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
-          return <AutoMessageFlexBoxItem index={idx} editButton_click={editButton_click} copyButton_click={copyButton_click}
+          return <AutoMessageFlexBoxItem index={idx} copyButton_click={copyButton_click}
+            submitButton_click={messageSubmitButton_click}
             message={message} key={idx} />
         })}
       </div>
