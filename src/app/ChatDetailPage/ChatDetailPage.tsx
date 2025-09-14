@@ -10,7 +10,7 @@ import SummaryDrawer from '../../components/SummaryDrawer/SummaryDrawer';
 
 const defaultMessage: MessageListItem = {
   id: 0,
-  chat_id: 0,
+  chat_id: 1,
   order_in_chat: 0,
   sender_id: 1,
   message_txt: "",
@@ -55,7 +55,7 @@ function ChatDetailPage() {
 
     const sortedMessages: MessageListItem[] = tmpMessageList.sort( (a, b) => a.order_in_chat - b.order_in_chat );
 
-    setChatInfo( {id: chatInfo?.id, chat: chatInfo?.chat, messages: sortedMessages, summary: chatInfo?.summary } );
+    setChatInfo( {id: chatInfo?.id, chat: chatInfo?.chat, messages: sortedMessages, summary: null! } );
 
     window.interprocessCommunication.sendMessageUpdated();
   }
@@ -88,7 +88,7 @@ function ChatDetailPage() {
     const text = markdownInputRef.current.value;
     markdownInputRef.current.value = "";
 
-    addMessage( latestMessage.chat_id, latestMessage.order_in_chat + 1, senderId, text );
+    addMessage( chatInfo.id, latestMessage.order_in_chat + 1, senderId, text );
   }
 
   useEffect(() => {
@@ -122,15 +122,13 @@ function ChatDetailPage() {
   }
 
   const summaryText_input = ( newText: string ) => {
-    const createNewSummary = ( prev: SummaryListItem ) => {
-      return {
-        ...prev, summary_txt: newText
-      } as SummaryListItem;
+    const updateSummary = async ( id: number, newText: string ) => {
+      const ret = await window.interprocessCommunication.updateSummary( id!, newText );
+      setSummary( ret.value );
     }
 
-    // TODO: updateメッセージを送る
-
-    setSummary( (prevSummary) => createNewSummary( prevSummary! ) );
+    const id = summary?.id;
+    updateSummary( id!, newText );
   }
 
   return (

@@ -69,16 +69,15 @@ const LeftSide = () => {
 
     const chatDeleteButton_click = async ( event: React.MouseEvent<HTMLButtonElement> ) => {
         const selectedChatId = Number( event.currentTarget.dataset.id );
-        const ret1 = await window.interprocessCommunication.showMessageBox( "本当に削除しますか?", [ "Yes", "No" ] );
-        if( ret1 !== 0 ){
-            return;
-        }
-        window.interprocessCommunication.deleteChat( selectedChatId );
-        const tmp = chatItems.filter( (item) => item.id !== selectedChatId );
-        setChatItems( tmp );
-        navigate( "/" );
+        const ret1 = await window.interprocessCommunication.showMessageBox( "本当に削除しますか?", [ "No(いいえ)", "Yes(はい)" ] );
+        if( ret1 === 1 ){
+            window.interprocessCommunication.deleteChat( selectedChatId );
+            const tmp = chatItems.filter( (item) => item.id !== selectedChatId );
+            setChatItems( tmp );
+            navigate( "/" );
 
-        window.interprocessCommunication.showMessageBox( "削除しました。", [] );
+            window.interprocessCommunication.showMessageBox( "削除しました。", [] );
+        }
     }
 
     return (

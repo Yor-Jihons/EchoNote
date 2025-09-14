@@ -188,6 +188,17 @@ export default class DataBaseEx{
         }
     }
 
+    public updateSummary( id: number, newText: string ){
+        const sql: string = "UPDATE summaries SET summary_txt = ? WHERE id = ? RETURNING id, chat_id, summary_txt, created_at, updated_at";
+        const stmt = this.#db!.prepare( sql );
+        try{
+            const renewedRow = stmt.get( newText, id ) as SummaryListItem;
+            return { success: true, value: renewedRow };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
+    }
+
     public updateChatName( id: number, chatName: string ){
         const sql: string = "UPDATE chats SET chat_name = ? WHERE id = ? RETURNING id, ai_type, chat_name, created_at, updated_at";
         const stmt = this.#db!.prepare( sql );

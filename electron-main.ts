@@ -132,7 +132,7 @@ app.whenReady().then(() => {
 
   ipcMain.handle('show-messagebox', async (event, { message, buttons }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (await dialog.showMessageBox( mainWindow, { message: message, buttons: buttons } ) as any).response;
+    return (await dialog.showMessageBox( mainWindow, { message: message, buttons: buttons, cancelId: 0, defaultId: -1 } ) as any).response;
   });
 
   ipcMain.handle('update-message', (event, { messageId, newText }) => {
@@ -141,6 +141,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle( 'fetch-chatinfo', (event, chatId) => {
     return db.fetchChatInfo( chatId );
+  });
+
+  ipcMain.handle( 'update-summary', (event, {summaryId, newText}) => {
+    return db.updateSummary( summaryId, newText );
   });
 
   ipcMain.on('message-updated', () => {
