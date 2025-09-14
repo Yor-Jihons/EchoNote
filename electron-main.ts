@@ -143,6 +143,10 @@ app.whenReady().then(() => {
     return db.fetchChatInfo( chatId );
   });
 
+  ipcMain.handle( 'update-summary', (event, {summaryId, newText}) => {
+    return db.updateSummary( summaryId, newText );
+  });
+
   ipcMain.on('message-updated', () => {
     if( mainWindow ){
       mainWindow.webContents.send( 'update-chat-list' );

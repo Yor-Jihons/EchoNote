@@ -122,16 +122,13 @@ function ChatDetailPage() {
   }
 
   const summaryText_input = ( newText: string ) => {
-    const createNewSummary = ( prev: SummaryListItem ) => {
-      return {
-        ...prev, summary_txt: newText
-      } as SummaryListItem;
+    const updateSummary = async ( id: number, newText: string ) => {
+      const ret = await window.interprocessCommunication.updateSummary( id!, newText );
+      setSummary( ret.value );
     }
 
     const id = summary?.id;
-    window.interprocessCommunication.updateSummary( id!, newText );
-
-    setSummary( (prevSummary) => createNewSummary( prevSummary! ) );
+    updateSummary( id!, newText );
   }
 
   return (
