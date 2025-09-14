@@ -135,10 +135,14 @@ function ChatDetailPage() {
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
         <h2>{chatInfo.chat.chat_name}</h2>
-        <p>ID: {chatInfo.id}</p>
-        <p>AI: {chatInfo.chat.ai_type || "---"}</p>
-        <p>作成日時: {chatInfo.chat.created_at}</p>
-        <p>説明/備考: {chatInfo.chat.description || "---"}</p>
+        <fieldset className={styles.fieldset1}>
+          <legend>情報</legend>
+          <p><span className={styles.label_place}>タイトル:</span> {chatInfo.chat.chat_name}</p>
+          <p><span className={styles.label_place}>ID:</span> {chatInfo.id}</p>
+          <p><span className={styles.label_place}>AI:</span> {chatInfo.chat.ai_type || "---"}</p>
+          <p><span className={styles.label_place}>作成日時:</span> {chatInfo.chat.created_at}</p>
+          <p><span className={styles.label_place}>説明/備考:</span> {chatInfo.chat.description || "---"}</p>
+        </fieldset>
       </header>
 
       <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
