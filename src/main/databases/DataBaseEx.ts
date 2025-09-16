@@ -58,7 +58,7 @@ export default class DataBaseEx{
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 ai_type TEXT,
                 chat_name TEXT,
-                description TEXT,
+                description_txt TEXT,
                 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
@@ -123,8 +123,8 @@ export default class DataBaseEx{
     public addChat( chatName: string, aiType: string, description: string ){
         const transaction = this.#db!.transaction( () => {
             const chatsSql: string = `
-                INSERT INTO chats(ai_type, chat_name, description) VALUES(?, ?, ?)
-                    RETURNING id, ai_type, chat_name, description, created_at, updated_at
+                INSERT INTO chats(ai_type, chat_name, description_txt) VALUES(?, ?, ?)
+                    RETURNING id, ai_type, chat_name, description_txt, created_at, updated_at
             `;
             const chatsStmt = this.#db!.prepare( chatsSql );
             const v1 = chatsStmt.get( aiType, chatName, description ) as ChatListItem;
@@ -225,7 +225,7 @@ export default class DataBaseEx{
     public fetchChatInfo( chatId: number ){
         try{
             const sql4Chats: string = `
-                SELECT id, chat_name, ai_type, description, created_at, updated_at
+                SELECT id, chat_name, ai_type, description_txt, created_at, updated_at
                     FROM chats
                     WHERE id = ?
             `;
