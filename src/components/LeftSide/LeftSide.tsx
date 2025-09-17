@@ -87,7 +87,8 @@ const LeftSide = () => {
             <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
             <input type="text" onInput={searchtextbox_input} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
             <ul>
-                {chatItems.map( (chatItem, idx) => {
+                {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
+                    : chatItems.map( (chatItem, idx) => {
                     return <li className={styles.chat_list_item} key={idx}>
                         <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
                             {chatItem.chat_name}
