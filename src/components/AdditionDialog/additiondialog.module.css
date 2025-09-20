@@ -12,8 +12,14 @@ div.content_area{
     flex-direction: column;
 }
 
-input.textbox1{
+.textbox1{
     width: 355px;
+}
+
+.textbox2{
+    width: 355px;
+    height: 100px;
+    vertical-align: middle;
 }
 
 div.button_area{
@@ -34,5 +40,11 @@ button.cancel_button{
 .label1{
     display: inline-block;
     text-align: right;
+    width: 170px;
+}
+
+.label2{
+    display: inline-block;
+    text-align:right;
     width: 170px;
 }

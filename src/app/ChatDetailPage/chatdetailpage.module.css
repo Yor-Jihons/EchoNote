@@ -9,6 +9,19 @@
     width: 30%;
 }
 
+.description_area{
+    display: flex;
+    flex-direction: row;
+}
+
+.description{
+    flex-grow: 1;
+    height: 100px;
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow: auto;
+}
+
 .chat_detail_page_flexbox_flexbox{
     flex-shrink: 0;
 }
