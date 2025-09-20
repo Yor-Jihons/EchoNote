@@ -21,6 +21,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                 dialogRef.current.showModal();
             }else{
                 setChatName( "" );
+                setDescription( "" );
                 dialogRef.current.close();
             }
         }
