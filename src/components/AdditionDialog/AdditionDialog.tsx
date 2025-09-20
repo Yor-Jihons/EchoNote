@@ -52,8 +52,8 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                             </datalist>
                         </p>
                         <p>
-                            <label htmlFor="ai_type" className={styles.label1}>説明/備考:</label>
-                            <input id="description" type="text" className={styles.textbox1}
+                            <label htmlFor="description" className={styles.label2}>説明/備考:</label>
+                            <textarea id="description" className={styles.textbox2}
                                 value={description} onChange={ (e) => setDescription( e.target.value ) } />
                         </p>
                     </div>
