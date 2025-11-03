@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { app, BrowserWindow, Menu, ipcMain, dialog, clipboard } from 'electron';
 import DataBaseEx from "./src/main/databases/DataBaseEx.js";
 import PathManager from "./src/main/paths/PathManager.js";
@@ -50,7 +51,7 @@ async function importDBFromOtherDirPath(){
 
     dialog.showMessageBox( mainWindow, { message: "Restored" } );
   }catch( err: unknown ){
-    console.error( (err as Error).message );
+    //console.error( (err as Error).message );
   }
 }
 
@@ -60,7 +61,7 @@ async function exportDB2OtherDirPath(){
     if( canceled ) return;
     db.backup( filePath, ( message:string ) => { dialog.showMessageBox( mainWindow, { message: message } ); } );
   }catch( err: unknown ){
-    console.error( (err as Error).message );
+    //console.error( (err as Error).message );
   }
 }
 

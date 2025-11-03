@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import BetterSqlite3 from 'better-sqlite3';
 import ChatListItem from '../../types/ChatListItem.js';
 import MessageListItem from '../../types/MessageListItem.js';
@@ -111,7 +112,7 @@ export default class DataBaseEx{
             const result = stmt.all( ...params );
             return result;
         }catch( error: unknown ){
-            console.error('Failed to fetch chats:', error);
+            //console.error('Failed to fetch chats:', error);
             return [];
         }
     }
