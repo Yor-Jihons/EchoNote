@@ -54,7 +54,7 @@ const AdditionDialog = ( { isOpen, onSubmit, onClose }: Props ) => {
                         </p>
                         <p>
                             <label htmlFor="description" className={styles.label2}>説明/備考:</label>
-                            <textarea id="description" className={styles.textbox2}
+                            <input type="text" id="description" className={styles.textbox1}
                                 value={description} onChange={ (e) => setDescription( e.target.value ) } />
                         </p>
                     </div>
