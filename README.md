@@ -24,7 +24,7 @@
 * **多言語化**: i18next, react-i18next
 * **スタイル**: CSS Modules
 * **テスト環境**: vitest, React Testing Library
-* **Markdown機能**: DOMPurify
+* **Markdown機能**: DOMPurify, Marked
 
 ---
 
