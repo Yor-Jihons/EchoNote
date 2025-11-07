@@ -24,11 +24,20 @@ export default class PathManager{
     }
 
     private static createDatabaseDirPath( mainDirPath: string ) : {dirPath: string, isPortableMode: boolean}{
-        const portableDatabaseDirPath = path.join( mainDirPath, "data" );
-        if( !fs.existsSync( portableDatabaseDirPath ) ){
+        let baseDirPath = mainDirPath;
+        const portableDatabaseDirPath1 = path.join( baseDirPath, "data" );
+        console.log( "1: " + portableDatabaseDirPath1 );
+        if( fs.existsSync( portableDatabaseDirPath1 ) ){
+            return { dirPath: portableDatabaseDirPath1, isPortableMode: true };
+        }
+
+        for( let i = 0; i < 3; i++ ) baseDirPath = path.dirname( baseDirPath );
+        const portableDatabaseDirPath2 = path.join( baseDirPath, "data" );
+        console.log( "2: " + portableDatabaseDirPath2 );
+        if( !fs.existsSync( portableDatabaseDirPath2 ) ){
             return { dirPath: app.getPath( "userData" ), isPortableMode: false };
         }
-        return { dirPath: portableDatabaseDirPath, isPortableMode: true };
+        return { dirPath: portableDatabaseDirPath2, isPortableMode: true };
     }
 
     get isPortableMode() : boolean{
