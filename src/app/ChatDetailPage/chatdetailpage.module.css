@@ -10,6 +10,11 @@
     width: 30%;
 }
 
+.info_button{
+    padding: 10px;
+    width: 30%;
+}
+
 .description_area{
     display: flex;
     flex-direction: row;

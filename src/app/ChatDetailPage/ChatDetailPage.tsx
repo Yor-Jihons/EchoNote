@@ -26,6 +26,7 @@ function ChatDetailPage() {
   const [summary, setSummary] = useState<SummaryListItem | null>( null );
   const markdownInputRef = useRef<HTMLTextAreaElement>( null );
   const [isSummaryDrawerOpen, setIsSummaryDrawerOpen] = useState<boolean>( false );
+  const [isInfoDialogShow, setIsInfoDialogShow] = useState<boolean>( false );
 
   const fetchChatInfo = async ( id: number ) => {
     const data = await window.interprocessCommunication.fetchChatInfo( id );
@@ -114,6 +115,10 @@ function ChatDetailPage() {
     window.interprocessCommunication.writeTextOnClipboard( text );
   }
 
+  const toggleInfoDialogShow = () => {
+    setIsInfoDialogShow( (prevState) => !prevState );
+  }
+
   const toggleDrawer = () => {
     setIsSummaryDrawerOpen( (prevState) => !prevState );
   }
@@ -143,9 +148,12 @@ function ChatDetailPage() {
         <h2>{chatInfo.chat.chat_name}</h2>
       </header>
 
-      <InfoDialog chatInfo={chatInfo} />
+      <InfoDialog chatInfo={chatInfo} isInfoDialogShow={isInfoDialogShow} onClose={toggleInfoDialogShow} />
 
-      <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
+      <div>
+        <button onClick={toggleInfoDialogShow} className={styles.info_button}>情報を見る</button>
+        <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
+      </div>
       <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onInput={summaryText_input} onClose={toggleDrawer} />
 
       <div className={styles.message_area}>
