@@ -22,10 +22,10 @@ const MessageFlexBoxItem = ( { index, senderId, message, editLabel, copyLabel, c
     }
 
     const senderText = calcSenderText( senderId );
-
+/*
     const style: React.CSSProperties = senderId == 1 ? { background: "rgb(240, 217, 186)", borderColor: "rgb(240, 217, 186)" }
         : { background: "rgb(245, 235, 118)", borderColor: "rgb(245, 235, 118)" };
-
+*/
     const [isEditingMode, setIsEditingMode] = React.useState<boolean>( false );
     const [messageText, setMessageText] = React.useState<string>( message.message_txt );
 
@@ -42,7 +42,7 @@ const MessageFlexBoxItem = ( { index, senderId, message, editLabel, copyLabel, c
                 </div>
 
                 {isEditingMode ? <textarea defaultValue={messageText} onInput={e => setMessageText( e.currentTarget.value )} className={styles.message_body_input}></textarea>
-                    : <div dangerouslySetInnerHTML={{ __html: marked.parse( DOMPurify.sanitize(  messageText ) ) }} className={styles.message_body} style={style} />}
+                    : <div dangerouslySetInnerHTML={{ __html: marked.parse( DOMPurify.sanitize(  messageText ) ) }} className={styles.message_body} />}
 
                 <div className={styles.message_button_area}>
                     {!isEditingMode ? <button onClick={() => setIsEditingMode( true )}>{editLabel}</button>
