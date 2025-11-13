@@ -7,6 +7,7 @@ import MessageListItem from '../../types/MessageListItem';
 import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 import SummaryDrawer from '../../components/SummaryDrawer/SummaryDrawer';
+import InfoDialog from '../../components/InfoDialog/InfoDialog';
 
 const defaultMessage: MessageListItem = {
   id: 0,
@@ -140,13 +141,9 @@ function ChatDetailPage() {
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
         <h2>{chatInfo.chat.chat_name}</h2>
-        <fieldset className={styles.fieldset1}>
-          <legend>情報</legend>
-          <p><span className={styles.label_place}>AIアシスタント名:</span> {chatInfo.chat.ai_type || "---"}</p>
-          <p><span className={styles.label_place}>作成日時:</span> {chatInfo.chat.created_at}</p>
-          <p><span className={styles.label_place}>説明/備考:</span> <span className={styles.description}>{chatInfo.chat.description_txt || "---"}</span></p>
-        </fieldset>
       </header>
+
+      <InfoDialog chatInfo={chatInfo} />
 
       <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
       <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onInput={summaryText_input} onClose={toggleDrawer} />
