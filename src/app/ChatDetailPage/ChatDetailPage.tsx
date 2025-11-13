@@ -155,7 +155,7 @@ function ChatDetailPage() {
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
           return <AutoMessageFlexBoxItem index={idx} copyButton_click={copyButton_click}
             submitButton_click={messageSubmitButton_click}
-            message={message} key={idx} />
+            message={message} key={chatId! + "-" + idx} />
         })}
       </div>
       <div className={styles.input_area}>
