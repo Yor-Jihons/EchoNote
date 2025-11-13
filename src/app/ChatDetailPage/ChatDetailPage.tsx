@@ -148,13 +148,12 @@ function ChatDetailPage() {
         <h2>{chatInfo.chat.chat_name}</h2>
       </header>
 
-      <InfoDialog chatInfo={chatInfo} isInfoDialogShow={isInfoDialogShow} onClose={toggleInfoDialogShow} />
-
       <div>
         <button onClick={toggleInfoDialogShow} className={styles.info_button}>情報を見る</button>
         <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
       </div>
       <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onInput={summaryText_input} onClose={toggleDrawer} />
+      <InfoDialog chatInfo={chatInfo} isInfoDialogShow={isInfoDialogShow} onClose={toggleInfoDialogShow} />
 
       <div className={styles.message_area}>
         {chatInfo.messages.length !== 0 && chatInfo.messages.map( (message, idx) => {
