@@ -42,7 +42,7 @@ const MessageFlexBoxItem = ( { index, senderId, message, editLabel, copyLabel, c
                 </div>
 
                 {isEditingMode ? <textarea defaultValue={messageText} onInput={e => setMessageText( e.currentTarget.value )} className={styles.message_body_input}></textarea>
-                    : <div dangerouslySetInnerHTML={{ __html: marked.parse( DOMPurify.sanitize(  messageText ) ) }} className={styles.message_body} style={style} />}
+                    : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( marked.parse( messageText, { async: false } ) ) }} className={styles.message_body} style={style} />}
 
                 <div className={styles.message_button_area}>
                     {!isEditingMode ? <button onClick={() => setIsEditingMode( true )}>{editLabel}</button>
