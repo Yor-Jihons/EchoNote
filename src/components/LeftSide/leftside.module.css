@@ -24,3 +24,9 @@ input.search_textbox{
 li.chat_list_item:hover .delete_button {
     display: inline-block;
 }
+
+div.chats_area{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
