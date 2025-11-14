@@ -85,18 +85,22 @@ const LeftSide = () => {
             <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
 
             <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
+
             <input type="text" onInput={searchtextbox_input} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
-            <ul>
-                {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
-                    : chatItems.map( (chatItem, idx) => {
-                    return <li className={styles.chat_list_item} key={idx}>
-                        <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
-                            {chatItem.chat_name}
-                        </Link>
-                        <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
-                    </li>;
-                })}
-            </ul>
+
+            <div className={styles.chats_area}>
+                <ul>
+                    {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
+                        : chatItems.map( (chatItem, idx) => {
+                        return <li className={styles.chat_list_item} key={idx}>
+                            <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
+                                {chatItem.chat_name}
+                            </Link>
+                            <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
+                        </li>;
+                    })}
+                </ul>
+            </div>
         </React.Fragment>
     );
 }
