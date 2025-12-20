@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import ChatInfo from '../../types/ChatInfo';
 import styles from "./chatdetailpage.module.css";
@@ -8,6 +8,7 @@ import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 import SummaryDrawer from '../../components/SummaryDrawer/SummaryDrawer';
 import InfoDialog from '../../components/InfoDialog/InfoDialog';
+import FrontPage from '../FrontPage/page';
 
 const defaultMessage: MessageListItem = {
   id: 0,
@@ -124,7 +125,7 @@ function ChatDetailPage() {
   }
 
   if ( !chatInfo ) {
-    return <div>チャットが見つかりません。</div>;
+    return <FrontPage />;
   }
 
   const summaryText_input = ( newText: string ) => {
@@ -172,6 +173,7 @@ function ChatDetailPage() {
         </p>
       </div>
 
+      <Link to="/">戻る</Link>
     </div>
   );
 }
