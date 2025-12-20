@@ -145,7 +145,7 @@ function ChatDetailPage() {
   return (
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
-        <h2>{chatInfo.chat.chat_name}</h2>
+        <h2>{chatInfo.id}: {chatInfo.chat.chat_name}</h2>
       </header>
 
       <div>

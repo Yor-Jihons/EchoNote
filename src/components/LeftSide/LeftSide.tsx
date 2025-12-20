@@ -94,7 +94,7 @@ const LeftSide = () => {
                         : chatItems.map( (chatItem, idx) => {
                         return <li className={styles.chat_list_item} key={idx}>
                             <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
-                                {chatItem.chat_name}
+                                {chatItem.id}: {chatItem.chat_name}
                             </Link>
                             <button className={styles.delete_button} data-id={chatItem.id} onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
                         </li>;
