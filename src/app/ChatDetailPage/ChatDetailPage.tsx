@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import ChatInfo from '../../types/ChatInfo';
 import styles from "./chatdetailpage.module.css";
@@ -124,7 +124,7 @@ function ChatDetailPage() {
   }
 
   if ( !chatInfo ) {
-    return <div>チャットが見つかりません。</div>;
+    return <p>エラー</p>;
   }
 
   const summaryText_input = ( newText: string ) => {
@@ -145,7 +145,7 @@ function ChatDetailPage() {
   return (
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
-        <h2>{chatInfo.chat.chat_name}</h2>
+        <h2>{chatInfo.id}: {chatInfo.chat.chat_name}</h2>
       </header>
 
       <div>
@@ -172,6 +172,7 @@ function ChatDetailPage() {
         </p>
       </div>
 
+      <Link to="/">戻る</Link>
     </div>
   );
 }

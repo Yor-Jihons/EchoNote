@@ -1,41 +1,111 @@
-//import { useState, useEffect } from 'react';
-//import { useNavigate } from 'react-router-dom';
-//import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from "react";
+import ChatListItem from "../../types/ChatListItem";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./mainpage.module.css";
+import AdditionDialog from "../../components/AdditionDialog/AdditionDialog";
 
-function MainPage() {
-  return (
-    <>
-      <h1 className={styles.header1}>EchNote</h1>
-      <p>
-        EchoNoteは、AIとのやりとり(チャット)を記録してナレッジサービスのように管理するアプリケーションです。
-      </p>
+const LeftSide = () => {
+    const navigate = useNavigate();
+    const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
+    const [query, setQuery] = useState<string>( "" );
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
 
-      <div>
-        <h2>定義</h2>
-        <ul>
-          <li><span className={styles.def_name}>チャット</span>: AIとのやりとり全体</li>
-          <li><span className={styles.def_name}>メッセージ</span>: やりとり中の一つのコメント</li>
-        </ul>
-      </div>
+    const fetchChats = async ( query: string ) => {
+        const items = await window.interprocessCommunication.fetchChats( query );
+        const ret = [ ...items ].sort( (a, b) => {
+            return a.updated_at > b.updated_at ? 1 : -1;
+        });
+        setChatItems( ret );
+    };
 
-      <div>
-        <h2>使い方</h2>
+    useEffect(() => {
+        const handleUpdate = () => {
+            fetchChats(query);
+        };
 
-        <h3>チャットの追加</h3>
-        <ol type="1">
-          <li>左にある「チャットの追加」をクリック</li>
-          <li>チャット名とAIの種類を入力</li>
-          <li>「追加」をクリック</li>
-        </ol>
+        // Adds the event listener.
+        window.interprocessCommunication.onUpdateChatList( handleUpdate );
 
-        <h3>チャットの削除</h3>
-        <ol type="1">
-          <li>左にあるチャット一覧から選び、マウスを動かすと「削除」ボタンが出るのでそれをクリック</li>
-        </ol>
-      </div>
-    </>
-  );
+        // Clean-up function.
+        return () => {
+            window.interprocessCommunication.removeUpdateChatListListener( handleUpdate );
+        };
+    }, [ query ] );
+
+    useEffect(() => {
+        fetchChats( query );
+    }, [ query ] );
+
+    const handleDialogClose = () => {
+        setIsDialogOpen( false );
+    };
+
+    const handleDialogSubmit = async ( chatName: string, aiType: string, description: string ) => {
+        const newItem = await window.interprocessCommunication.addChat( chatName, aiType, description );
+        if( !newItem.success ){
+            setIsDialogOpen( false );
+            await window.interprocessCommunication.showMessageBox( newItem.errMessage!, [] );
+            return;
+        }
+
+        const v: ChatListItem = newItem.value.chat;
+        if( v.chat_name.indexOf( query ) !== -1 ) setChatItems( [ v, ...chatItems ] );
+
+        setIsDialogOpen( false );
+
+        navigate( "/chats/" + newItem.value.chat.id );
+
+        await window.interprocessCommunication.showMessageBox( "登録完了しました。", [] );
+    }
+
+    const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
+        const q: string = event.currentTarget.value;
+        setQuery( q );
+    }
+
+    const chatAdditionButton_click = () => {
+        setIsDialogOpen( true );
+    }
+
+    const chatDeleteButton_click = async ( event: React.MouseEvent<HTMLButtonElement> ) => {
+        const selectedChatId = Number( event.currentTarget.dataset.id );
+        const ret1 = await window.interprocessCommunication.showMessageBox( "本当に削除しますか?", [ "No(いいえ)", "Yes(はい)" ] );
+        if( ret1 === 1 ){
+            window.interprocessCommunication.deleteChat( selectedChatId );
+            const tmp = chatItems.filter( (item) => item.id !== selectedChatId );
+            setChatItems( tmp );
+            navigate( "/" );
+
+            window.interprocessCommunication.showMessageBox( "削除しました。", [] );
+        }
+    }
+
+    return (
+        <React.Fragment>
+            <div className={styles.flexbox1}>
+                <AdditionDialog isOpen={isDialogOpen} onSubmit={handleDialogSubmit} onClose={handleDialogClose} />
+
+                <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
+
+                <input type="text" onInput={searchtextbox_input} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
+
+                <div className={styles.chats_area}>
+                    <ul>
+                        {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
+                            : chatItems.map( (chatItem, idx) => {
+                            return <li className={styles.chat_list_item} key={idx}>
+                                <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
+                                    {chatItem.id}: {chatItem.chat_name}
+                                </Link>
+                                <button className={styles.delete_button} data-id={chatItem.id}
+                                    onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
+                            </li>;
+                        })}
+                    </ul>
+                </div>
+            </div>
+        </React.Fragment>
+    );
 }
 
-export default MainPage;
+export default LeftSide;

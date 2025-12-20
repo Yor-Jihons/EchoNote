@@ -1,9 +1,11 @@
 {
   "name": "echonote",
   "private": true,
-  "version": "10.0.0",
+  "version": "11.0.0",
   "type": "module",
   "main": "dist/electron-main.js",
+  "description": "AIとのやりとりを記録するアプリ",
+  "author": "Yor-Jihons",
   "scripts": {
     "test": "vitest",
     "test:ui": "vitest --ui",
