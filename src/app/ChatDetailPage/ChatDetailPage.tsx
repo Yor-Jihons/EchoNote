@@ -8,7 +8,6 @@ import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 import SummaryDrawer from '../../components/SummaryDrawer/SummaryDrawer';
 import InfoDialog from '../../components/InfoDialog/InfoDialog';
-import FrontPage from '../FrontPage/page';
 
 const defaultMessage: MessageListItem = {
   id: 0,
@@ -125,7 +124,7 @@ function ChatDetailPage() {
   }
 
   if ( !chatInfo ) {
-    return <FrontPage />;
+    return <p>エラー</p>;
   }
 
   const summaryText_input = ( newText: string ) => {
