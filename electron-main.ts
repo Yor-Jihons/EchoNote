@@ -65,6 +65,10 @@ async function exportDB2OtherDirPath(){
   }
 }
 
+const createMdFile = (chatId: number) => {
+  // TODO:
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
@@ -135,8 +139,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on('create_md_file', (event, chatId) => {
-    // TODO:
-    console.log("OK");
+    createMdFile( chatId );
   });
 
   ipcMain.handle('show-messagebox', async (event, { message, buttons }) => {
