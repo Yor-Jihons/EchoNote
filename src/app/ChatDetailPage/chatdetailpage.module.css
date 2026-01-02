@@ -7,12 +7,22 @@
 
 .summary_button{
     padding: 10px;
-    width: 30%;
+    margin: 5px;
+    width: 100px;
 }
 
 .info_button{
     padding: 10px;
-    width: 30%;
+    margin: 5px;
+    width: 100px;
+}
+
+.mdexport_button{
+    margin: 5px;
+}
+
+.delete_button{
+    margin: 5px;
 }
 
 .description_area{
@@ -53,4 +63,3 @@
     text-align: right;
     display: inline-block;
 }
-

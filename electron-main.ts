@@ -65,6 +65,13 @@ async function exportDB2OtherDirPath(){
   }
 }
 
+const createMdFile = (chatId: number) => {
+  // TODO:
+  // 1. 「ファイルの保存」ダイアログでMDファイルのパスを取得する
+  // 2. データベースからマークダウン形式にした文字列を取得する
+  // 3. (2)を(1)に書き込む
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
@@ -132,6 +139,10 @@ app.whenReady().then(() => {
 
   ipcMain.on('write-text-on-clipboard', (event, text) => {
     clipboard.writeText( text );
+  });
+
+  ipcMain.on('create_md_file', (event, chatId) => {
+    createMdFile( chatId );
   });
 
   ipcMain.handle('show-messagebox', async (event, { message, buttons }) => {

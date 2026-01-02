@@ -10,12 +10,9 @@ interface Props {
     message: MessageListItem;
     copyButton_click: ( text: string ) => void;
     submitButton_click: ( messageId: number, newText: string ) => void;
-    editLabel: string;
-    copyLabel: string;
-    updatedAtLabel: string;
 }
 
-const MessageFlexBoxItem = ( { index, senderId, message, editLabel, copyLabel, copyButton_click, updatedAtLabel, submitButton_click }: Props ) => {
+const MessageFlexBoxItem = ( { index, senderId, message, copyButton_click, submitButton_click }: Props ) => {
     const calcSenderText = ( senderId: number ) => {
         if( senderId === 1 ) return "Me";
     return "AI";
@@ -45,10 +42,10 @@ const MessageFlexBoxItem = ( { index, senderId, message, editLabel, copyLabel, c
                     : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( marked.parse( messageText, { async: false } ) ) }} className={styles.message_body} style={style} />}
 
                 <div className={styles.message_button_area}>
-                    {!isEditingMode ? <button onClick={() => setIsEditingMode( true )}>{editLabel}</button>
+                    {!isEditingMode ? <button onClick={() => setIsEditingMode( true )}>コピー</button>
                         : <button onClick={submitButton1_click}>完了</button>}
-                    <button data-id={index} onClick={() => copyButton_click( message.message_txt )}>{copyLabel}</button>
-                    <p className={styles.updated_at_p}>{updatedAtLabel}: {message.updated_at}</p>
+                    <button data-id={index} onClick={() => copyButton_click( message.message_txt )}>編集</button>
+                    <p className={styles.updated_at_p}>最終更新日時: {message.updated_at}</p>
                 </div>
             </div>
         </React.Fragment>

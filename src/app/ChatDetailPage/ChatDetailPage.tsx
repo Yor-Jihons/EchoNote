@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import ChatInfo from '../../types/ChatInfo';
 import styles from "./chatdetailpage.module.css";
@@ -27,6 +27,7 @@ function ChatDetailPage() {
   const markdownInputRef = useRef<HTMLTextAreaElement>( null );
   const [isSummaryDrawerOpen, setIsSummaryDrawerOpen] = useState<boolean>( false );
   const [isInfoDialogShow, setIsInfoDialogShow] = useState<boolean>( false );
+  const navigate = useNavigate();
 
   const fetchChatInfo = async ( id: number ) => {
     const data = await window.interprocessCommunication.fetchChatInfo( id );
@@ -142,6 +143,15 @@ function ChatDetailPage() {
     window.interprocessCommunication.sendMessageUpdated();
   }
 
+  const deletebutton_click = () => {
+    window.interprocessCommunication.deleteChat(Number(chatId));
+    navigate( "/" );
+  }
+
+  const mdexportButton_click = () => {
+    window.interprocessCommunication.createMdFile( Number( chatId ) );
+  }
+
   return (
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
@@ -149,8 +159,14 @@ function ChatDetailPage() {
       </header>
 
       <div>
+        <Link to="/">戻る</Link>
+      </div>
+
+      <div>
         <button onClick={toggleInfoDialogShow} className={styles.info_button}>情報を見る</button>
         <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
+        <button className={styles.mdexport_button} onClick={mdexportButton_click}>マークダウンファイルとして書き出す</button>
+        <button onClick={deletebutton_click} className={styles.summary_button}>削除</button>
       </div>
       <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onInput={summaryText_input} onClose={toggleDrawer} />
       <InfoDialog chatInfo={chatInfo} isInfoDialogShow={isInfoDialogShow} onClose={toggleInfoDialogShow} />
