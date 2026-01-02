@@ -54,3 +54,10 @@
     display: inline-block;
 }
 
+.mdexport_button{
+    margin: 5px;
+}
+
+.delete_button{
+    margin: 5px;
+}

@@ -149,7 +149,7 @@ function ChatDetailPage() {
       </header>
 
       <div>
-        
+        <Link to="/">戻る</Link>
       </div>
 
       <div>
