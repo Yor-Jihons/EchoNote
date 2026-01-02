@@ -148,6 +148,10 @@ function ChatDetailPage() {
     navigate( "/" );
   }
 
+  const mdexportButton_click = () => {
+    // TODO: 
+  }
+
   return (
     <div className={styles.chat_detail_page_flexbox}>
       <header className={styles.chat_detail_page_flexbox_flexbox}>
@@ -161,7 +165,7 @@ function ChatDetailPage() {
       <div>
         <button onClick={toggleInfoDialogShow} className={styles.info_button}>情報を見る</button>
         <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
-        <button className={styles.mdexport_button}>マークダウンファイルとして書き出す</button>
+        <button className={styles.mdexport_button} onClick={mdexportButton_click}>マークダウンファイルとして書き出す</button>
         <button onClick={deletebutton_click} className={styles.summary_button}>削除</button>
       </div>
       <SummaryDrawer summary={summary!} isSummaryDrawerOpen={isSummaryDrawerOpen} onInput={summaryText_input} onClose={toggleDrawer} />
