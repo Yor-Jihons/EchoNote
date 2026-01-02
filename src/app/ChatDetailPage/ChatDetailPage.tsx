@@ -149,6 +149,10 @@ function ChatDetailPage() {
       </header>
 
       <div>
+        
+      </div>
+
+      <div>
         <button onClick={toggleInfoDialogShow} className={styles.info_button}>情報を見る</button>
         <button onClick={toggleDrawer} className={styles.summary_button}>まとめを見る</button>
       </div>

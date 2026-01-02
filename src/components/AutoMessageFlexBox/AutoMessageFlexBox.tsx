@@ -16,7 +16,7 @@ const AutoMessageFlexBoxItem = ( { index, message, copyButton_click, submitButto
             <MessageFlexBoxItem  index={index}
                 copyButton_click={copyButton_click} submitButton_click={submitButton_click}
                 senderId={message.sender_id}
-                message={message} editLabel={"編集"} updatedAtLabel={"最終更新日時"} copyLabel={"コピー"} />
+                message={message} />
         </React.Fragment>
     );
 }
