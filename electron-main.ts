@@ -67,6 +67,9 @@ async function exportDB2OtherDirPath(){
 
 const createMdFile = (chatId: number) => {
   // TODO:
+  // 1. 「ファイルの保存」ダイアログでMDファイルのパスを取得する
+  // 2. データベースからマークダウン形式にした文字列を取得する
+  // 3. (2)を(1)に書き込む
 }
 
 function createWindow() {
