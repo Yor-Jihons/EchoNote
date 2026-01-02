@@ -134,6 +134,11 @@ app.whenReady().then(() => {
     clipboard.writeText( text );
   });
 
+  ipcMain.on('create_md_file', (event, chatId) => {
+    // TODO:
+    console.log("OK");
+  });
+
   ipcMain.handle('show-messagebox', async (event, { message, buttons }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (await dialog.showMessageBox( mainWindow, { message: message, buttons: buttons, cancelId: 0, defaultId: -1 } ) as any).response;

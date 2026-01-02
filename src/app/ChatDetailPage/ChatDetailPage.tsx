@@ -149,7 +149,7 @@ function ChatDetailPage() {
   }
 
   const mdexportButton_click = () => {
-    // TODO: 
+    window.interprocessCommunication.createMdFile( Number( chatId ) );
   }
 
   return (
