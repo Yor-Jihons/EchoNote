@@ -8,6 +8,7 @@ import cleanupTempFile from "./src/main/cleanups/cleanupTempFile.js";
 import path from 'path';
 import Files from "./src/main/files/Files.js";
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let i18nData: any = {};
@@ -71,7 +72,10 @@ const createMdFile = async (chatId: number) => {
   if( canceled ) return;
 
   // 2. データベースからマークダウン形式にした文字列を取得する
+  const data: string = "";
+
   // 3. (2)を(1)に書き込む
+  fs.writeFileSync(filePath, data);
 }
 
 function createWindow() {
