@@ -12,6 +12,10 @@
         "window": "ウィンドウ",
         "close": "閉じる"
     },
+    "save_file_dialog_to_md_import": {
+        "title": "MDファイルとしてエクスポート",
+        "button_label": "エクスポート"
+    },
     "save_file_dialog_to_import": {
         "title": "データの復元",
         "button_label": "復元"

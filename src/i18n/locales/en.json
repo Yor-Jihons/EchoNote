@@ -12,6 +12,10 @@
         "window": "Window",
         "close": "Close"
     },
+    "save_file_dialog_to_md_import": {
+        "title": "Export as the md file",
+        "button_label": "Export"
+    },
     "save_file_dialog_to_import": {
         "title": "Restore Data",
         "button_label": "Restore"

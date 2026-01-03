@@ -2,7 +2,7 @@
 import { app, BrowserWindow, Menu, ipcMain, dialog, clipboard } from 'electron';
 import DataBaseEx from "./src/main/databases/DataBaseEx.js";
 import PathManager from "./src/main/paths/PathManager.js";
-import { showOpenFileDialog2Import, showSaveFileDialog2Export } from "./src/main/dialogs/Dialogs.js";
+import { showOpenFileDialog2Import, showSaveFileDialog2Export, showSaveFileDialog2MdFileExport } from "./src/main/dialogs/Dialogs.js";
 import createMenuTemplate from "./src/main/menus/createMenuTemplate.js";
 import cleanupTempFile from "./src/main/cleanups/cleanupTempFile.js";
 import path from 'path';
@@ -65,9 +65,11 @@ async function exportDB2OtherDirPath(){
   }
 }
 
-const createMdFile = (chatId: number) => {
-  // TODO:
+const createMdFile = async (chatId: number) => {
   // 1. 「ファイルの保存」ダイアログでMDファイルのパスを取得する
+  const { canceled, filePath } = await showSaveFileDialog2MdFileExport( mainWindow, calcI18nData( i18nData, systemLocale ) );
+  if( canceled ) return;
+
   // 2. データベースからマークダウン形式にした文字列を取得する
   // 3. (2)を(1)に書き込む
 }
