@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import BetterSqlite3 from 'better-sqlite3';
 import ChatListItem from '../../types/ChatListItem.js';
@@ -249,5 +250,47 @@ export default class DataBaseEx{
         }catch( error: unknown ){
             return { success: false, value: null, errMessage: (error as Error).message };
         }
+    }
+
+    public fetchChatAsMdFile( chatId: number ){
+        try{
+            const sql4Chats: string = `
+                SELECT id, chat_name
+                    FROM chats
+                    WHERE id = ?
+            `;
+            const selectChatsStmt = this.#db!.prepare( sql4Chats );
+            const ret4Chats = selectChatsStmt.get( chatId ) as any;
+
+            const title = `# ${ret4Chats["id"]}: ${ret4Chats["chat_name"]}`;
+
+            const sql4Messages: string = `
+                SELECT id, order_in_chat, chat_id, sender_id, message_txt, created_at, updated_at
+                    FROM messages
+                    WHERE chat_id = ?
+                    ORDER BY order_in_chat
+            `;
+            const selectMessagesStmt = this.#db!.prepare( sql4Messages );
+            const ret4Messages = selectMessagesStmt.all( chatId ) as MessageListItem[];
+
+            let content: string = "";
+            for( let i = 0; i < ret4Messages.length; i++ ){
+                const ml = ret4Messages[i] as MessageListItem;
+                content += DataBaseEx.createMdFile4Text( ml );
+            }
+
+            const ret = `${title}\n\n${content}`;
+
+            return { success: true, value: ret };
+        }catch( error: unknown ){
+            return { success: false, value: null, errMessage: (error as Error).message };
+        }
+    }
+
+    private static createMdFile4Text(chatMessage: MessageListItem){
+        let text: string = chatMessage.sender_id === 1 ? "## Me\n\n" : "## AI\n\n";
+        text += chatMessage.message_txt;
+        text += "\n\n";
+        return text;
     }
 }

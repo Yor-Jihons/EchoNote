@@ -72,10 +72,15 @@ const createMdFile = async (chatId: number) => {
   if( canceled ) return;
 
   // 2. データベースからマークダウン形式にした文字列を取得する
-  const data: string = "";
+  const data = db.fetchChatAsMdFile( chatId );
+  if( !data.success ){
+    dialog.showErrorBox( "エラー", data.errMessage! );
+    return;
+  }
 
   // 3. (2)を(1)に書き込む
-  fs.writeFileSync(filePath, data);
+  fs.writeFileSync(filePath, data.value!);
+  dialog.showMessageBox( mainWindow, { message: "書き込みました。" } );
 }
 
 function createWindow() {
