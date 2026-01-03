@@ -3,6 +3,18 @@ import { dialog } from 'electron';
 import path from 'path';
 import os from 'os';
 
+export async function showSaveFileDialog2MdFileExport( browserWindow: Electron.BrowserWindow, i18nData: any ){
+    if( Object.keys( i18nData ).length === 0 ) throw new Error( "Language definition file is empty." );
+
+    const { canceled, filePath } = await dialog.showSaveDialog( browserWindow, {
+        title: i18nData.translation.save_file_dialog_to_md_import.title,
+        defaultPath: path.join( os.homedir(), "markdown.md" ),
+        buttonLabel: i18nData.translation.save_file_dialog_to_md_import.button_label,
+        filters: [{ name: "md files", extensions: ["md"] }]
+    });
+    return { canceled, filePath };
+}
+
 export async function showSaveFileDialog2Export( browserWindow: Electron.BrowserWindow, i18nData: any ){
     if( Object.keys( i18nData ).length === 0 ) throw new Error( "Language definition file is empty." );
 
