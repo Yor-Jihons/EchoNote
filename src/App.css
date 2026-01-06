@@ -4,6 +4,9 @@
   padding: 10px;
 }
 
+html{
+  width: 90%;
+}
 
 body,
 #root {
