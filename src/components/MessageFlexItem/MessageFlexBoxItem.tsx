@@ -42,9 +42,9 @@ const MessageFlexBoxItem = ( { index, senderId, message, copyButton_click, submi
                     : <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize( marked.parse( messageText, { async: false } ) ) }} className={styles.message_body} style={style} />}
 
                 <div className={styles.message_button_area}>
-                    {!isEditingMode ? <button onClick={() => setIsEditingMode( true )}>コピー</button>
+                    {!isEditingMode ? <button onClick={() => setIsEditingMode( true )}>編集</button>
                         : <button onClick={submitButton1_click}>完了</button>}
-                    <button data-id={index} onClick={() => copyButton_click( message.message_txt )}>編集</button>
+                    <button data-id={index} onClick={() => copyButton_click( message.message_txt )}>コピー</button>
                     <p className={styles.updated_at_p}>最終更新日時: {message.updated_at}</p>
                 </div>
             </div>
