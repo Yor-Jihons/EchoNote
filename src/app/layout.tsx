@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const CommonLayout = () => {
     return (
-        <div style={{ width: "100vw", height: "100vh", display: "flex" }}>
+        <div style={{ width: "97vw", height: "100vh", display: "flex" }}>
             <Outlet />
         </div>
     )
