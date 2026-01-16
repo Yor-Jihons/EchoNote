@@ -1,17 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./mainpage.module.css";
 import AdditionDialog from "../../components/AdditionDialog/AdditionDialog";
+import { useApi } from "../../contexts/ApiContext";
 
 const LeftSide = () => {
+    const api = useApi();
     const navigate = useNavigate();
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
     const [query, setQuery] = useState<string>( "" );
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
 
     const fetchChats = async ( query: string ) => {
-        const items = await window.interprocessCommunication.fetchChats( query );
+        const items = await api.fetchChats( query );
         const ret = [ ...items ].sort( (a, b) => {
             return a.updated_at > b.updated_at ? 1 : -1;
         });
@@ -24,11 +27,11 @@ const LeftSide = () => {
         };
 
         // Adds the event listener.
-        window.interprocessCommunication.onUpdateChatList( handleUpdate );
+        api.onUpdateChatList( handleUpdate );
 
         // Clean-up function.
         return () => {
-            window.interprocessCommunication.removeUpdateChatListListener( handleUpdate );
+            api.removeUpdateChatListListener( handleUpdate );
         };
     }, [ query ] );
 
@@ -41,10 +44,10 @@ const LeftSide = () => {
     };
 
     const handleDialogSubmit = async ( chatName: string, aiType: string, description: string ) => {
-        const newItem = await window.interprocessCommunication.addChat( chatName, aiType, description );
+        const newItem = await api.addChat( chatName, aiType, description );
         if( !newItem.success ){
             setIsDialogOpen( false );
-            await window.interprocessCommunication.showMessageBox( newItem.errMessage!, [] );
+            await api.showMessageBox( newItem.errMessage!, [] );
             return;
         }
 
@@ -55,7 +58,7 @@ const LeftSide = () => {
 
         navigate( "/chats/" + newItem.value.chat.id );
 
-        await window.interprocessCommunication.showMessageBox( "登録完了しました。", [] );
+        await api.showMessageBox( "登録完了しました。", [] );
     }
 
     const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
@@ -69,14 +72,14 @@ const LeftSide = () => {
 
     const chatDeleteButton_click = async ( event: React.MouseEvent<HTMLButtonElement> ) => {
         const selectedChatId = Number( event.currentTarget.dataset.id );
-        const ret1 = await window.interprocessCommunication.showMessageBox( "本当に削除しますか?", [ "No(いいえ)", "Yes(はい)" ] );
+        const ret1 = await api.showMessageBox( "本当に削除しますか?", [ "No(いいえ)", "Yes(はい)" ] );
         if( ret1 === 1 ){
-            window.interprocessCommunication.deleteChat( selectedChatId );
+            api.deleteChat( selectedChatId );
             const tmp = chatItems.filter( (item) => item.id !== selectedChatId );
             setChatItems( tmp );
             navigate( "/" );
 
-            window.interprocessCommunication.showMessageBox( "削除しました。", [] );
+            api.showMessageBox( "削除しました。", [] );
         }
     }
 

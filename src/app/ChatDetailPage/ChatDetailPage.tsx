@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import ChatInfo from '../../types/ChatInfo';
@@ -8,6 +9,7 @@ import SummaryListItem from '../../types/SummaryListItem';
 import AutoMessageFlexBoxItem from '../../components/AutoMessageFlexBox/AutoMessageFlexBox';
 import SummaryDrawer from '../../components/SummaryDrawer/SummaryDrawer';
 import InfoDialog from '../../components/InfoDialog/InfoDialog';
+import { useApi } from '../../contexts/ApiContext';
 
 const defaultMessage: MessageListItem = {
   id: 0,
@@ -20,6 +22,7 @@ const defaultMessage: MessageListItem = {
 };
 
 function ChatDetailPage() {
+  const api = useApi();
   const { chatId } = useParams<{ chatId: string }>();
   const [showContinueAsMeButton, setShowContinueAsMeButton] = useState<boolean>( false );
   const [chatInfo, setChatInfo] = useState<ChatInfo | null>( null );
@@ -30,7 +33,7 @@ function ChatDetailPage() {
   const navigate = useNavigate();
 
   const fetchChatInfo = async ( id: number ) => {
-    const data = await window.interprocessCommunication.fetchChatInfo( id );
+    const data = await api.fetchChatInfo( id );
 
     const ret = data.value as ChatInfo;
 
@@ -44,9 +47,9 @@ function ChatDetailPage() {
   const addMessage = async ( chatId: number, orderInChat: number, senderId: number, messageText: string ) => {
     if( !chatInfo ) return;
 
-    const ret = await window.interprocessCommunication.addMessage( chatId, orderInChat, senderId, messageText );
+    const ret = await api.addMessage( chatId, orderInChat, senderId, messageText );
     if( !ret.success ){
-      window.interprocessCommunication.showMessageBox( "登録できませんでした。", [] );
+      api.showMessageBox( "登録できませんでした。", [] );
       return;
     }
 
@@ -60,7 +63,7 @@ function ChatDetailPage() {
 
     setChatInfo( {id: chatInfo?.id, chat: chatInfo?.chat, messages: sortedMessages, summary: null! } );
 
-    window.interprocessCommunication.sendMessageUpdated();
+    api.sendMessageUpdated();
   }
 
   const additionButton_click = ( event: React.MouseEvent<HTMLButtonElement> ) => {
@@ -68,7 +71,7 @@ function ChatDetailPage() {
     if( !markdownInputRef.current ) return;
 
     if( markdownInputRef.current?.value === "" ){
-      window.interprocessCommunication.showMessageBox( "メッセージを入力してください。", [] );
+      api.showMessageBox( "メッセージを入力してください。", [] );
       return;
     }
 
@@ -113,7 +116,7 @@ function ChatDetailPage() {
   }, [ chatInfo ] );
 
   const copyButton_click = ( text: string ) =>{
-    window.interprocessCommunication.writeTextOnClipboard( text );
+    api.writeTextOnClipboard( text );
   }
 
   const toggleInfoDialogShow = () => {
@@ -130,7 +133,7 @@ function ChatDetailPage() {
 
   const summaryText_input = ( newText: string ) => {
     const updateSummary = async ( id: number, newText: string ) => {
-      const ret = await window.interprocessCommunication.updateSummary( id!, newText );
+      const ret = await api.updateSummary( id!, newText );
       setSummary( ret.value );
     }
 
@@ -139,17 +142,17 @@ function ChatDetailPage() {
   }
 
   const messageSubmitButton_click = async ( messageId: number, newText: string ) => {
-    await window.interprocessCommunication.updateMessage( messageId, newText );
-    window.interprocessCommunication.sendMessageUpdated();
+    await api.updateMessage( messageId, newText );
+    api.sendMessageUpdated();
   }
 
   const deletebutton_click = () => {
-    window.interprocessCommunication.deleteChat(Number(chatId));
+    api.deleteChat(Number(chatId));
     navigate( "/" );
   }
 
   const mdexportButton_click = () => {
-    window.interprocessCommunication.createMdFile( Number( chatId ) );
+    api.createMdFile( Number( chatId ) );
   }
 
   return (
