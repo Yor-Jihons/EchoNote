@@ -26,4 +26,6 @@ li.chat_list_item:hover .delete_button {
 
 div.chats_area{
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }

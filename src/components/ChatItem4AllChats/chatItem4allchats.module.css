@@ -1,0 +1,7 @@
+div.chat_item{
+    width: 100%;
+}
+
+div.chat_item p{
+    margin: 5px;
+}
