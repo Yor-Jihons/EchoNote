@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import ChatListItem from "../../types/ChatListItem";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./mainpage.module.css";
 import AdditionDialog from "../../components/AdditionDialog/AdditionDialog";
 import { useApi } from "../../contexts/ApiContext";
+import ChatItem4AllChats from "../../components/ChatItem4AllChats/ChatItem4AllChats";
 
 const LeftSide = () => {
     const api = useApi();
@@ -70,19 +71,6 @@ const LeftSide = () => {
         setIsDialogOpen( true );
     }
 
-    const chatDeleteButton_click = async ( event: React.MouseEvent<HTMLButtonElement> ) => {
-        const selectedChatId = Number( event.currentTarget.dataset.id );
-        const ret1 = await api.showMessageBox( "本当に削除しますか?", [ "No(いいえ)", "Yes(はい)" ] );
-        if( ret1 === 1 ){
-            api.deleteChat( selectedChatId );
-            const tmp = chatItems.filter( (item) => item.id !== selectedChatId );
-            setChatItems( tmp );
-            navigate( "/" );
-
-            api.showMessageBox( "削除しました。", [] );
-        }
-    }
-
     return (
         <React.Fragment>
             <div className={styles.flexbox1}>
@@ -93,18 +81,10 @@ const LeftSide = () => {
                 <input type="text" onInput={searchtextbox_input} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
 
                 <div className={styles.chats_area}>
-                    <ul>
-                        {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
-                            : chatItems.map( (chatItem, idx) => {
-                            return <li className={styles.chat_list_item} key={idx}>
-                                <Link to={`/chats/${chatItem.id}`} data-id={chatItem.id} className={styles.link_as_anchor}>
-                                    {chatItem.id}: {chatItem.chat_name}
-                                </Link>
-                                <button className={styles.delete_button} data-id={chatItem.id}
-                                    onClick={chatDeleteButton_click} title="チャットの削除">削除</button>
-                            </li>;
-                        })}
-                    </ul>
+                    {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
+                        : chatItems.map( (chatItem, idx) => {
+                        return <ChatItem4AllChats chatItem={chatItem} idx={idx} />;
+                    })}
                 </div>
             </div>
         </React.Fragment>
