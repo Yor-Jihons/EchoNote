@@ -7,7 +7,7 @@ import AdditionDialog from "../../components/AdditionDialog/AdditionDialog";
 import { useApi } from "../../contexts/ApiContext";
 import ChatItem4AllChats from "../../components/ChatItem4AllChats/ChatItem4AllChats";
 
-const LeftSide = () => {
+const MainPage = () => {
     const api = useApi();
     const navigate = useNavigate();
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
@@ -91,4 +91,4 @@ const LeftSide = () => {
     );
 }
 
-export default LeftSide;
+export default MainPage;
