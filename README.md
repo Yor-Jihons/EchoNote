@@ -125,7 +125,7 @@ npm run build:electron
 
 ## ER図
 
-<!-- TODO: ここに記述 -->
+<img src="./doc/er.svg" alt="ER図">
 
 ---
 
