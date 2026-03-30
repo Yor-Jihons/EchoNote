@@ -125,7 +125,7 @@ npm run build:electron
 
 ## ER図
 
-<img src="./doc/echonote_er.svg" alt="ER図">
+<img src="./doc/echonote_er1.svg" alt="ER図">
 
 ---
 
