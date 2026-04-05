@@ -123,6 +123,15 @@ npm run build:electron
 
 ---
 
+## IPC通信を追加する場合
+
+1. `preload.ts`にIPC通信系を呼び出す処理
+2. `src/@types/global.d.ts`で型を定義する
+3. `src/api/ElectronApiClient.ts`に`preload.ts`で定義した関数をラップする
+
+---
+
+
 ## ER図
 
 <img src="./doc/echonote_er1.svg" alt="ER図">
