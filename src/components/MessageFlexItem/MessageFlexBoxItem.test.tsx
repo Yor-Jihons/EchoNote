@@ -90,6 +90,29 @@ describe('MessageFlexBoxItem', () => {
       expect(copyMock).toHaveBeenCalledWith('Hello **World**');
   });
 
+  it('copies the updated text after editing', () => {
+    render(
+        <MessageFlexBoxItem 
+          index={0} 
+          senderId={1} 
+          message={mockMessage} 
+          copyButton_click={copyMock} 
+          submitButton_click={submitMock} 
+        />
+      );
+
+    const editButton = screen.getByText('編集');
+    fireEvent.click(editButton);
+
+    const textarea = screen.getByDisplayValue('Hello **World**');
+    fireEvent.input(textarea, { target: { value: 'Updated for Copy' } });
+
+    const copyButton = screen.getByText('コピー');
+    fireEvent.click(copyButton);
+
+    expect(copyMock).toHaveBeenCalledWith('Updated for Copy');
+  });
+
   it('abnormal: sanitizes malicious HTML in message_txt', () => {
     const maliciousMessage = {
         ...mockMessage,
