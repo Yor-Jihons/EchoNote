@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 import styles from "./mainpage.module.css";
 import AdditionDialog from "../../components/AdditionDialog/AdditionDialog";
 import { useApi } from "../../contexts/ApiContext";
+import { useSearch } from "../../contexts/SearchContext";
 import ChatItem4AllChats from "../../components/ChatItem4AllChats/ChatItem4AllChats";
 
 const MainPage = () => {
     const api = useApi();
     const navigate = useNavigate();
+    const { query, setQuery } = useSearch();
     const [chatItems, setChatItems] = useState<ChatListItem[]>( [] );
-    const [query, setQuery] = useState<string>( "" );
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>( false );
 
     const fetchChats = async ( query: string ) => {
@@ -62,7 +63,7 @@ const MainPage = () => {
         await api.showMessageBox( "登録完了しました。", [] );
     }
 
-    const searchtextbox_input = ( event: React.FormEvent<HTMLInputElement> ) => {
+    const searchtextbox_change = ( event: React.FormEvent<HTMLInputElement> ) => {
         const q: string = event.currentTarget.value;
         setQuery( q );
     }
@@ -78,7 +79,7 @@ const MainPage = () => {
 
                 <button onClick={chatAdditionButton_click} className={styles.chat_addition_button}>チャットの追加</button>
 
-                <input type="text" onInput={searchtextbox_input} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
+                <input type="text" value={query} onChange={searchtextbox_change} placeholder='チャットを検索'  minLength={2} maxLength={200} className={styles.search_textbox} />
 
                 <div className={styles.chats_area}>
                     {chatItems.length === 0 ? <p>チャットがまだないか、<br />該当するチャットがありません。</p>
