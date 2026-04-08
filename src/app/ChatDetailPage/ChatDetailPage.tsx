@@ -142,7 +142,11 @@ function ChatDetailPage() {
   }
 
   const messageSubmitButton_click = async ( messageId: number, newText: string ) => {
-    await api.updateMessage( messageId, newText );
+    const ret = await api.updateMessage( messageId, newText );
+    if ( ret.success && chatInfo ) {
+      const updatedMessages = chatInfo.messages.map( m => m.id === messageId ? ret.value : m );
+      setChatInfo({ ...chatInfo, messages: updatedMessages });
+    }
     api.sendMessageUpdated();
   }
 
